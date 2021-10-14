@@ -19,30 +19,36 @@
     <Filter Include="Pliki nagłówkowe\Structures">
       <UniqueIdentifier>{5c11c3be-ef5c-45de-83d0-e1362d0dad5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\Elements">
+      <UniqueIdentifier>{b2ed32b3-62ed-4335-b552-2fedbf8a4fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Elements">
+      <UniqueIdentifier>{521dd1c1-240e-4a6a-af74-f0ab270dc974}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="clock.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Pliki źródłowe\Elements</Filter>
+    </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="clock.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
