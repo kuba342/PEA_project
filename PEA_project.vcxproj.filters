@@ -30,25 +30,49 @@
     <ClCompile Include="main.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="clock.cpp">
-      <Filter>Pliki źródłowe\Structures</Filter>
-    </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="BiList.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>Pliki źródłowe\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Additional.cpp">
+      <Filter>Pliki źródłowe\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ListGraph.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixGraph.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="clock.h">
-      <Filter>Pliki nagłówkowe\Structures</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="BiList.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Additional.h">
+      <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ListGraph.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixGraph.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
