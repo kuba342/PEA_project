@@ -51,6 +51,9 @@
     <ClCompile Include="MatrixGraph.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="AdjMatrix.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -72,6 +75,9 @@
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
     <ClInclude Include="MatrixGraph.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="AdjMatrix.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
   </ItemGroup>

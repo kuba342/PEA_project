@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Additional.h" />
+    <ClInclude Include="AdjMatrix.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="BiList.h" />
     <ClInclude Include="clock.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Additional.cpp" />
+    <ClCompile Include="AdjMatrix.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="BiList.cpp" />
     <ClCompile Include="clock.cpp" />
