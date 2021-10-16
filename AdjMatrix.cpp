@@ -49,6 +49,16 @@ bool AdjMatrix::addDirectedEdge(int beg, int end, int weight) {
 }
 
 void AdjMatrix::showGraph() {
+	printf("           ");
+	for (int i = 0; i < this->V; i++) {
+		printf("%5d", i);
+	}
+	printf("\n");
+	printf("           ");
+	for (int i = 0; i < this->V; i++) {
+		printf("-----");
+	}
+	printf("----\n");
 	for (int i = 0; i < this->V; i++) {
 		printf("Node %3d: |", i);
 		for (int j = 0; j < this->V; j++) {

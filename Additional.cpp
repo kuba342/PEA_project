@@ -1,4 +1,5 @@
 #include "Additional.h"
+#include <string>
 
 Additional::Additional() {};
 Additional::~Additional() {};
