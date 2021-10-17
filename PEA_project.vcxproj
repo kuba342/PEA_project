@@ -144,6 +144,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="BiList.h" />
     <ClInclude Include="clock.h" />
+    <ClInclude Include="ATSPFileReader.h" />
     <ClInclude Include="ListGraph.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
@@ -152,12 +153,16 @@
     <ClCompile Include="Additional.cpp" />
     <ClCompile Include="AdjMatrix.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="ATSPFileReader.cpp" />
     <ClCompile Include="BiList.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="ListGraph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="Menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\br17.atsp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

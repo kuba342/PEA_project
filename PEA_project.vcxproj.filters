@@ -25,6 +25,9 @@
     <Filter Include="Pliki nagłówkowe\Elements">
       <UniqueIdentifier>{521dd1c1-240e-4a6a-af74-f0ab270dc974}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\pliki ATSP">
+      <UniqueIdentifier>{5e53881e-9c3b-4f1d-94b3-4a29d14dd7a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="AdjMatrix.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="ATSPFileReader.cpp">
+      <Filter>Pliki źródłowe\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -80,5 +86,13 @@
     <ClInclude Include="AdjMatrix.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
+    <ClInclude Include="ATSPFileReader.h">
+      <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\br17.atsp">
+      <Filter>Pliki źródłowe\pliki ATSP</Filter>
+    </None>
   </ItemGroup>
 </Project>

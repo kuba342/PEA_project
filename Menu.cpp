@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Menu.h"
 #include "AdjMatrix.h"
+#include "ATSPFileReader.h"
 
 Menu::Menu()
 {
@@ -16,9 +17,12 @@ Menu::~Menu()
 void Menu::tests() {
 	std::cout << "Test grafu\n\n";
 
-	AdjMatrix* matrix = new AdjMatrix(5);
+	//AdjMatrix* matrix = new AdjMatrix(5);
 	//matrix->addDirectedEdge(0, 0, 10);
-	matrix->addEdge(0, 1, 15);
+	//matrix->addEdge(0, 1, 15);
+	AdjMatrix* matrix = nullptr;
+	ATSPFileReader* reader = new ATSPFileReader();
+	matrix = reader->readFile("br17.atsp");
 	matrix->showGraph();
 
 	std::cout << "Wcisnij Enter, aby kontynuowac!";
@@ -43,8 +47,9 @@ void Menu::BruteForce() {
 void Menu::showMenu() 
 {
 	char option;
-	std::cout << "Wprowadz znak operacji do wykonania:\n"
-			  << "A lub a. Testy automatyczne"
+	std::cout << "ASYMETRYCZNY PROBLEM KOMIWOJAZERA\n\n"
+			  << "Wprowadz znak operacji do wykonania:\n"
+			  << "A lub a. Testy automatyczne\n"
 			  << "1. Wczytaj dane z pliku\n"
 			  << "2. Wyswietl graf na ekranie\n"
 			  << "3. Metoda Brute force\n"
