@@ -3,6 +3,7 @@
 #include "Menu.h"
 #include "AdjMatrix.h"
 #include "ATSPFileReader.h"
+#include <fstream>
 
 Menu::Menu()
 {
@@ -39,10 +40,19 @@ void Menu::reading() {
 	std::cin >> bufor;
 	name += bufor;
 
-	//Jakoœ trzeba napisaæ weryfikacjê czy taki plik istnieje...
-
-	ATSPFileReader* reader = new ATSPFileReader();
-	this->graph = reader->readFile(name);
+	std::ifstream file;
+	file.open(name);
+	if (file) {
+		file.close();
+		ATSPFileReader* reader = new ATSPFileReader();
+		this->graph = reader->readFile(name);
+	}
+	else {
+		system("cls");
+		std::cout << "Nie ma takiego pliku w folderze: Dane\\!";
+		Sleep(3000);
+		return;
+	}
 }
 
 void Menu::readData() {

@@ -43,4 +43,5 @@ AdjMatrix* ATSPFileReader::readFile(std::string filename) {
 		}
 	}
 	return matrix;
+	stream.close();
 }
