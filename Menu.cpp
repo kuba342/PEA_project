@@ -6,7 +6,7 @@
 
 Menu::Menu()
 {
-	
+	this->graph = nullptr;
 }
 
 Menu::~Menu()
@@ -32,12 +32,62 @@ void Menu::tests() {
 	std::cin.get();
 }
 
-void Menu::readData() {
+void Menu::reading() {
+	std::string name = "Dane\\";
+	std::string bufor;
+	std::cout << "Wprowadz nazwe pliku i zatwierdz Enterem: ";
+	std::cin >> bufor;
+	name += bufor;
 
+	//Jakoœ trzeba napisaæ weryfikacjê czy taki plik istnieje...
+
+	ATSPFileReader* reader = new ATSPFileReader();
+	this->graph = reader->readFile(name);
+}
+
+void Menu::readData() {
+	
+	if (this->graph == nullptr) {
+		reading();
+	}
+	else
+	{
+		char decision;
+		std::cout << "Wczytano juz graf!\n"
+				  << "Czy chesz nadpisac obecny?\n"
+				  << "Wprowadz znak T lub N: ";
+		std::cin >> decision;
+
+		switch (decision) {
+		case 't':
+			system("cls");
+			reading();
+			break;
+		case 'T':
+			system("cls");
+			reading();
+			break;
+		case 'n':
+			return;
+			break;
+		case 'N':
+			return;
+			break;
+		}
+	}
 }
 
 void Menu::showGraph() {
-
+	if (this->graph != nullptr) {
+		this->graph->showGraph();
+		std::cout << "\nWcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();
+	}
+	else {
+		std::cout << "Nie wczytano grafu!";
+		Sleep(2000);
+	}
 }
 
 void Menu::BruteForce() {
@@ -64,31 +114,38 @@ void Menu::showMenu()
 	case 'A':
 		system("cls");
 		tests();
+		system("cls");
 		break;
 	case 'a':
 		system("cls");
 		tests();
+		system("cls");
 		break;
 
 	case '1':
 		system("cls");
-
+		readData();
+		system("cls");
 		break;
 	case '2':
 		system("cls");
-
+		showGraph();
+		system("cls");
 		break;
 	case '3':
 		system("cls");
 
+		system("cls");
 		break;
 	case '4':
 		system("cls");
 
+		system("cls");
 		break;
 	case '5':
 		system("cls");
 
+		system("cls");
 		break;
 
 	case 'X':
