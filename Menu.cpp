@@ -1,9 +1,4 @@
-#include <iostream>
-#include <Windows.h>
 #include "Menu.h"
-#include "AdjMatrix.h"
-#include "ATSPFileReader.h"
-#include <fstream>
 
 Menu::Menu()
 {
@@ -16,21 +11,7 @@ Menu::~Menu()
 }
 
 void Menu::tests() {
-	std::cout << "Test grafu\n\n";
-
-	//AdjMatrix* matrix = new AdjMatrix(5);
-	//matrix->addDirectedEdge(0, 0, 10);
-	//matrix->addEdge(0, 1, 15);
-	AdjMatrix* matrix = nullptr;
-	ATSPFileReader* reader = new ATSPFileReader();
-	matrix = reader->readFile("br17.atsp");
-	matrix->showGraph();
-
-	std::cout << "Wcisnij Enter, aby kontynuowac!";
-	//Sleep(1000);
-	fflush(stdin);
-	std::cin.get();
-	std::cin.get();
+	
 }
 
 void Menu::reading() {
@@ -83,6 +64,13 @@ void Menu::readData() {
 		case 'N':
 			return;
 			break;
+		
+		default:
+			system("cls");
+			std::cout << "Wprowadzono niepoprawny znak!\n"
+				<< "Operacja anulowana!";
+			Sleep(3000);
+			break;
 		}
 	}
 }
@@ -104,6 +92,44 @@ void Menu::BruteForce() {
 
 }
 
+void Menu::generator() {
+	if (this->graph == nullptr) {
+		GraphGenerator* generator = new GraphGenerator();
+		this->graph = generator->generate(this->graph);
+	}
+	else {
+		char decision;
+		std::cout << "Wczytano juz graf!\n"
+				  << "Czy chcesz nadpisac obecny?\n"
+				  << "Wpisz T lub N: ";
+		std::cin >> decision;
+		GraphGenerator* generator = new GraphGenerator();
+		switch (decision) {
+		case 't':
+			system("cls");
+			this->graph = generator->generate(this->graph);
+			break;
+		case 'T':
+			system("cls");
+			this->graph = generator->generate(this->graph);
+			break;
+
+		case 'n':
+			return;
+			break;
+		case 'N':
+			return;
+			break;
+		default:
+			system("cls");
+			std::cout << "Wprowadzono niepoprawny znak!\n"
+					  << "Operacja anulowana!";
+			Sleep(3000);
+			break;
+		}
+	}
+}
+
 void Menu::showMenu() 
 {
 	char option;
@@ -112,9 +138,10 @@ void Menu::showMenu()
 			  << "A lub a. Testy automatyczne\n"
 			  << "1. Wczytaj dane z pliku\n"
 			  << "2. Wyswietl graf na ekranie\n"
-			  << "3. Metoda Brute force\n"
-			  << "4. \n"
+			  << "3. Wygeneruj graf losowo\n"
+			  << "4. Metoda Brute force\n"
 			  << "5. \n"
+			  << "6. \n"
 			  << "X lub x. Koniec programu\n\n"
 			  << "Wpisz znak operacji: ";
 	std::cin >> option;
@@ -144,15 +171,20 @@ void Menu::showMenu()
 		break;
 	case '3':
 		system("cls");
-
+		generator();
 		system("cls");
 		break;
 	case '4':
 		system("cls");
-
+		BruteForce();
 		system("cls");
 		break;
 	case '5':
+		system("cls");
+
+		system("cls");
+		break;
+	case '6':
 		system("cls");
 
 		system("cls");

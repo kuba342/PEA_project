@@ -3,6 +3,12 @@
 #define Menu_h
 
 #include "AdjMatrix.h"
+#include <iostream>
+#include <Windows.h>
+#include "AdjMatrix.h"
+#include "ATSPFileReader.h"
+#include <fstream>
+#include "GraphGenerator.h"
 
 class Menu
 {
@@ -19,6 +25,7 @@ private:
 	void showGraph();
 	void BruteForce();
 	void reading();
+	void generator();
 };
 
 #endif // !Menu_h

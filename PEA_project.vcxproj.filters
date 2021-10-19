@@ -60,6 +60,9 @@
     <ClCompile Include="ATSPFileReader.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="GraphGenerator.cpp">
+      <Filter>Pliki źródłowe\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -87,6 +90,9 @@
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
     <ClInclude Include="ATSPFileReader.h">
+      <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphGenerator.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
     </ClInclude>
   </ItemGroup>

@@ -145,6 +145,7 @@
     <ClInclude Include="BiList.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="ATSPFileReader.h" />
+    <ClInclude Include="GraphGenerator.h" />
     <ClInclude Include="ListGraph.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ATSPFileReader.cpp" />
     <ClCompile Include="BiList.cpp" />
     <ClCompile Include="clock.cpp" />
+    <ClCompile Include="GraphGenerator.cpp" />
     <ClCompile Include="ListGraph.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
