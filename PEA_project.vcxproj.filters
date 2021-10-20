@@ -69,6 +69,9 @@
     <ClCompile Include="HeldKarp.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
+    <ClCompile Include="Array.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="HeldKarp.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Array.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

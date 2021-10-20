@@ -9,6 +9,7 @@
 #include "ATSPFileReader.h"
 #include <fstream>
 #include "GraphGenerator.h"
+#include "BruteForce.h"
 
 class Menu
 {
@@ -23,7 +24,7 @@ private:
 	void tests();
 	void readData();
 	void showGraph();
-	void BruteForce();
+	void bruteForce();
 	void reading();
 	void generator();
 };

@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "BruteForce.h"
 
 Menu::Menu()
 {
@@ -88,8 +89,10 @@ void Menu::showGraph() {
 	}
 }
 
-void Menu::BruteForce() {
-
+void Menu::bruteForce() {
+	BruteForce* brut = new BruteForce();
+	brut->print();
+	
 }
 
 void Menu::generator() {
@@ -176,7 +179,7 @@ void Menu::showMenu()
 		break;
 	case '4':
 		system("cls");
-		BruteForce();
+		bruteForce();
 		system("cls");
 		break;
 	case '5':

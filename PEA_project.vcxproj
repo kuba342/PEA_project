@@ -142,6 +142,7 @@
     <ClInclude Include="Additional.h" />
     <ClInclude Include="AdjMatrix.h" />
     <ClInclude Include="App.h" />
+    <ClInclude Include="Array.h" />
     <ClInclude Include="BiList.h" />
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="clock.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Additional.cpp" />
     <ClCompile Include="AdjMatrix.cpp" />
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Array.cpp" />
     <ClCompile Include="ATSPFileReader.cpp" />
     <ClCompile Include="BiList.cpp" />
     <ClCompile Include="BruteForce.cpp" />
