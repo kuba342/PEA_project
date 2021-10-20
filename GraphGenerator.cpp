@@ -22,7 +22,12 @@ void GraphGenerator::generating() {
 				}
 				else {
 					number = rand()%100;
-					this->graph->addDirectedEdge(i,j,number);
+					if (number > 0) {
+						this->graph->addDirectedEdge(i,j,number);
+					}
+					else {
+						this->graph->addDirectedEdge(i, j, 1);
+					}
 				}
 			}
 		}	
