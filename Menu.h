@@ -20,6 +20,7 @@ public:
 
 private:
 	AdjMatrix* graph;
+	BruteForce* brut;
 
 	void tests();
 	void readData();

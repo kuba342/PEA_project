@@ -90,9 +90,24 @@ void Menu::showGraph() {
 }
 
 void Menu::bruteForce() {
-	BruteForce* brut = new BruteForce();
-	brut->print();
-	
+	if (this->graph != nullptr) {
+		system("cls");
+		this->brut = new BruteForce(this->graph);
+		
+		this->brut->calculate();
+		
+		std::cout << "Najkrotsza sciezka:\n";
+		this->brut->showShortestCycle();
+		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();
+	}
+	else {
+		system("cls");
+		std::cout << "Nie wczytano grafu!\n"
+				  << "Operacja anulowana!";
+		Sleep(3000);
+	}
 }
 
 void Menu::generator() {
