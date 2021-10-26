@@ -10,6 +10,7 @@
 #include <fstream>
 #include "GraphGenerator.h"
 #include "BruteForce.h"
+#include "HeldKarp.h"
 
 class Menu
 {
@@ -21,11 +22,13 @@ public:
 private:
 	AdjMatrix* graph;
 	BruteForce* brut;
+	HeldKarp* held;
 
 	void tests();
 	void readData();
 	void showGraph();
 	void bruteForce();
+	void heldKarp();
 	void reading();
 	void generator();
 };

@@ -4,6 +4,8 @@
 Menu::Menu()
 {
 	this->graph = nullptr;
+	this->brut = nullptr;
+	this->held = nullptr;
 }
 
 Menu::~Menu()
@@ -89,6 +91,28 @@ void Menu::showGraph() {
 	}
 }
 
+void Menu::heldKarp() {
+	if (this->graph != nullptr) {
+		system("cls");
+
+		this->held = new HeldKarp(this->graph);
+
+		this->held->calculate();
+
+		std::cout << "Najkrotsza sciezka:\n";
+		this->held->showShortestCycle();
+		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();
+	}
+	else {
+		system("cls");
+		std::cout << "Nie wczytano grafu!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
 void Menu::bruteForce() {
 	if (this->graph != nullptr) {
 		system("cls");
@@ -158,7 +182,7 @@ void Menu::showMenu()
 			  << "2. Wyswietl graf na ekranie\n"
 			  << "3. Wygeneruj graf losowo\n"
 			  << "4. Metoda Brute force\n"
-			  << "5. \n"
+			  << "5. Programowanie dynamiczne (algorytm Helda-Karpa)\n"
 			  << "6. \n"
 			  << "X lub x. Koniec programu\n\n"
 			  << "Wpisz znak operacji: ";
