@@ -152,6 +152,7 @@
     <ClInclude Include="ListGraph.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Permutation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Additional.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Permutation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\br17.atsp" />

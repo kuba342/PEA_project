@@ -6,6 +6,7 @@
 #include <iostream>
 #include "AdjMatrix.h"
 #include <limits.h>
+#include "Permutation.h"
 
 class BruteForce
 {
@@ -19,10 +20,11 @@ public:
 	void calculate();
 
 private:
-	Array* permutationList;
+	//Array* permutationList;
 	Array* shortestCycle;
 	int weightOfShortest;
 	AdjMatrix* matrix;
+	Permutation* perm;
 
 	bool nextPermutation(int first, int last);
 	int calculateWeight();

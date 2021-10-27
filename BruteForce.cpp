@@ -2,7 +2,8 @@
 
 BruteForce::BruteForce()
 {
-	this->permutationList = new Array();
+	//this->permutationList = new Array();
+	this->perm = new Permutation(0);
 	this->shortestCycle = new Array();
 	this->weightOfShortest = INT_MAX;
 	this->matrix = nullptr;
@@ -10,11 +11,13 @@ BruteForce::BruteForce()
 
 BruteForce::BruteForce(AdjMatrix* matrix) {
 	this->matrix = matrix;
-	this->permutationList = new Array();
-	for (int i = 1; i < this->matrix->getV(); i++) {
-		this->permutationList->addAtTheEnd(i);
-	}
-	this->shortestCycle = new Array();
+	//this->permutationList = new Array();
+	//for (int i = 1; i < this->matrix->getV(); i++) {
+		//this->permutationList->addAtTheEnd(i);
+	//}
+	this->perm = new Permutation(this->matrix->getV());
+	//this->shortestCycle = new Array();
+	this->shortestCycle = nullptr;
 	this->weightOfShortest = INT_MAX;
 }
 
@@ -25,8 +28,11 @@ BruteForce::~BruteForce()
 void BruteForce::Cycle() {
 	this->shortestCycle = new Array();
 	this->shortestCycle->addAtTheEnd(0);
-	for (int i = 0; i < this->permutationList->getSize(); i++) {
-		this->shortestCycle->addAtTheEnd(this->permutationList->getTable()[i]);
+	//for (int i = 0; i < this->permutationList->getSize(); i++) {
+		//this->shortestCycle->addAtTheEnd(this->permutationList->getTable()[i]);
+	//}
+	for (int i = 0; i < this->perm->getPermutationList()->getSize(); i++) {
+		this->shortestCycle->addAtTheEnd(this->perm->getPermutationList()->getTable()[i]);
 	}
 	this->shortestCycle->addAtTheEnd(0);
 }
@@ -39,22 +45,22 @@ void BruteForce::calculate() {
 			this->weightOfShortest = weight;
 			Cycle();
 		}
-	} while (nextPermutation(0,this->permutationList->getSize()-1));	
+	} while (this->perm->nextPermutation(0,this->perm->getPermutationList()->getSize()-1));
+	//(nextPermutation(0,this->permutationList->getSize()-1))
 }
 
 int BruteForce::calculateWeight() {
 	int weight = 0;
-	weight += this->matrix->getMatrix()[0][this->permutationList->getTable()[0]];
-	/*std::cout << this->permutationList->getSize() << "\n";
-	for (int i = 0; i < this->permutationList->getSize(); i++) {
-		std::cout << " " << this->permutationList->getTable()[i] << " ";
-	}
-	std::cout << "\n";*/
-	for (int i = 0; i < this->permutationList->getSize()-1; i++) {
-		//std::cout << "Weight " << i << ": " << this->matrix->getMatrix()[  this->permutationList->getTable()[i]  ][  this->permutationList->getTable()[i + 1]  ];
+	//weight += this->matrix->getMatrix()[0][this->permutationList->getTable()[0]];
+	weight += this->matrix->getMatrix()[0][this->perm->getPermutationList()->getTable()[0]];
+	/*for (int i = 0; i < this->permutationList->getSize() - 1; i++) {
 		weight += this->matrix->getMatrix()[  this->permutationList->getTable()[i]  ][  this->permutationList->getTable()[i+1]  ];
+	}*/
+	for (int i = 0; i < this->perm->getPermutationList()->getSize() - 1; i++) {
+		weight += this->matrix->getMatrix()[this->perm->getPermutationList()->getTable()[i]][this->perm->getPermutationList()->getTable()[i + 1]];
 	}
-	weight += this->matrix->getMatrix()[this->permutationList->getTable()[this->permutationList->getSize()-1]][0];
+	//weight += this->matrix->getMatrix()[this->permutationList->getTable()[this->permutationList->getSize()-1]][0];
+	weight += this->matrix->getMatrix()[  this->perm->getPermutationList()->getTable()[this->perm->getPermutationList()->getSize()-1]  ][0];
 	return weight;
 }
 
@@ -68,7 +74,7 @@ void BruteForce::showShortestCycle() {
 }
 
 void BruteForce::print() {
-	for (int i = 1; i < 5; i++) {
+	/*for (int i = 1; i < 5; i++) {
 		this->permutationList->addAtTheEnd(i);
 	}
 	std::cout << "Poczatek:\n";
@@ -82,11 +88,11 @@ void BruteForce::print() {
 		i++;
 	}
 	std::cin.get();
-	std::cin.get();
+	std::cin.get();*/
 }
 
 bool BruteForce::nextPermutation(int first, int last) {
-	if (first == last) {
+	/*if (first == last) {
 		return false;
 	}
 	int i = last;
@@ -114,6 +120,6 @@ bool BruteForce::nextPermutation(int first, int last) {
 			this->permutationList->reverse(first, last);
 			return false;
 		}
-	}
+	}*/
 }
 

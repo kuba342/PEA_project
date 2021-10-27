@@ -28,6 +28,12 @@
     <Filter Include="Pliki źródłowe\pliki ATSP">
       <UniqueIdentifier>{5e53881e-9c3b-4f1d-94b3-4a29d14dd7a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\Combinatorics">
+      <UniqueIdentifier>{de4f028c-e9d4-422a-831e-08b303bb4fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Combinatorics">
+      <UniqueIdentifier>{4af5ac8c-2a3c-4794-9f28-025131ff20b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +78,9 @@
     <ClCompile Include="Array.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="Permutation.cpp">
+      <Filter>Pliki źródłowe\Combinatorics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -112,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="Array.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Permutation.h">
+      <Filter>Pliki nagłówkowe\Combinatorics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
