@@ -143,6 +143,7 @@
     <ClInclude Include="AdjMatrix.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="ListOfPartials.h" />
     <ClInclude Include="BiList.h" />
     <ClInclude Include="BruteForce.h" />
     <ClInclude Include="clock.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="ListGraph.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="PartialSolution.h" />
     <ClInclude Include="Permutation.h" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +161,7 @@
     <ClCompile Include="AdjMatrix.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Array.cpp" />
+    <ClCompile Include="ListOfPartials.cpp" />
     <ClCompile Include="ATSPFileReader.cpp" />
     <ClCompile Include="BiList.cpp" />
     <ClCompile Include="BruteForce.cpp" />
@@ -169,6 +172,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="PartialSolution.cpp" />
     <ClCompile Include="Permutation.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,7 @@ public:
 	//Settery i gettery
 	int** getMatrix();
 	int getV();
+	int distance(int beg, int end);
 
 	//Reprezentacja grau
 	void showGraph();

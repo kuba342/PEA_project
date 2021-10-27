@@ -34,6 +34,12 @@
     <Filter Include="Pliki nagłówkowe\Combinatorics">
       <UniqueIdentifier>{4af5ac8c-2a3c-4794-9f28-025131ff20b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\HeldKarp">
+      <UniqueIdentifier>{442a301f-b800-4a9d-aeb4-976511c13757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\HeldKarp">
+      <UniqueIdentifier>{67f5576b-4c89-4b3b-a817-4e092aab8d5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +87,12 @@
     <ClCompile Include="Permutation.cpp">
       <Filter>Pliki źródłowe\Combinatorics</Filter>
     </ClCompile>
+    <ClCompile Include="PartialSolution.cpp">
+      <Filter>Pliki źródłowe\HeldKarp</Filter>
+    </ClCompile>
+    <ClCompile Include="ListOfPartials.cpp">
+      <Filter>Pliki źródłowe\HeldKarp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -124,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="Permutation.h">
       <Filter>Pliki nagłówkowe\Combinatorics</Filter>
+    </ClInclude>
+    <ClInclude Include="PartialSolution.h">
+      <Filter>Pliki nagłówkowe\HeldKarp</Filter>
+    </ClInclude>
+    <ClInclude Include="ListOfPartials.h">
+      <Filter>Pliki nagłówkowe\HeldKarp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -48,6 +48,10 @@ bool AdjMatrix::addDirectedEdge(int beg, int end, int weight) {
 	return true;
 }
 
+int AdjMatrix::distance(int beg, int end) {
+	return this->matrix[beg][end];
+}
+
 void AdjMatrix::showGraph() {
 	printf("           ");
 	for (int i = 0; i < this->V; i++) {
