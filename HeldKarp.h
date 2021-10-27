@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "AdjMatrix.h"
+#include "Additional.h"
 
 class HeldKarp
 {
@@ -16,6 +17,7 @@ public:
 
 private:
 	AdjMatrix* matrix;
+	Additional* lib;
 	int weightOfShortest;
 };
 

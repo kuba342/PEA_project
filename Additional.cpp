@@ -27,3 +27,17 @@ long long Additional::average(long long* Tab, int size) {
     }
     return average = sum / size;
 }
+
+unsigned long long Additional::Newton(unsigned long long n, unsigned long long k) {
+    if (k > n) {
+        return 0;
+    }
+    if (k == n || k == 0) {
+        return 1;
+    }
+    unsigned long long result = 1;
+    for (unsigned long long i = 1; i <= k; i++) {
+        result = result * (n - i + 1) / i;
+    }
+    return result;
+}
