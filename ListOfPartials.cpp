@@ -65,15 +65,27 @@ int ListOfPartials::getSize()
 
 element* ListOfPartials::getElement(int indeks)
 {
-	return nullptr;
+	element* pointer = this->head;
+	if (indeks <= this->size) {
+		if (indeks == 0) {
+			return this->head;
+		}
+		for (int i = 0; i < indeks; i++) {
+			pointer = pointer->next;
+		}
+		return pointer;
+	}
+	else {
+		return nullptr;
+	}
 }
 
 element* ListOfPartials::getHead()
 {
-	return nullptr;
+	return this->head;
 }
 
 element* ListOfPartials::getTail()
 {
-	return nullptr;
+	return this->tail;
 }
