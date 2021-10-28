@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "BruteForce.h"
+#include "Combinations.h"
 
 Menu::Menu()
 {
@@ -92,7 +93,11 @@ void Menu::showGraph() {
 }
 
 void Menu::heldKarp() {
-	if (this->graph != nullptr) {
+	Combinations* comb = new Combinations(7, 3);
+	comb->print();
+	std::cin.get();
+	std::cin.get();
+	/*if (this->graph != nullptr) {
 		system("cls");
 
 		this->held = new HeldKarp(this->graph);
@@ -110,7 +115,7 @@ void Menu::heldKarp() {
 		std::cout << "Nie wczytano grafu!\n"
 			<< "Operacja anulowana!";
 		Sleep(3000);
-	}
+	}*/
 }
 
 void Menu::bruteForce() {

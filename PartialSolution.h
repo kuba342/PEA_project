@@ -19,6 +19,7 @@ public:
 	int getSumOfWeights();
 	int getOneBeforeLast();
 	BiList* getSet();
+	BiList* getNodes();
 	//Settery
 	void setDestination(int destination);
 	void setSumOfWeights(int sum);
@@ -30,6 +31,7 @@ private:
 	int sumOfWeight;
 	int oneBeforeLast;
 	BiList* set;
+	BiList* nodes;
 	AdjMatrix* matrix;
 };
 

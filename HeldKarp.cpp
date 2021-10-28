@@ -93,6 +93,26 @@ void HeldKarp::iterationForSet() {
 	for (int i = 0; i < firstTab[currentSet]->getSize(); i++) {
 
 		//this->firstTab[currentSet]->getElement(i)->solution.getSet()->addAtTheEnd()
+		PartialSolution &list = this->firstTab[currentSet]->getElement(i)->solution;
+		//this->firstTab[currentSet]->getElement(i)->solution.getSet()->addAtTheEnd();
+		list.getSet()->addAtTheEnd(list.getDestination());
+		list.getNodes()->addAtTheEnd(list.getDestination());
 
+		BiList* unusedNodes = new BiList();
+		const int n = this->matrix->getV() - 1;
+		const int k = list.getNodes()->getCount();
+
+		for (int i = 1; i < this->matrix->getV(); i++) {
+			if (list.getSet()->searchKey(i) != -1) {
+
+			}
+			else {
+				unusedNodes->addAtTheEnd(i);
+			}
+		}
+
+		for (int j = 0; j < unusedNodes->getCount(); j++) {
+
+		}
 	}
 }

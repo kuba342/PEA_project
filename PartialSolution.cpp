@@ -4,6 +4,13 @@
 
 PartialSolution::PartialSolution()
 {
+	this->destination = INT_MAX;
+	this->oneBeforeLast = INT_MAX;
+	this->set = new BiList();
+	this->nodes = new BiList();
+	this->sumOfWeight = 0;
+	this->matrix = nullptr;
+	this->s = 0;
 }
 
 PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
@@ -11,6 +18,7 @@ PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
 	this->destination = INT_MAX;
 	this->oneBeforeLast = INT_MAX;
 	this->set = new BiList();
+	this->nodes = new BiList();
 	this->sumOfWeight = 0;
 	this->matrix = matrix;
 	this->s = s;
@@ -46,6 +54,11 @@ int PartialSolution::getOneBeforeLast()
 BiList* PartialSolution::getSet()
 {
 	return this->set;
+}
+
+BiList* PartialSolution::getNodes()
+{
+	return this->nodes;
 }
 
 
