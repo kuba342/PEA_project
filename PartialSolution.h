@@ -19,6 +19,10 @@ public:
 	int getSumOfWeights();
 	int getOneBeforeLast();
 	BiList* getSet();
+	//Settery
+	void setDestination(int destination);
+	void setSumOfWeights(int sum);
+	void setOneBeforeLast(int OneBefore);
 
 private:
 	int s;

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ArrayOfPartials_h
-#define ArrayOfPartials_h
+#ifndef ListOfPartials_h
+#define ListOfPartials_h
 
 #include "PartialSolution.h"
 
@@ -31,4 +31,4 @@ private:
 	element* tail;
 };
 
-#endif // !ArrayOfPartials_h
+#endif // !ListOfPartials_h

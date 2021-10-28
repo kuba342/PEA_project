@@ -60,9 +60,6 @@
     <ClCompile Include="Additional.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="ListGraph.cpp">
-      <Filter>Pliki źródłowe\Structures</Filter>
-    </ClCompile>
     <ClCompile Include="MatrixGraph.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
@@ -78,9 +75,6 @@
     <ClCompile Include="BruteForce.cpp">
       <Filter>Pliki źródłowe\Elements</Filter>
     </ClCompile>
-    <ClCompile Include="HeldKarp.cpp">
-      <Filter>Pliki źródłowe\Elements</Filter>
-    </ClCompile>
     <ClCompile Include="Array.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
@@ -91,6 +85,9 @@
       <Filter>Pliki źródłowe\HeldKarp</Filter>
     </ClCompile>
     <ClCompile Include="ListOfPartials.cpp">
+      <Filter>Pliki źródłowe\HeldKarp</Filter>
+    </ClCompile>
+    <ClCompile Include="HeldKarp.cpp">
       <Filter>Pliki źródłowe\HeldKarp</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,9 +107,6 @@
     <ClInclude Include="Additional.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="ListGraph.h">
-      <Filter>Pliki nagłówkowe\Structures</Filter>
-    </ClInclude>
     <ClInclude Include="MatrixGraph.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
@@ -128,9 +122,6 @@
     <ClInclude Include="BruteForce.h">
       <Filter>Pliki nagłówkowe\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="HeldKarp.h">
-      <Filter>Pliki nagłówkowe\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="Array.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
@@ -141,6 +132,9 @@
       <Filter>Pliki nagłówkowe\HeldKarp</Filter>
     </ClInclude>
     <ClInclude Include="ListOfPartials.h">
+      <Filter>Pliki nagłówkowe\HeldKarp</Filter>
+    </ClInclude>
+    <ClInclude Include="HeldKarp.h">
       <Filter>Pliki nagłówkowe\HeldKarp</Filter>
     </ClInclude>
   </ItemGroup>

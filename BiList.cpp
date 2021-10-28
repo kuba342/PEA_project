@@ -17,13 +17,12 @@ BiList::~BiList() {
 
 
 /*********METODY OPERUJ¥CE NA LIŒCIE**********/
-void BiList::addAtTheBeginning(int key, int weight) {
+void BiList::addAtTheBeginning(int key) {
     listElement* pointer;
     //Nowy element
     pointer = new listElement;
     //Wpisuje dane do nowego elementu
     pointer->key = key;
-    pointer->weight = weight;
     //Nowy element nie ma poprzednika
     pointer->previous = nullptr;
     //W pole next wpisujê adres czo³a listy
@@ -42,13 +41,12 @@ void BiList::addAtTheBeginning(int key, int weight) {
     }
 }
 
-void BiList::addAtTheEnd(int key, int weight) {
+void BiList::addAtTheEnd(int key) {
     listElement* pointer;
     //Nowy element
     pointer = new listElement;
     //Dane dla nowego elementu
     pointer->key = key;
-    pointer->weight = weight;
     //W pole next adres zerowy, bo nie ma nastêpnika
     pointer->next = nullptr;
     //W pole previous zawartoœæ pola tail - poprzednik tworzonego elementu
@@ -67,17 +65,16 @@ void BiList::addAtTheEnd(int key, int weight) {
 }
 
 //Dodaj element przed wybranym
-void BiList::addOnPosition(listElement* element, int key, int weight) {
+void BiList::addOnPosition(listElement* element, int key) {
     listElement* pointer;
     //Jeœli element jest czo³em, dodaj na pocz¹tek listy
     if (element == this->head) {
-        this->addAtTheBeginning(key, weight);
+        this->addAtTheBeginning(key);
     }
     else {
         pointer = new listElement;
         //Wpisujê dane
         pointer->key = key;
-        pointer->weight = weight;
         //Nastêpnik to element podany
         pointer->next = element;
         //Poprzednikiem jest poprzednik wskazanego elementu
@@ -136,7 +133,7 @@ void BiList::showList() {
 
     std::cout << "List: [";
     for (pointer; pointer != nullptr; pointer = pointer->next) {
-        std::cout << "  " << pointer->key << ":(" << pointer->weight << ")  ";
+        std::cout << "  " << pointer->key << "  ";
     }
     std::cout << "]";
 }

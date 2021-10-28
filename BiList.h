@@ -6,7 +6,6 @@ struct listElement {
 
     listElement* previous;
     int key;
-    int weight;
     listElement* next;
 
 };
@@ -23,9 +22,9 @@ public:
     ~BiList();
 
     //METODY OPERUJ¥CE NA LIŒCIE
-    void addAtTheBeginning(int key, int weight);
-    void addAtTheEnd(int key, int weight);
-    void addOnPosition(listElement* element, int key, int weight);
+    void addAtTheBeginning(int key);
+    void addAtTheEnd(int key);
+    void addOnPosition(listElement* element, int key);
     void removeAtTheBeginning();
     void removeAtTheEnd();
     void removeOnPosition(listElement* element);
