@@ -121,5 +121,6 @@ bool BruteForce::nextPermutation(int first, int last) {
 			return false;
 		}
 	}*/
+	return true;
 }
 

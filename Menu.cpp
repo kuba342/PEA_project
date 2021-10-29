@@ -93,7 +93,7 @@ void Menu::showGraph() {
 }
 
 void Menu::heldKarp() {
-	/*Combinations* comb = new Combinations(5, 3);
+	/*Combinations* comb = new Combinations(6, 4);
 	comb->print();
 	std::cin.get();
 	std::cin.get();*/

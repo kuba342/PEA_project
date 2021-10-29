@@ -19,7 +19,7 @@ void ListOfPartials::addAtTheEnd(PartialSolution* solution)
 	element* pointer;
 	pointer = new element;
 	pointer->solution = solution;
-	pointer->next = new element;
+	pointer->next = nullptr;
 	pointer->previous = this->tail;
 	this->tail = pointer;
 	this->size++;
@@ -56,6 +56,17 @@ void ListOfPartials::removeOnPosition(element* elem)
 	}
 
 	delete elem;
+}
+
+void ListOfPartials::showList()
+{
+	element* pointer;
+	pointer = this->head;
+
+	for (pointer; pointer != nullptr; pointer = pointer->next) {
+		pointer->solution->getSet()->showList();
+		std::cout << " dest = " << pointer->solution->getDestination() << "\n";
+	}
 }
 
 int ListOfPartials::getSize()

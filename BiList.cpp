@@ -48,7 +48,7 @@ void BiList::addAtTheEnd(int key) {
     //Dane dla nowego elementu
     pointer->key = key;
     //W pole next adres zerowy, bo nie ma nastêpnika
-    pointer->next = new listElement;
+    pointer->next = nullptr;
     //W pole previous zawartoœæ pola tail - poprzednik tworzonego elementu
     pointer->previous = this->tail;
     //Do pola tail wpisujê adres tworzonego elementu

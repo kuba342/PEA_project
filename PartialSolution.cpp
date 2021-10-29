@@ -8,7 +8,7 @@ PartialSolution::PartialSolution()
 	this->oneBeforeLast = INT_MAX;
 	this->set = new BiList();
 	//this->nodes = new BiList();
-	this->sumOfWeight = 0;
+	this->sumOfWeight = INT_MAX;
 	this->matrix = nullptr;
 	this->s = 0;
 	this->previous = nullptr;
@@ -20,7 +20,7 @@ PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
 	this->oneBeforeLast = INT_MAX;
 	this->set = new BiList();
 	//this->nodes = new BiList();
-	this->sumOfWeight = 0;
+	this->sumOfWeight = INT_MAX;
 	this->matrix = matrix;
 	this->s = s;
 	this->previous = nullptr;
@@ -83,5 +83,11 @@ void PartialSolution::setOneBeforeLast(int OneBefore)
 void PartialSolution::setPrevious(PartialSolution* previous)
 {
 	this->previous = previous;
+}
+
+void PartialSolution::deleteSet()
+{
+	delete this->set;
+	this->set = new BiList();
 }
 

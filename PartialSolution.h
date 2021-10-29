@@ -25,6 +25,7 @@ public:
 	void setSumOfWeights(int sum);
 	void setOneBeforeLast(int OneBefore);
 	void setPrevious(PartialSolution* previous);
+	void deleteSet();
 
 private:
 	int s;

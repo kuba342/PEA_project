@@ -18,6 +18,7 @@ public:
 	void addAtTheEnd(PartialSolution* solution);
 	void removeAtTheEnd();
 	void removeOnPosition(element* elem);
+	void showList();
 
 	//Gettery
 	int getSize();
