@@ -19,11 +19,12 @@ public:
 	int getSumOfWeights();
 	int getOneBeforeLast();
 	BiList* getSet();
-	BiList* getNodes();
+	//BiList* getNodes();
 	//Settery
 	void setDestination(int destination);
 	void setSumOfWeights(int sum);
 	void setOneBeforeLast(int OneBefore);
+	void setPrevious(PartialSolution* previous);
 
 private:
 	int s;
@@ -31,8 +32,9 @@ private:
 	int sumOfWeight;
 	int oneBeforeLast;
 	BiList* set;
-	BiList* nodes;
+	//BiList* nodes;
 	AdjMatrix* matrix;
+	PartialSolution* previous;
 };
 
 #endif // !PartialSolution_h

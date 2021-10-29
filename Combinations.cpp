@@ -61,6 +61,16 @@ void Combinations::update()
 	}
 }
 
+int* Combinations::getTab()
+{
+	return this->Tab;
+}
+
+int* Combinations::getSolution()
+{
+	return this->solution;
+}
+
 void Combinations::print() {
 	while (this->hasNext()) {
 		for (int i = 0; i < this->k; i++) {

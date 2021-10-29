@@ -5,26 +5,31 @@ HeldKarp::HeldKarp()
 	this->matrix = nullptr;
 	this->weightOfShortest = INT_MAX;
 	this->lib = new Additional();
-	this->firstTab = nullptr;
-	this->secondTab = nullptr;
+	//this->firstTab = nullptr;
+	//this->secondTab = nullptr;
 	this->sizeOfSet = 0;
-	this->currentSet = 0;
-	this->ListOfNodes = nullptr;
-	this->firstTabLength = 0;
-	this->SecondTabLength = 0;
+	//this->currentSet = 0;
+	//this->ListOfNodes = nullptr;
+	//this->firstTabLength = 0;
+	//this->SecondTabLength = 0;
+	this->Tab = new ListOfPartials*[1];
 }
 
 HeldKarp::HeldKarp(AdjMatrix* matrix) {
 	this->matrix = matrix;
 	this->weightOfShortest = INT_MAX;
 	this->lib = new Additional();
-	this->firstTab = nullptr;
-	this->secondTab = nullptr;
-	this->sizeOfSet = 0;
-	this->currentSet = 0;
-	this->ListOfNodes = nullptr;
-	this->firstTabLength = 0;
-	this->SecondTabLength = 0;
+	//this->firstTab = nullptr;
+	//this->secondTab = nullptr;
+	this->sizeOfSet = 1;
+	//this->currentSet = 0;
+	//this->ListOfNodes = nullptr;
+	//this->firstTabLength = 0;
+	//this->SecondTabLength = 0;
+	this->Tab = new ListOfPartials*[this->matrix->getV()+1];
+	for (int i = 0; i <= this->matrix->getV(); i++) {
+		this->Tab[i] = new ListOfPartials();
+	}
 }
 
 HeldKarp::~HeldKarp()
@@ -42,33 +47,67 @@ void HeldKarp::showShortestCycle() {
 
 void HeldKarp::algorithm()
 {
-	for (this->sizeOfSet=1; this->sizeOfSet < this->ListOfNodes->getCount(); sizeOfSet++) {
-		iteration();
+	prepare();
+	for (sizeOfSet = 2; sizeOfSet < this->matrix->getV(); sizeOfSet++) {
+		Combinations* comb = new Combinations(this->matrix->getV()-1, this->sizeOfSet);
+		while (comb->hasNext()) {
+			for (int i = 0; i < sizeOfSet; i++) {
+				int actualK = comb->getSolution()[i];
+				//W tym miejscu w zasadzie pojawi siê nowe rozwi¹zanie
+				//I sprawdzanie warunku z poprzednimi
+				ListOfPartials* list = this->Tab[sizeOfSet - 1];
+				PartialSolution* newPartial = new PartialSolution(this->matrix, sizeOfSet);
+				//Iterujê przez wszystkie elementy poprzedniej listy
+				for (element* pointer = list->getHead(); pointer != list->getTail()->next; pointer = pointer->next) {
+					if (pointer->solution->getDestination() != actualK) {
+						//jeœli nie ma wierzcho³ka analizowanego w zbiorze:
+						if (pointer->solution->getSet()->searchKey(actualK) == -1) {
+							//Liczê now¹ wagê œcie¿ki:
+							std::cout << "K = " << actualK << "\n";
+							std::cout << pointer->solution->getDestination() << "\n";
+							int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(),actualK);
+							//Aktualizujê nowe rozwi¹zanie:
+							if (weight < newPartial->getSumOfWeights()) {
+								newPartial->setSumOfWeights(weight);
+								newPartial->setDestination(actualK);
+								newPartial->setPrevious(pointer->solution);
+							}
+						}
+					}
+				}
+			}
+			comb->update();
+		}
 	}
 }
 
 //Powinno byæ gotowe
 void HeldKarp::prepare() {
-	this->ListOfNodes = new BiList();
 	for (int i = 1; i < this->matrix->getV(); i++) {
-		ListOfNodes->addAtTheEnd(i);
-	}
-
-	this->SecondTabLength = 1;
-	this->secondTab = new ListOfPartials * [SecondTabLength];
-	this->secondTab[0] = new ListOfPartials();
-
-	for (int i = 1; i <= this->ListOfNodes->getCount(); i++) {
 		int input = this->matrix->distance(0, i);
 		PartialSolution* sol = new PartialSolution(this->matrix, this->sizeOfSet);
-		secondTab[0]->addAtTheEnd(*sol);
-		secondTab[0]->getElement(i - 1)->solution.setSumOfWeights(input);
-		secondTab[0]->getElement(i - 1)->solution.setDestination(i);
-		secondTab[0]->getElement(i - 1)->solution.setOneBeforeLast(0);
+		this->Tab[sizeOfSet]->addAtTheEnd(sol);
+		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setSumOfWeights(input);
+		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setDestination(i);
+		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setOneBeforeLast(0);
+		this->Tab[sizeOfSet]->getElement(i - 1)->solution->getSet()->addAtTheEnd(i);
 	}
-	this->sizeOfSet++;
+	this->sizeOfSet = this->sizeOfSet + 1;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 void HeldKarp::update() {
 	this->firstTab = this->secondTab;
 	this->firstTabLength = this->SecondTabLength;
@@ -79,17 +118,18 @@ void HeldKarp::update() {
 		//this->ListOfNodes->getCount() - this->sizeOfSet - 1
 		secondTab[i] = new ListOfPartials();
 	}
-}
+}*/
 
+/*
 void HeldKarp::iteration() {
 	update();
 
 	for (currentSet = 0; currentSet < this->firstTabLength; currentSet++) {
 		iterationForSet();
 	}
-}
+}*/
 
-void HeldKarp::iterationForSet() {
+/*void HeldKarp::iterationForSet() {
 	for (int i = 0; i < firstTab[currentSet]->getSize(); i++) {
 
 		//this->firstTab[currentSet]->getElement(i)->solution.getSet()->addAtTheEnd()
@@ -115,4 +155,4 @@ void HeldKarp::iterationForSet() {
 
 		}
 	}
-}
+}*/

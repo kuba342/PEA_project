@@ -14,12 +14,12 @@ ListOfPartials::~ListOfPartials()
 	}
 }
 
-void ListOfPartials::addAtTheEnd(PartialSolution solution)
+void ListOfPartials::addAtTheEnd(PartialSolution* solution)
 {
 	element* pointer;
 	pointer = new element;
 	pointer->solution = solution;
-	pointer->next = nullptr;
+	pointer->next = new element;
 	pointer->previous = this->tail;
 	this->tail = pointer;
 	this->size++;

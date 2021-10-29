@@ -14,6 +14,9 @@ public:
 	bool hasNext();
 	void print();
 	void update();
+	//Gettery
+	int* getTab();
+	int* getSolution();
 
 private:
 	Additional* lib;

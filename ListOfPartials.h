@@ -6,7 +6,7 @@
 
 struct element {
 	element* previous = nullptr;
-	PartialSolution solution;
+	PartialSolution* solution = nullptr;
 	element* next = nullptr;
 };
 
@@ -15,7 +15,7 @@ class ListOfPartials
 public:
 	ListOfPartials();
 	~ListOfPartials();
-	void addAtTheEnd(PartialSolution solution);
+	void addAtTheEnd(PartialSolution* solution);
 	void removeAtTheEnd();
 	void removeOnPosition(element* elem);
 

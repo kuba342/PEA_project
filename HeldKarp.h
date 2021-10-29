@@ -8,6 +8,7 @@
 #include "ListOfPartials.h"
 #include "PartialSolution.h"
 #include "Additional.h"
+#include "Combinations.h"
 
 class HeldKarp
 {
@@ -22,13 +23,16 @@ private:
 	Additional* lib;
 	AdjMatrix* matrix;
 	int weightOfShortest;
-	ListOfPartials** firstTab;
-	int firstTabLength;
-	ListOfPartials** secondTab;
-	int SecondTabLength;
-	BiList* ListOfNodes;
 	int sizeOfSet;
-	int currentSet;
+	ListOfPartials** Tab;
+
+	//ListOfPartials** firstTab;
+	//int firstTabLength;
+	//ListOfPartials** secondTab;
+	//int SecondTabLength;
+	//BiList* ListOfNodes;
+	
+	//int currentSet;
 
 	void algorithm();
 	void prepare();
