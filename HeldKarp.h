@@ -18,6 +18,7 @@ public:
 	~HeldKarp();
 	void calculate();
 	void showShortestCycle();
+	void countShortest();
 
 private:
 	Additional* lib;
@@ -25,6 +26,8 @@ private:
 	int weightOfShortest;
 	int sizeOfSet;
 	ListOfPartials** Tab;
+	PartialSolution* shortest;
+	bool** table;
 
 	//ListOfPartials** firstTab;
 	//int firstTabLength;
@@ -39,6 +42,7 @@ private:
 	void update();
 	void iteration();
 	void iterationForSet();
+	void deletTable();
 };
 
 #endif // !HeldKarp_h

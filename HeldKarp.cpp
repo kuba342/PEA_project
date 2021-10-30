@@ -7,6 +7,8 @@ HeldKarp::HeldKarp()
 	this->lib = new Additional();
 	this->sizeOfSet = 0;
 	this->Tab = new ListOfPartials*[1];
+	this->shortest = nullptr;
+	this->table = nullptr;
 }
 
 HeldKarp::HeldKarp(AdjMatrix* matrix) {
@@ -18,32 +20,69 @@ HeldKarp::HeldKarp(AdjMatrix* matrix) {
 	for (int i = 0; i < this->matrix->getV(); i++) {
 		this->Tab[i] = new ListOfPartials();
 	}
+	this->shortest = nullptr;
+	this->table = new bool* [this->matrix->getV() + 2];
+	for (int i = 0; i <= this->matrix->getV()+1; i++) {
+		this->table[i] = new bool[this->matrix->getV() + 1];
+	}
 }
 
 HeldKarp::~HeldKarp()
 {
+	delete this->matrix;
+	for (int i = 0; i < this->matrix->getV(); i++) {
+		delete this->Tab[i];
+	}
+	delete this->Tab;
+	for (int i = 0; i <= this->matrix->getV()+1; i++) {
+		delete this->table[i];
+	}
+	delete this->table;
 }
 
 void HeldKarp::calculate() {
 	prepare();
 	algorithm();
+	countShortest();
 }
 
 void HeldKarp::showShortestCycle() {
+	if (this->shortest != nullptr) {
+		std::cout << "Weight = " << this->shortest->getSumOfWeights() << "\n";
+		this->shortest->getSet()->showList();
+	}
+	else {
+		return;
+	}
+}
 
+void HeldKarp::countShortest()
+{
+	this->shortest = new PartialSolution(this->matrix, this->matrix->getV());
+	this->shortest->setDestination(0);
+	element* pointer = this->Tab[this->matrix->getV()-1]->getHead();
+	while(pointer != nullptr) {
+		int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(), 0);
+		if (weight < this->shortest->getSumOfWeights()) {
+			this->shortest->deleteSet();
+			for (int i = 0; i < pointer->solution->getSet()->getCount(); i++) {
+				this->shortest->getSet()->addAtTheEnd(pointer->solution->getSet()->getElement(i)->key);
+			}
+			this->shortest->setSumOfWeights(weight);
+			this->shortest->setPrevious(pointer->solution);
+			this->shortest->setOneBeforeLast(pointer->solution->getDestination());
+		}
+		pointer = pointer->next;
+	}
 }
 
 void HeldKarp::algorithm()
 {
 	for (int size = 2; size < this->matrix->getV(); size++, this->sizeOfSet++) {
 		Combinations* comb = new Combinations(this->matrix->getV()-1, size);
-		bool** table = new bool* [this->matrix->getV()];
-		for (int i = 0; i < this->matrix->getV(); i++) {
-			table[i] = new bool[this->matrix->getV()];
-		}
-		for (int i = 0; i < this->matrix->getV(); i++) {
-			for (int j = 0; j < this->matrix->getV(); j++) {
-				table[i][j] = false;
+		for (int i = 0; i <= this->matrix->getV()+1; i++) {
+			for (int j = 0; j <= this->matrix->getV()+1; j++) {
+				this->table[i][j] = false;
 			}
 		}
 		while (comb->hasNext()) {
@@ -54,7 +93,7 @@ void HeldKarp::algorithm()
 				//W tym miejscu w zasadzie pojawi siê nowe rozwi¹zanie
 				//I sprawdzanie warunku z poprzednimi
 				//ListOfPartials* list = this->Tab[size - 1];
-				std::cout << this->Tab[size - 1]->getTail() << "\n";
+				//std::cout << this->Tab[size - 1]->getTail() << "\n";
 				PartialSolution* newPartial = new PartialSolution(this->matrix, size);
 				newPartial->setDestination(actualK);
 				//Iterujê przez wszystkie elementy poprzedniej listy
@@ -62,10 +101,10 @@ void HeldKarp::algorithm()
 				while (pointer != nullptr) {
 					if (pointer->solution->getDestination() != actualK) {
 						//jeœli nie ma wierzcho³ka analizowanego w zbiorze:
-						if (pointer->solution->getSet()->searchKey(actualK) == -1 && table[actualK][pointer->solution->getDestination()] == false) {
+						if (pointer->solution->getSet()->searchKey(actualK) == -1 && this->table[actualK][pointer->solution->getDestination()] == false) {
 							//Liczê now¹ wagê œcie¿ki:
-							std::cout << "K = " << actualK << "\n";
-							std::cout << pointer->solution->getDestination() << "\n";
+							//std::cout << "K = " << actualK << "\n";
+							//std::cout << pointer->solution->getDestination() << "\n";
 							int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(),actualK);
 							//Aktualizujê nowe rozwi¹zanie:
 							if (weight < newPartial->getSumOfWeights()){
@@ -81,9 +120,11 @@ void HeldKarp::algorithm()
 					}
 					pointer = pointer->next;
 				}
-				newPartial->getSet()->addAtTheEnd(actualK);
-				table[actualK][newPartial->getOneBeforeLast()] = true;
-				this->Tab[size]->addAtTheEnd(newPartial);
+				if (newPartial->getOneBeforeLast() != INT_MAX) {
+					newPartial->getSet()->addAtTheEnd(actualK);
+					this->table[actualK][newPartial->getOneBeforeLast()] = true;
+					this->Tab[size]->addAtTheEnd(newPartial);
+				}
 			}
 			comb->update();
 		}
@@ -91,6 +132,7 @@ void HeldKarp::algorithm()
 	for (int i = 1; i < this->matrix->getV(); i++) {
 		this->Tab[i]->showList();
 	}
+	
 	/*for (int i = 0; i < 6; i++) {
 		std::cout << i << ". ";
 		this->Tab[2]->getElement(i)->solution->getSet()->showList();
