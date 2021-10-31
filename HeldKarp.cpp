@@ -17,24 +17,23 @@ HeldKarp::HeldKarp(AdjMatrix* matrix) {
 	this->lib = new Additional();
 	this->sizeOfSet = 1;
 	this->Tab = new ListOfPartials*[this->matrix->getV()+1];
-	for (int i = 0; i < this->matrix->getV(); i++) {
+	for (int i = 0; i <= this->matrix->getV(); i++) {
 		this->Tab[i] = new ListOfPartials();
 	}
 	this->shortest = nullptr;
-	this->table = new bool* [this->matrix->getV() + 2];
-	for (int i = 0; i <= this->matrix->getV()+1; i++) {
+	this->table = new bool* [this->matrix->getV() + 1];
+	for (int i = 0; i <= this->matrix->getV(); i++) {
 		this->table[i] = new bool[this->matrix->getV() + 1];
 	}
 }
 
 HeldKarp::~HeldKarp()
 {
-	delete this->matrix;
-	for (int i = 0; i < this->matrix->getV(); i++) {
+	for (int i = 0; i <= this->matrix->getV(); i++) {
 		delete this->Tab[i];
 	}
 	delete this->Tab;
-	for (int i = 0; i <= this->matrix->getV()+1; i++) {
+	for (int i = 0; i <= this->matrix->getV(); i++) {
 		delete this->table[i];
 	}
 	delete this->table;
@@ -80,8 +79,8 @@ void HeldKarp::algorithm()
 {
 	for (int size = 2; size < this->matrix->getV(); size++, this->sizeOfSet++) {
 		Combinations* comb = new Combinations(this->matrix->getV()-1, size);
-		for (int i = 0; i <= this->matrix->getV()+1; i++) {
-			for (int j = 0; j <= this->matrix->getV()+1; j++) {
+		for (int i = 0; i <= this->matrix->getV(); i++) {
+			for (int j = 0; j <= this->matrix->getV(); j++) {
 				this->table[i][j] = false;
 			}
 		}
@@ -101,7 +100,7 @@ void HeldKarp::algorithm()
 				while (pointer != nullptr) {
 					if (pointer->solution->getDestination() != actualK) {
 						//jeœli nie ma wierzcho³ka analizowanego w zbiorze:
-						if (pointer->solution->getSet()->searchKey(actualK) == -1 && this->table[actualK][pointer->solution->getDestination()] == false) {
+						if ( (pointer->solution->getSet()->searchKey(actualK) == -1) && (this->table[actualK][pointer->solution->getDestination()] == false) ) {
 							//Liczê now¹ wagê œcie¿ki:
 							//std::cout << "K = " << actualK << "\n";
 							//std::cout << pointer->solution->getDestination() << "\n";

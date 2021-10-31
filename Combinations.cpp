@@ -30,6 +30,8 @@ Combinations::Combinations(int n, int k)
 
 Combinations::~Combinations()
 {
+	delete this->solution;
+	delete this->Tab;
 }
 
 bool Combinations::hasNext() {

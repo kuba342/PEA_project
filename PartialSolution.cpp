@@ -28,6 +28,7 @@ PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
 
 PartialSolution::~PartialSolution()
 {
+	delete this->set;
 }
 
 

@@ -99,6 +99,7 @@ void Menu::heldKarp() {
 	std::cin.get();
 	std::cin.get();*/
 	if (this->graph != nullptr) {
+		delete this->held;
 		system("cls");
 
 		this->held = new HeldKarp(this->graph);
@@ -110,6 +111,7 @@ void Menu::heldKarp() {
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
+		delete this->held;
 	}
 	else {
 		system("cls");
@@ -121,6 +123,7 @@ void Menu::heldKarp() {
 
 void Menu::bruteForce() {
 	if (this->graph != nullptr) {
+		delete this->brut;
 		system("cls");
 		this->brut = new BruteForce(this->graph);
 		
@@ -131,6 +134,7 @@ void Menu::bruteForce() {
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
+		delete this->brut;
 	}
 	else {
 		system("cls");
@@ -182,6 +186,7 @@ void Menu::BnB()
 {
 	if (this->graph != nullptr) {
 		system("cls");
+		delete this->branch;
 		this->branch = new BranchAndBound(this->graph);
 
 		this->branch->calculate();
@@ -192,6 +197,7 @@ void Menu::BnB()
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
+		delete this->branch;
 	}
 	else {
 		system("cls");

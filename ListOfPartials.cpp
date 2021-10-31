@@ -55,6 +55,7 @@ void ListOfPartials::removeOnPosition(element* elem)
 		this->tail = elem->previous;
 	}
 
+	delete elem->solution;
 	delete elem;
 }
 
