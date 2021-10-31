@@ -185,12 +185,13 @@ void Menu::BnB()
 		this->branch = new BranchAndBound(this->graph);
 
 		this->branch->calculate();
-		/*
+
 		std::cout << "Najkrotsza sciezka:\n";
-		this->brut->showShortestCycle();
+		this->branch->getSolution()->getCycle()->showList();
+		std::cout << "\nCost: " << this->branch->getSolution()->getCost() << "\n";
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
-		std::cin.get();*/
+		std::cin.get();
 	}
 	else {
 		system("cls");

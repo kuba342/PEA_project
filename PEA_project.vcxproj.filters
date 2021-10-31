@@ -102,6 +102,9 @@
     <ClCompile Include="BranchAndBound.cpp">
       <Filter>Pliki źródłowe\BranchAndBound</Filter>
     </ClCompile>
+    <ClCompile Include="BnBSolution.cpp">
+      <Filter>Pliki źródłowe\BranchAndBound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -153,6 +156,9 @@
       <Filter>Pliki nagłówkowe\HeldKarp</Filter>
     </ClInclude>
     <ClInclude Include="BranchAndBound.h">
+      <Filter>Pliki nagłówkowe\BranchAndBound</Filter>
+    </ClInclude>
+    <ClInclude Include="BnBSolution.h">
       <Filter>Pliki nagłówkowe\BranchAndBound</Filter>
     </ClInclude>
   </ItemGroup>
