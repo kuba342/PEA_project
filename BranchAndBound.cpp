@@ -40,11 +40,11 @@ void BranchAndBound::countMinWeights()
 
 void BranchAndBound::prepare()
 {
-	for (int i = 0; i < this->minWeights->getSize(); i++) {
-		this->minValue = this->minWeights->getTable()[i];
+	for (int i = 0; i < this->minWeights->getSize();i++) {
+		this->minValue += this->minWeights->getTable()[i];
 		this->unusedNodes->addAtTheEnd(i);
 	}
-	//this->unusedNodes->removeAtTheEnd();
+	this->unusedNodes->removeAtTheBeginning();
 	this->path->addAtTheEnd(0);
 }
 
@@ -59,7 +59,7 @@ void BranchAndBound::solveByRecursion(int heur)
 	if (this->unusedNodes->getCount() == 0) {
 		int totalCost = heuristic(heur, 0);
 		//Aktualizacja rozwi¹zania
-		if (totalCost < solution->getCost()) {
+		if (totalCost < this->solution->getCost()) {
 			updateSolution(totalCost);
 		}
 	}
