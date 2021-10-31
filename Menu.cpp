@@ -7,6 +7,7 @@ Menu::Menu()
 	this->graph = nullptr;
 	this->brut = nullptr;
 	this->held = nullptr;
+	this->branch = nullptr;
 }
 
 Menu::~Menu()
@@ -177,6 +178,28 @@ void Menu::generator() {
 	}
 }
 
+void Menu::BnB()
+{
+	if (this->graph != nullptr) {
+		system("cls");
+		this->branch = new BranchAndBound(this->graph);
+
+		this->branch->calculate();
+		/*
+		std::cout << "Najkrotsza sciezka:\n";
+		this->brut->showShortestCycle();
+		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();*/
+	}
+	else {
+		system("cls");
+		std::cout << "Nie wczytano grafu!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
 void Menu::showMenu() 
 {
 	char option;
@@ -188,7 +211,7 @@ void Menu::showMenu()
 			  << "3. Wygeneruj graf losowo\n"
 			  << "4. Metoda Brute force\n"
 			  << "5. Programowanie dynamiczne (algorytm Helda-Karpa)\n"
-			  << "6. \n"
+			  << "6. Metoda podzialu i ograniczen\n"
 			  << "X lub x. Koniec programu\n\n"
 			  << "Wpisz znak operacji: ";
 	std::cin >> option;
@@ -233,7 +256,7 @@ void Menu::showMenu()
 		break;
 	case '6':
 		system("cls");
-
+		BnB();
 		system("cls");
 		break;
 

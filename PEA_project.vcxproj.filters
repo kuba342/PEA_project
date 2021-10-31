@@ -40,6 +40,12 @@
     <Filter Include="Pliki nagłówkowe\HeldKarp">
       <UniqueIdentifier>{67f5576b-4c89-4b3b-a817-4e092aab8d5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\BranchAndBound">
+      <UniqueIdentifier>{cc975843-fa09-45c2-a088-cb5550f2816a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\BranchAndBound">
+      <UniqueIdentifier>{e79a7ff8-6e53-4faa-95a3-074fff2a318c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,6 +99,9 @@
     <ClCompile Include="Combinations.cpp">
       <Filter>Pliki źródłowe\HeldKarp</Filter>
     </ClCompile>
+    <ClCompile Include="BranchAndBound.cpp">
+      <Filter>Pliki źródłowe\BranchAndBound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -142,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="Combinations.h">
       <Filter>Pliki nagłówkowe\HeldKarp</Filter>
+    </ClInclude>
+    <ClInclude Include="BranchAndBound.h">
+      <Filter>Pliki nagłówkowe\BranchAndBound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

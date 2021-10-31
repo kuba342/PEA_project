@@ -11,6 +11,7 @@
 #include "GraphGenerator.h"
 #include "BruteForce.h"
 #include "HeldKarp.h"
+#include "BranchAndBound.h"
 
 class Menu
 {
@@ -23,6 +24,7 @@ private:
 	AdjMatrix* graph;
 	BruteForce* brut;
 	HeldKarp* held;
+	BranchAndBound* branch;
 
 	void tests();
 	void readData();
@@ -31,6 +33,7 @@ private:
 	void heldKarp();
 	void reading();
 	void generator();
+	void BnB();
 };
 
 #endif // !Menu_h

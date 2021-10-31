@@ -129,18 +129,6 @@ void HeldKarp::algorithm()
 			comb->update();
 		}
 	}
-	for (int i = 1; i < this->matrix->getV(); i++) {
-		this->Tab[i]->showList();
-	}
-	
-	/*for (int i = 0; i < 6; i++) {
-		std::cout << i << ". ";
-		this->Tab[2]->getElement(i)->solution->getSet()->showList();
-		std::cout << "\n";
-	}
-	std::cout << "Zbior: ";
-	this->Tab[3]->getHead()->next->solution->getSet()->showList();
-	std::cout << "\n" << "Cel: " << this->Tab[3]->getHead()->next->solution->getDestination();*/
 }
 
 //Powinno byæ gotowe
@@ -161,65 +149,3 @@ void HeldKarp::prepare() {
 		std::cout << "\n";
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-void HeldKarp::update() {
-	this->firstTab = this->secondTab;
-	this->firstTabLength = this->SecondTabLength;
-	this->SecondTabLength = (int)this->lib->Newton(this->ListOfNodes->getCount(),this->sizeOfSet);
-	this->secondTab = new ListOfPartials * [SecondTabLength];
-	for (int i = 0; i < SecondTabLength; i++) {
-		//Nowo tworzona lista powinna mieæ rozmiar:
-		//this->ListOfNodes->getCount() - this->sizeOfSet - 1
-		secondTab[i] = new ListOfPartials();
-	}
-}*/
-
-/*
-void HeldKarp::iteration() {
-	update();
-
-	for (currentSet = 0; currentSet < this->firstTabLength; currentSet++) {
-		iterationForSet();
-	}
-}*/
-
-/*void HeldKarp::iterationForSet() {
-	for (int i = 0; i < firstTab[currentSet]->getSize(); i++) {
-
-		//this->firstTab[currentSet]->getElement(i)->solution.getSet()->addAtTheEnd()
-		PartialSolution &list = this->firstTab[currentSet]->getElement(i)->solution;
-		//this->firstTab[currentSet]->getElement(i)->solution.getSet()->addAtTheEnd();
-		list.getSet()->addAtTheEnd(list.getDestination());
-		list.getNodes()->addAtTheEnd(list.getDestination());
-
-		BiList* unusedNodes = new BiList();
-		const int n = this->matrix->getV() - 1;
-		const int k = list.getNodes()->getCount();
-
-		for (int i = 1; i < this->matrix->getV(); i++) {
-			if (list.getSet()->searchKey(i) != -1) {
-
-			}
-			else {
-				unusedNodes->addAtTheEnd(i);
-			}
-		}
-
-		for (int j = 0; j < unusedNodes->getCount(); j++) {
-
-		}
-	}
-}*/

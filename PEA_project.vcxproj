@@ -143,6 +143,7 @@
     <ClInclude Include="AdjMatrix.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Array.h" />
+    <ClInclude Include="BranchAndBound.h" />
     <ClInclude Include="Combinations.h" />
     <ClInclude Include="ListOfPartials.h" />
     <ClInclude Include="BiList.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="AdjMatrix.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Array.cpp" />
+    <ClCompile Include="BranchAndBound.cpp" />
     <ClCompile Include="Combinations.cpp" />
     <ClCompile Include="ListOfPartials.cpp" />
     <ClCompile Include="ATSPFileReader.cpp" />
