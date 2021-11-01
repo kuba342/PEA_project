@@ -14,6 +14,7 @@ public:
 	bool hasNext();
 	void print();
 	void update();
+	int searchKey(int key);
 	//Gettery
 	int* getTab();
 	int* getSolution();

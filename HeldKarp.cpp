@@ -98,9 +98,9 @@ void HeldKarp::algorithm()
 				//Iterujê przez wszystkie elementy poprzedniej listy
 				element* pointer = this->Tab[size - 1]->getHead();
 				while (pointer != nullptr) {
-					if (pointer->solution->getDestination() != actualK) {
+					if (pointer->solution->getDestination() != actualK && (comb->searchKey(pointer->solution->getDestination()) != -1)) {
 						//jeœli nie ma wierzcho³ka analizowanego w zbiorze:
-						if ( (pointer->solution->getSet()->searchKey(actualK) == -1) && (this->table[actualK][pointer->solution->getDestination()] == false) ) {
+						if ( (pointer->solution->getSet()->searchKey(actualK) == -1) /* && (this->table[actualK][pointer->solution->getDestination()] == false)*/  ) {
 							//Liczê now¹ wagê œcie¿ki:
 							//std::cout << "K = " << actualK << "\n";
 							//std::cout << pointer->solution->getDestination() << "\n";

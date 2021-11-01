@@ -99,7 +99,6 @@ void Menu::heldKarp() {
 	std::cin.get();
 	std::cin.get();*/
 	if (this->graph != nullptr) {
-		delete this->held;
 		system("cls");
 
 		this->held = new HeldKarp(this->graph);
@@ -123,7 +122,6 @@ void Menu::heldKarp() {
 
 void Menu::bruteForce() {
 	if (this->graph != nullptr) {
-		delete this->brut;
 		system("cls");
 		this->brut = new BruteForce(this->graph);
 		
@@ -186,7 +184,6 @@ void Menu::BnB()
 {
 	if (this->graph != nullptr) {
 		system("cls");
-		delete this->branch;
 		this->branch = new BranchAndBound(this->graph);
 
 		this->branch->calculate();

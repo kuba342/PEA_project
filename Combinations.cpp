@@ -63,6 +63,16 @@ void Combinations::update()
 	}
 }
 
+int Combinations::searchKey(int key)
+{
+	for (int i = 0; i < this->k; i++) {
+		if (this->solution[i] == key) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 int* Combinations::getTab()
 {
 	return this->Tab;
