@@ -9,6 +9,7 @@ HeldKarp::HeldKarp()
 	this->Tab = new ListOfPartials*[1];
 	this->shortest = nullptr;
 	this->table = nullptr;
+	this->Comb = nullptr;
 }
 
 HeldKarp::HeldKarp(AdjMatrix* matrix) {
@@ -21,6 +22,7 @@ HeldKarp::HeldKarp(AdjMatrix* matrix) {
 		this->Tab[i] = new ListOfPartials();
 	}
 	this->shortest = nullptr;
+	this->Comb = nullptr;
 	this->table = new bool* [this->matrix->getV() + 1];
 	for (int i = 0; i <= this->matrix->getV(); i++) {
 		this->table[i] = new bool[this->matrix->getV() + 1];
@@ -41,7 +43,7 @@ HeldKarp::~HeldKarp()
 
 void HeldKarp::calculate() {
 	prepare();
-	algorithm();
+	algorithm2();
 	countShortest();
 }
 
@@ -127,6 +129,63 @@ void HeldKarp::algorithm()
 			}
 			comb->update();
 		}
+		delete comb;
+	}
+}
+
+void HeldKarp::algorithm2() {
+	//Generuj kombinacje o rozmiarze
+	for (int size = 2; size < this->matrix->getV(); size++) {
+		this->Comb = new Combinations(this->matrix->getV() - 1, size);
+		//Dla ka¿dego podzbioru kombinacji po k
+		while (this->Comb->hasNext()) {
+			//Iterujê po ka¿dym elemencie podzbioru
+			for (int i = 0; i < size; i++) {
+				//wyznaczam ten element
+				int actualK = this->Comb->getSolution()[i];
+				//Nowe rozwi¹zanie:
+				PartialSolution* newPartial = new PartialSolution(this->matrix, size);
+				newPartial->setDestination(actualK);
+				//Iterujê przez wszystkie elementy poprzedniej listy
+				element* pointer = this->Tab[size - 1]->getHead();
+				while (pointer != nullptr) {
+					if (pointer->solution->getDestination() == actualK || this->Comb->searchKey(pointer->solution->getDestination()) == -1) {
+						pointer = pointer->next;
+						continue;
+					}
+					//Muszê zrobiæ porównywanie zbiorów!!!!
+					/*bool result = true;
+					for (int j = 0; j < size; j++) {
+						if (this->Comb->getSolution()[i] != actualK) {
+							if (pointer->solution->getSet()->searchKey(this->Comb->getSolution()[i]) == -1) {
+								result = false;
+							}
+						}
+					}
+					if (result == false) {
+						pointer = pointer->next;
+						continue;
+					}*/
+					int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(), actualK);
+					//Aktualizujê nowe rozwi¹zanie:
+					if (weight < newPartial->getSumOfWeights()) {
+						newPartial->deleteSet();
+						for (int i = 0; i < pointer->solution->getSet()->getCount(); i++) {
+							newPartial->getSet()->addAtTheEnd(pointer->solution->getSet()->getElement(i)->key);
+						}
+						newPartial->setSumOfWeights(weight);
+						newPartial->setPrevious(pointer->solution);
+						newPartial->setOneBeforeLast(pointer->solution->getDestination());
+					}
+					pointer = pointer->next;
+				}
+				if (newPartial->getOneBeforeLast() != INT_MAX) {
+					newPartial->getSet()->addAtTheEnd(actualK);
+					this->Tab[size]->addAtTheEnd(newPartial);
+				}
+			}
+			this->Comb->update();
+		}
 	}
 }
 
@@ -134,17 +193,12 @@ void HeldKarp::algorithm()
 void HeldKarp::prepare() {
 	for (int i = 1; i < this->matrix->getV(); i++) {
 		int input = this->matrix->distance(0, i);
-		PartialSolution* sol = new PartialSolution(this->matrix, this->sizeOfSet);
-		this->Tab[sizeOfSet]->addAtTheEnd(sol);
-		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setSumOfWeights(input);
-		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setDestination(i);
-		this->Tab[sizeOfSet]->getElement(i - 1)->solution->setOneBeforeLast(0);
-		this->Tab[sizeOfSet]->getElement(i - 1)->solution->getSet()->addAtTheEnd(i);
-	}
-	this->sizeOfSet = this->sizeOfSet + 1;
-	for (int i = 0; i < this->matrix->getV()-1; i++) {
-		std::cout << i << ". ";
-		this->Tab[1]->getElement(i)->solution->getSet()->showList();
-		std::cout << "\n";
+		PartialSolution* sol = new PartialSolution(this->matrix, 1);
+		this->Tab[1]->addAtTheEnd(sol);
+		this->Tab[1]->getElement(i - 1)->solution->setSumOfWeights(input);
+		this->Tab[1]->getElement(i - 1)->solution->setDestination(i);
+		this->Tab[1]->getElement(i - 1)->solution->setOneBeforeLast(0);
+		this->Tab[1]->getElement(i - 1)->solution->getSet()->addAtTheEnd(i);
 	}
 }
+

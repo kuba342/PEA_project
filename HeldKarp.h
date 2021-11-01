@@ -28,7 +28,7 @@ private:
 	ListOfPartials** Tab;
 	PartialSolution* shortest;
 	bool** table;
-
+	Combinations* Comb;
 	//ListOfPartials** firstTab;
 	//int firstTabLength;
 	//ListOfPartials** secondTab;
@@ -38,11 +38,8 @@ private:
 	//int currentSet;
 
 	void algorithm();
+	void algorithm2();
 	void prepare();
-	void update();
-	void iteration();
-	void iterationForSet();
-	void deletTable();
 };
 
 #endif // !HeldKarp_h
