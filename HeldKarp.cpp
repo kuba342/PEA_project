@@ -154,10 +154,10 @@ void HeldKarp::algorithm2() {
 						continue;
 					}
 					//Muszê zrobiæ porównywanie zbiorów!!!!
-					/*bool result = true;
+					bool result = true;
 					for (int j = 0; j < size; j++) {
-						if (this->Comb->getSolution()[i] != actualK) {
-							if (pointer->solution->getSet()->searchKey(this->Comb->getSolution()[i]) == -1) {
+						if (this->Comb->getSolution()[j] != actualK) {
+							if (pointer->solution->getSet()->searchKey(this->Comb->getSolution()[j]) == -1) {
 								result = false;
 							}
 						}
@@ -165,7 +165,7 @@ void HeldKarp::algorithm2() {
 					if (result == false) {
 						pointer = pointer->next;
 						continue;
-					}*/
+					}
 					int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(), actualK);
 					//Aktualizujê nowe rozwi¹zanie:
 					if (weight < newPartial->getSumOfWeights()) {
