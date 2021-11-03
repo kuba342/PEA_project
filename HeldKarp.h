@@ -9,6 +9,7 @@
 #include "PartialSolution.h"
 #include "Additional.h"
 #include "Combinations.h"
+#include "Partial.h"
 
 class HeldKarp
 {
@@ -29,6 +30,11 @@ private:
 	PartialSolution* shortest;
 	bool** table;
 	Combinations* Comb;
+	
+	
+	bool* visited;
+	Partial* tsp;
+	Array* tspN;
 	//ListOfPartials** firstTab;
 	//int firstTabLength;
 	//ListOfPartials** secondTab;
@@ -39,6 +45,9 @@ private:
 
 	void algorithm();
 	void algorithm2();
+	void algorithm3();
+	void algorithm4();
+	Partial* TSP(Array* N, int begin);
 	void prepare();
 };
 

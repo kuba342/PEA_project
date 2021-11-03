@@ -10,6 +10,9 @@ HeldKarp::HeldKarp()
 	this->shortest = nullptr;
 	this->table = nullptr;
 	this->Comb = nullptr;
+	this->visited = nullptr;
+	this->tsp = nullptr;
+	this->tspN = nullptr;
 }
 
 HeldKarp::HeldKarp(AdjMatrix* matrix) {
@@ -27,6 +30,12 @@ HeldKarp::HeldKarp(AdjMatrix* matrix) {
 	for (int i = 0; i <= this->matrix->getV(); i++) {
 		this->table[i] = new bool[this->matrix->getV() + 1];
 	}
+	this->visited = new bool[matrix->getV()];
+	this->tsp = nullptr;
+	this->tspN = new Array();
+	for (int i = 0; i < this->matrix->getV(); i++) {
+		this->tspN->addAtTheEnd(i);
+	}
 }
 
 HeldKarp::~HeldKarp()
@@ -42,8 +51,18 @@ HeldKarp::~HeldKarp()
 }
 
 void HeldKarp::calculate() {
+	/*for (int i = 0; i < matrix->getV(); i++) {
+		visited[i] = false;
+	}
+	this->tsp = new Partial();
+	this->tsp = TSP(this->tspN, 0);
+	std::cout << "Dest = " << tsp->getDestination() << "\n";
+	tsp->getList()->showArray();
+	std::cout << "Cost = " << tsp->getCost();
+	std::cin.get();
+	std::cin.get();*/
 	prepare();
-	algorithm2();
+	algorithm4();
 	countShortest();
 }
 
@@ -188,6 +207,170 @@ void HeldKarp::algorithm2() {
 		}
 	}
 }
+
+
+void HeldKarp::algorithm3() {
+	for (int size = 2; size < this->matrix->getV()-1; size++) {
+		//Iterujê przez wszystkie elementy poprzedniego zbioru:
+		element* pointer = this->Tab[size-1]->getHead();
+		while (pointer != nullptr) {
+			for (int i = 0; i < pointer->solution->getSet()->getCount(); i++) {
+
+			}
+			pointer = pointer->next;
+		}
+	}
+}
+
+void HeldKarp::algorithm4() {
+	//Generuj kombinacje o rozmiarze
+	for (int size = 2; size < this->matrix->getV(); size++) {
+		this->Comb = new Combinations(this->matrix->getV() - 1, size);
+		bool* visited = new bool[this->matrix->getV()];
+		for (int w = 0; w < this->matrix->getV(); w++) {
+			visited[w] = false;
+		}
+		//Dla ka¿dego podzbioru kombinacji po k
+		while (this->Comb->hasNext()) {
+			//Iterujê po ka¿dym elemencie podzbioru
+			for (int i = 0; i < size; i++) {
+				//wyznaczam ten element
+				int actualK = this->Comb->getSolution()[i];
+				//visited[actualK] = true;
+				//Nowe rozwi¹zanie:
+				PartialSolution* newPartial = new PartialSolution(this->matrix, size);
+				newPartial->setDestination(actualK);
+				//Iterujê przez wszystkie elementy poprzedniej listy
+				element* pointer = this->Tab[size - 1]->getHead();
+				while (pointer != nullptr) {
+					if (pointer->solution->getDestination() == actualK /* || this->Comb->searchKey(pointer->solution->getDestination()) == -1*/) {
+						pointer = pointer->next;
+						continue;
+					}
+					//Muszê zrobiæ porównywanie zbiorów!!!!
+					if (visited[pointer->solution->getDestination()] == true) {
+						pointer = pointer->next;
+						continue;
+					}
+					bool result = true;
+					for (int j = 0; j < size; j++) {
+						if (this->Comb->getSolution()[j] != actualK) {
+							if (pointer->solution->getSet()->searchKey(this->Comb->getSolution()[j]) == -1) {
+								result = false;
+							}
+						}
+					}
+					if (result == false) {
+						pointer = pointer->next;
+						continue;
+					}
+					int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(), actualK);
+					//Aktualizujê nowe rozwi¹zanie:
+					if (weight < newPartial->getSumOfWeights()) {
+						newPartial->deleteSet();
+						for (int i = 0; i < pointer->solution->getSet()->getCount(); i++) {
+							newPartial->getSet()->addAtTheEnd(pointer->solution->getSet()->getElement(i)->key);
+						}
+						newPartial->setSumOfWeights(weight);
+						newPartial->setPrevious(pointer->solution);
+						newPartial->setOneBeforeLast(pointer->solution->getDestination());
+					}
+					pointer = pointer->next;
+				}
+				if (newPartial->getOneBeforeLast() != INT_MAX) {
+					newPartial->getSet()->addAtTheEnd(actualK);
+					this->Tab[size]->addAtTheEnd(newPartial);
+					visited[actualK] = true;
+				}
+			}
+			this->Comb->update();
+		}
+	}
+}
+
+/*Partial HeldKarp::TSP(Array N, int begin) {
+	Partial cost;
+	this->visited[begin] = true;
+	if (N.getSize() == 2) {
+		for (int k = 0; k < N.getSize(); k++) {
+			if (k != begin) {
+				cost.setList(N);
+				cost.setDestination(k);
+				cost.setCost(this->matrix->distance(begin, k));
+				return cost;
+			}
+		}
+	}
+	else {
+		for (int j = 0; j < N.getSize(); j++) {
+			for (int i = 0; i < N.getSize(); i++) {
+				if (j != i && j != begin) {
+					Array list;
+					//Przepisujê listê bez i
+					for (int n = 0; n < N.getSize(); n++) {
+						if (n != i) {
+							list.addAtTheEnd(N.getTable()[n]);
+						}
+					}
+					//Wyznaczam rekurencyjnie TSP
+					Partial prev;
+					prev = TSP(list, j);
+					int weight = prev.getCost() + this->matrix->distance(j, i);
+					if (weight < cost.getCost()) {
+						//Aktualizujê rozwi¹zanie
+						cost.setDestination(j);
+						cost.setList(list);
+						cost.setCost(weight);
+					}
+					this->visited[j] = true;
+				}
+			}
+		}
+	}
+	return cost;
+}*/
+
+Partial* HeldKarp::TSP(Array* N, int begin) {
+	Partial* cost = new Partial();
+	this->visited[begin] = true;
+	if (N->getSize() == 2) {
+		for (int k = 0; k < N->getSize(); k++) {
+			if (N->getTable()[k] != begin) {
+				cost->setList(N);
+				cost->setDestination(N->getTable()[k]);
+				cost->setCost(this->matrix->distance(begin, N->getTable()[k]));
+				return cost;
+			}
+		}
+	}
+	else {
+		for (int j = 0; j < N->getSize(); j++) {
+			for (int i = 0; i < N->getSize(); i++) {
+				if (N->getTable()[j] != N->getTable()[i] && N->getTable()[j] != begin) {
+					Array* list = new Array();
+					//Przepisujê listê bez i
+					for (int n = 0; n < N->getSize(); n++) {
+						if (N->getTable()[n] != N->getTable()[i]) {
+							list->addAtTheEnd(N->getTable()[n]);
+						}
+					}
+					//Wyznaczam rekurencyjnie TSP
+					Partial* prev = TSP(list, N->getTable()[j]);
+					int weight = prev->getCost() + this->matrix->distance(N->getTable()[j], N->getTable()[i]);
+					if (weight < cost->getCost()) {
+						//Aktualizujê rozwi¹zanie
+						cost->setDestination(N->getTable()[j]);
+						cost->setList(list);
+						cost->setCost(weight);
+					}
+					this->visited[N->getTable()[j]] = true;
+				}
+			}
+		}
+	}
+	return cost;
+}
+
 
 //Powinno byæ gotowe
 void HeldKarp::prepare() {

@@ -155,6 +155,7 @@
     <ClInclude Include="HeldKarp.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Partial.h" />
     <ClInclude Include="PartialSolution.h" />
     <ClInclude Include="Permutation.h" />
   </ItemGroup>
@@ -176,6 +177,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Partial.cpp" />
     <ClCompile Include="PartialSolution.cpp" />
     <ClCompile Include="Permutation.cpp" />
   </ItemGroup>
