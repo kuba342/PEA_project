@@ -60,3 +60,10 @@ AdjMatrix* GraphGenerator::generate(AdjMatrix* graph) {
 		return nullptr;
 	}
 }
+
+AdjMatrix* GraphGenerator::generate(AdjMatrix* graph, int V) {
+	this->graph = graph;
+	this->V = V;
+	generating();
+	return this->graph;
+}

@@ -15,6 +15,7 @@ public:
 	~GraphGenerator();
 
 	AdjMatrix* generate(AdjMatrix* graph=nullptr);
+	AdjMatrix* generate(AdjMatrix* graph, int V);
 
 private:
 	int V;

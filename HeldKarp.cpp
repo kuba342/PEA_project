@@ -33,19 +33,15 @@ HeldKarp::~HeldKarp()
 		delete this->Tab[i];
 	}
 	delete this->Tab;
+	delete this->matrix;
+	delete this->lib;
+	for (int i = 0; i <= matrix->getV(); i++) {
+		delete this->goalIndexes[i];
+	}
+	delete this->goalIndexes;
 }
 
 void HeldKarp::calculate() {
-	/*for (int i = 0; i < matrix->getV(); i++) {
-		visited[i] = false;
-	}
-	this->tsp = new Partial();
-	this->tsp = TSP(this->tspN, 0);
-	std::cout << "Dest = " << tsp->getDestination() << "\n";
-	tsp->getList()->showArray();
-	std::cout << "Cost = " << tsp->getCost();
-	std::cin.get();
-	std::cin.get();*/
 	prepare();
 	algorithm5();
 	countShortest();
@@ -55,6 +51,7 @@ void HeldKarp::showShortestCycle() {
 	if (this->shortest != nullptr) {
 		std::cout << "Weight = " << this->shortest->getSumOfWeights() << "\n";
 		this->shortest->getSet()->showList();
+		std::cout << "\n";
 	}
 	else {
 		return;
@@ -76,6 +73,8 @@ void HeldKarp::countShortest()
 			this->shortest->setSumOfWeights(weight);
 			this->shortest->setPrevious(pointer->solution);
 			this->shortest->setOneBeforeLast(pointer->solution->getDestination());
+			this->shortest->getSet()->addAtTheBeginning(0);
+			this->shortest->getSet()->addAtTheEnd(0);
 		}
 		pointer = pointer->next;
 	}

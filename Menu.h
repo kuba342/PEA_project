@@ -12,6 +12,9 @@
 #include "BruteForce.h"
 #include "HeldKarp.h"
 #include "BranchAndBound.h"
+#include "Additional.h"
+#include <string>
+#include "clock.h"
 
 class Menu
 {
@@ -25,8 +28,11 @@ private:
 	BruteForce* brut;
 	HeldKarp* held;
 	BranchAndBound* branch;
+	Additional* lib;
+	Clock* clock;
 
 	void tests();
+	void generateResults(char decision, int v);
 	void readData();
 	void showGraph();
 	void bruteForce();

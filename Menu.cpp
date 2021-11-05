@@ -8,6 +8,8 @@ Menu::Menu()
 	this->brut = nullptr;
 	this->held = nullptr;
 	this->branch = nullptr;
+	this->lib = new Additional();
+	this->clock = new Clock();
 }
 
 Menu::~Menu()
@@ -16,7 +18,128 @@ Menu::~Menu()
 }
 
 void Menu::tests() {
+	int v = 0;
+	char decision1;
+	std::string bufor;
+
+	do {
+		system("cls");
+		std::cout << "Ile wierzcholkow maja miec instancje? (minimum 3)\n"
+				  << "Wprowadz liczbe: ";
+		std::cin >> bufor;
+		fflush(stdin);
+		if (this->lib->isNum(bufor)) {
+			int number = std::stoi(bufor);
+			if (number > 2) {
+				v = number;
+			}
+			else {
+				system("cls");
+				std::cout << "Wprowadzono niepoprawne dane!";
+				Sleep(2);
+			}
+		}
+		else {
+			system("cls");
+			std::cout << "Wprowadzono niepoprawne dane!";
+			Sleep(2);
+		}
+	} while (v == 0);
+
+	do {
+		system("cls");
+		std::cout << "Ktory algorytm problemu komiwojazera przeanalizowac?\n"
+				  << "1. Brute Force\n"
+				  << "2. Programowanie dynamiczne\n"
+				  << "3. Metoda podzialu i ograniczen\n"
+				  << "Wprowadz numer algorytmu: ";
+		std::cin >> decision1;
+		fflush(stdin);
+		switch (decision1) {
+		case '1':
+			generateResults(decision1, v);
+			break;
+		case '2':
+			generateResults(decision1, v);
+			break;
+		case '3':
+			generateResults(decision1, v);
+			break;
+		default:
+			decision1 = ' ';
+			system("cls");
+			std::cout << "Niepoprawny znak!\n"
+					  << "Operacja anulowana!";
+			Sleep(2);
+			break;
+		}
+	} while (decision1 == ' ');
+}
+
+void Menu::generateResults(char decision, int v) {
+	//Liczba prób narzucona przez prowadz¹cego:
+	int count = 100;
+	//Tabela na rezultaty
+	long long* results = new long long[count];
+
+	for (int i = 0; i < count; i++) {
+		results[i] = 0;
+	}
+
+	GraphGenerator* generator = new GraphGenerator();
 	
+	system("cls");
+	std::cout << "Process: ";
+
+	for (int i = 0; i < count; i++) {
+		do {
+			this->graph = generator->generate(this->graph, v);
+			switch (decision) {
+			case '1':
+				this->brut = new BruteForce(this->graph);
+				this->clock->startTime();
+				this->brut->calculate();
+				this->clock->endTime();
+				results[i] = this->clock->executionTime();
+				delete this->brut;
+				break;
+			case '2':
+				this->held = new HeldKarp(this->graph);
+				this->clock->startTime();
+				this->held->calculate();
+				this->clock->endTime();
+				results[i] = this->clock->executionTime();
+				delete this->held;
+				break;
+			case '3':
+				this->branch = new BranchAndBound(this->graph);
+				this->clock->startTime();
+				this->branch->calculate();
+				this->clock->endTime();
+				results[i] = this->clock->executionTime();
+				delete this->branch;
+				break;
+			}
+		} while (results[i] == 0);
+		if (i % 2 == 0) {
+			std::cout << "|";
+		}
+	}
+
+	system("cls");
+	std::cout << "Tablica rezultatow:\n"
+		<< "Tab = [";
+	for (int i = 0; i < count; i++) {
+		std::cout << " " << results[i] << " ";
+	}
+	std::cout << "]\n\n";
+	std::cout << "Srednia: "
+		<< this->lib->average(results, count)
+		<< "\n\n";
+	std::cout << "Wcisnij Enter, aby kontynuowac!";
+	std::cin.get();
+	std::cin.get();
+	fflush(stdin);
 }
 
 void Menu::reading() {
