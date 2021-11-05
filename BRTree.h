@@ -27,6 +27,8 @@ public:
     void rightRotate(Node* node);
     void addElement(int value);
     void deleteElement(int value);
+    bool contains(int key);
+    void recursiveDestructor(Node* node);
 
     //GETTERY
     Node* getRoot();

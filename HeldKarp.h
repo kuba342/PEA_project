@@ -29,10 +29,7 @@ private:
 	PartialSolution* shortest;
 	Combinations* Comb;
 	BiList** goalIndexes;
-	
-	bool* visited;
-	Partial* tsp;
-	Array* tspN;
+
 	//ListOfPartials** firstTab;
 	//int firstTabLength;
 	//ListOfPartials** secondTab;
@@ -44,7 +41,8 @@ private:
 	void algorithm2();
 	void algorithm3();
 	void algorithm4();
-	Partial* TSP(Array* N, int begin);
+	void algorithm5();
+	void algorithm6();
 	void prepare();
 };
 

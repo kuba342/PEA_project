@@ -5,6 +5,7 @@
 #include "Array.h"
 #include "AdjMatrix.h"
 #include "BiList.h"
+#include "BRTree.h"
 
 class PartialSolution
 {
@@ -19,6 +20,7 @@ public:
 	int getSumOfWeights();
 	int getOneBeforeLast();
 	BiList* getSet();
+	BRTree* getNodes();
 	//BiList* getNodes();
 	//Settery
 	void setDestination(int destination);
@@ -32,6 +34,7 @@ private:
 	int destination;
 	int sumOfWeight;
 	int oneBeforeLast;
+	BRTree* nodes;
 	BiList* set;
 	//BiList* nodes;
 	AdjMatrix* matrix;

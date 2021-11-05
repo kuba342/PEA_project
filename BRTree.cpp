@@ -11,7 +11,8 @@ BRTree::BRTree() {
 }
 
 BRTree::~BRTree() {
-    delete this->root;
+    recursiveDestructor(this->root);
+    delete this->NIL;
 }
 
 
@@ -35,6 +36,10 @@ Node* BRTree::treeSearch(Node* node, int k) {
     else {
         return treeSearch(node->getRight(), k);
     }
+}
+
+bool BRTree::contains(int key) {
+    return this->treeSearch(this->root, key) != this->NIL;
 }
 
 Node* BRTree::treeMinimum(Node* node) {
@@ -424,6 +429,14 @@ void BRTree::deleteElement(int value) {
         z->setColor('B');
         delete y;
     }
+}
+
+void BRTree::recursiveDestructor(Node* node) {
+    if (node == NIL)
+        return;
+    recursiveDestructor(node->getLeft());
+    recursiveDestructor(node->getRight());
+    delete node;
 }
 
 //GETTERY

@@ -12,6 +12,7 @@ PartialSolution::PartialSolution()
 	this->matrix = nullptr;
 	this->s = 0;
 	this->previous = nullptr;
+	this->nodes = nullptr;
 }
 
 PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
@@ -24,11 +25,13 @@ PartialSolution::PartialSolution(AdjMatrix* matrix, int s)
 	this->matrix = matrix;
 	this->s = s;
 	this->previous = nullptr;
+	this->nodes = new BRTree();
 }
 
 PartialSolution::~PartialSolution()
 {
 	delete this->set;
+	delete this->nodes;
 }
 
 
@@ -57,6 +60,11 @@ int PartialSolution::getOneBeforeLast()
 BiList* PartialSolution::getSet()
 {
 	return this->set;
+}
+
+BRTree* PartialSolution::getNodes()
+{
+	return this->nodes;
 }
 
 /*BiList* PartialSolution::getNodes()

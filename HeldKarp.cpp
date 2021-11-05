@@ -8,9 +8,6 @@ HeldKarp::HeldKarp()
 	this->Tab = new ListOfPartials*[1];
 	this->shortest = nullptr;
 	this->Comb = nullptr;
-	this->visited = nullptr;
-	this->tsp = nullptr;
-	this->tspN = nullptr;
 	this->goalIndexes = nullptr;
 }
 
@@ -24,12 +21,6 @@ HeldKarp::HeldKarp(AdjMatrix* matrix) {
 	}
 	this->shortest = nullptr;
 	this->Comb = nullptr;
-	this->visited = new bool[matrix->getV()];
-	this->tsp = nullptr;
-	this->tspN = new Array();
-	for (int i = 0; i < this->matrix->getV(); i++) {
-		this->tspN->addAtTheEnd(i);
-	}
 	this->goalIndexes = new BiList * [this->matrix->getV()+1];
 	for (int i = 0; i <= matrix->getV(); i++) {
 		this->goalIndexes[i] = new BiList();
@@ -56,7 +47,7 @@ void HeldKarp::calculate() {
 	std::cin.get();
 	std::cin.get();*/
 	prepare();
-	algorithm4();
+	algorithm5();
 	countShortest();
 }
 
@@ -294,93 +285,157 @@ void HeldKarp::algorithm4() {
 	}
 }
 
+void HeldKarp::algorithm5()
+{
+	// https://core.ac.uk/download/pdf/154419746.pdf
+	//Dla ka¿dego rozmiaru podzbioru:
+	for (int size = 2; size < this->matrix->getV(); size++) {
+		this->Comb = new Combinations(this->matrix->getV() - 1, size);
+		//Dla ka¿dego podzbioru o rozmiarze:
+		while (this->Comb->hasNext()) {
+			//Dla ka¿dego elementu nale¿¹cego do podzbioru:
+			for (int w = 0; w < size; w++) {
+				PartialSolution* newPartial = new PartialSolution(this->matrix, size);
+				int actualW = this->Comb->getSolution()[w];
+				newPartial->setDestination(actualW);
+				//Dla ka¿dego elementu ró¿nego od w:
+				for (int u = 0; u < size; u++) {
+					//Tu mo¿e byæ tak zrobione, poniewa¿ iterujê po tej samej tablicy
+					if (u != w) {
+						int actualU = this->Comb->getSolution()[u];
+						//Iterujê przez poprzedni¹ listê w poszukiwaniu S\{w}
+						element* pointer = this->Tab[size - 1]->getHead();
+						while (pointer != nullptr) {
+							if (pointer->solution->getDestination() != actualU) {
+								pointer = pointer->next;
+								continue;
+							}
+							//Porównanie znalezionego zbioru:
+							bool result = true;
+							for (int j = 0; j < size; j++) {
+								if (this->Comb->getSolution()[j] != actualW) {
+									if (pointer->solution->getNodes()->contains(this->Comb->getSolution()[j]) == false) {
+										result = false;
+										break;
+									}
+								}
+							}
+							if (result == false) {
+								pointer = pointer->next;
+								continue;
+							}
+							//Obliczenie wagi nowego rozwi¹zania:
+							int weight = pointer->solution->getSumOfWeights() + this->matrix->distance(pointer->solution->getDestination(), actualW);
+							//Aktualizujê nowe rozwi¹zanie:
+							if (weight < newPartial->getSumOfWeights()) {
+								newPartial->deleteSet();
+								for (int i = 0; i < pointer->solution->getSet()->getCount(); i++) {
+									newPartial->getSet()->addAtTheEnd(pointer->solution->getSet()->getElement(i)->key);
+									newPartial->getNodes()->addElement(pointer->solution->getSet()->getElement(i)->key);
+								}
+								newPartial->setSumOfWeights(weight);
+								newPartial->setPrevious(pointer->solution);
+								newPartial->setOneBeforeLast(pointer->solution->getDestination());
+							}
 
-
-
-
-
-
-/*Partial HeldKarp::TSP(Array N, int begin) {
-	Partial cost;
-	this->visited[begin] = true;
-	if (N.getSize() == 2) {
-		for (int k = 0; k < N.getSize(); k++) {
-			if (k != begin) {
-				cost.setList(N);
-				cost.setDestination(k);
-				cost.setCost(this->matrix->distance(begin, k));
-				return cost;
-			}
-		}
-	}
-	else {
-		for (int j = 0; j < N.getSize(); j++) {
-			for (int i = 0; i < N.getSize(); i++) {
-				if (j != i && j != begin) {
-					Array list;
-					//Przepisujê listê bez i
-					for (int n = 0; n < N.getSize(); n++) {
-						if (n != i) {
-							list.addAtTheEnd(N.getTable()[n]);
+							pointer = pointer->next;
 						}
 					}
-					//Wyznaczam rekurencyjnie TSP
-					Partial prev;
-					prev = TSP(list, j);
-					int weight = prev.getCost() + this->matrix->distance(j, i);
-					if (weight < cost.getCost()) {
-						//Aktualizujê rozwi¹zanie
-						cost.setDestination(j);
-						cost.setList(list);
-						cost.setCost(weight);
-					}
-					this->visited[j] = true;
+				}
+				//Dodanie nowego rozwi¹zania czêœciowego do listy:
+				if (newPartial->getOneBeforeLast() != INT_MAX) {
+					newPartial->getSet()->addAtTheEnd(actualW);
+					newPartial->getNodes()->addElement(actualW);
+					this->Tab[size]->addAtTheEnd(newPartial);
 				}
 			}
+			this->Comb->update();
 		}
 	}
-	return cost;
-}*/
+}
 
-Partial* HeldKarp::TSP(Array* N, int begin) {
-	Partial* cost = new Partial();
-	this->visited[begin] = true;
-	if (N->getSize() == 2) {
-		for (int k = 0; k < N->getSize(); k++) {
-			if (N->getTable()[k] != begin) {
-				cost->setList(N);
-				cost->setDestination(N->getTable()[k]);
-				cost->setCost(this->matrix->distance(begin, N->getTable()[k]));
-				return cost;
+void HeldKarp::algorithm6()
+{
+	// Zmodyfikowana wersja - przez jednokrotne przeszukiwanie listy i zachowanie indeksów u
+	// https://core.ac.uk/download/pdf/154419746.pdf
+	//Dla ka¿dego rozmiaru podzbioru:
+	for (int size = 2; size < this->matrix->getV(); size++) {
+		this->Comb = new Combinations(this->matrix->getV() - 1, size);
+		//Dla ka¿dego podzbioru o rozmiarze:
+		while (this->Comb->hasNext()) {
+			//Tablica, która przechowuje listy indeksów z wierzcho³kami docelowymi:
+			//Jednokrotnie przechodzê j¹ w poszukiwaniu indeksów
+			element* pointer = this->Tab[size - 1]->getHead();
+			int INDEX = 0;
+			while (pointer != nullptr) {
+				int value = pointer->solution->getDestination();
+				this->goalIndexes[value]->addAtTheEnd(INDEX);
+				INDEX++;
+				pointer = pointer->next;
 			}
-		}
-	}
-	else {
-		for (int j = 0; j < N->getSize(); j++) {
-			for (int i = 0; i < N->getSize(); i++) {
-				if (N->getTable()[j] != N->getTable()[i] && N->getTable()[j] != begin) {
-					Array* list = new Array();
-					//Przepisujê listê bez i
-					for (int n = 0; n < N->getSize(); n++) {
-						if (N->getTable()[n] != N->getTable()[i]) {
-							list->addAtTheEnd(N->getTable()[n]);
+			//ZASADNICZA CZÊŒÆ ALGORYTMU:
+			//Dla ka¿dego elementu nale¿¹cego do podzbioru:
+			for (int w = 0; w < size; w++) {
+				PartialSolution* newPartial = new PartialSolution(this->matrix, size);
+				int actualW = this->Comb->getSolution()[w];
+				newPartial->setDestination(actualW);
+				//Dla ka¿dego elementu ró¿nego od w:
+				for (int u = 0; u < size; u++) {
+					//Tu mo¿e byæ tak zrobione, poniewa¿ iterujê po tej samej tablicy
+					if (u != w) {
+						int actualU = this->Comb->getSolution()[u];
+						//Teraz iterujê jedynie przez listê z konkretnymi indeksami celu:
+						listElement* pointer2 = this->goalIndexes[actualU]->getHead();
+						while (pointer2 != nullptr) {
+							//Porównanie zbioru dla wierzcho³ka docelowego
+							bool result = true;
+							for (int j = 0; j < size; j++) {
+								if (this->Comb->getSolution()[j] != actualW) {
+									//ciekawe czy dobrze to napisa³em XD
+									if (this->Tab[size - 1]->getElement(pointer2->key)->solution->getNodes()->contains(this->Comb->getSolution()[j]) == false) {
+										result = false;
+										break;
+									}
+								}
+							}
+							if (result == false) {
+								pointer2 = pointer2->next;
+								continue;
+							}
+							//Obliczenie wagi nowego rozwi¹zania:
+							int weight = this->Tab[size - 1]->getElement(pointer2->key)->solution->getSumOfWeights() + this->matrix->distance(this->Tab[size - 1]->getElement(pointer2->key)->solution->getDestination(), actualW);
+							//Aktualizujê nowe rozwi¹zanie:
+							if (weight < newPartial->getSumOfWeights()) {
+								newPartial->deleteSet();
+								for (int i = 0; i < this->Tab[size - 1]->getElement(pointer2->key)->solution->getSet()->getCount(); i++) {
+									newPartial->getSet()->addAtTheEnd(this->Tab[size - 1]->getElement(pointer2->key)->solution->getSet()->getElement(i)->key);
+									newPartial->getNodes()->addElement(this->Tab[size - 1]->getElement(pointer2->key)->solution->getSet()->getElement(i)->key);
+								}
+								newPartial->setSumOfWeights(weight);
+								newPartial->setPrevious(this->Tab[size - 1]->getElement(pointer2->key)->solution);
+								newPartial->setOneBeforeLast(this->Tab[size - 1]->getElement(pointer2->key)->solution->getDestination());
+							}
+
+							pointer2 = pointer2->next;
 						}
 					}
-					//Wyznaczam rekurencyjnie TSP
-					Partial* prev = TSP(list, N->getTable()[j]);
-					int weight = prev->getCost() + this->matrix->distance(N->getTable()[j], N->getTable()[i]);
-					if (weight < cost->getCost()) {
-						//Aktualizujê rozwi¹zanie
-						cost->setDestination(N->getTable()[j]);
-						cost->setList(list);
-						cost->setCost(weight);
-					}
-					this->visited[N->getTable()[j]] = true;
+				}
+				//Dodanie nowego rozwi¹zania czêœciowego do listy:
+				if (newPartial->getOneBeforeLast() != INT_MAX) {
+					newPartial->getSet()->addAtTheEnd(actualW);
+					newPartial->getNodes()->addElement(actualW);
+					this->Tab[size]->addAtTheEnd(newPartial);
 				}
 			}
+			//KONIEC ZASADNICZEJ CZÊŒCI ALGORYTMU
+			//Czyszczenie tablicy z wierzcho³kami docelowymi:
+			for (int x = 0; x <= this->matrix->getV(); x++) {
+				delete this->goalIndexes[x];
+				this->goalIndexes[x] = new BiList();
+			}
+			this->Comb->update();
 		}
 	}
-	return cost;
 }
 
 
@@ -394,6 +449,7 @@ void HeldKarp::prepare() {
 		this->Tab[1]->getElement(i - 1)->solution->setDestination(i);
 		this->Tab[1]->getElement(i - 1)->solution->setOneBeforeLast(0);
 		this->Tab[1]->getElement(i - 1)->solution->getSet()->addAtTheEnd(i);
+		this->Tab[1]->getElement(i - 1)->solution->getNodes()->addElement(i);
 	}
 }
 
