@@ -25,12 +25,10 @@ private:
 	Additional* lib;
 	AdjMatrix* matrix;
 	int weightOfShortest;
-	int sizeOfSet;
 	ListOfPartials** Tab;
 	PartialSolution* shortest;
-	bool** table;
 	Combinations* Comb;
-	
+	BiList** goalIndexes;
 	
 	bool* visited;
 	Partial* tsp;
@@ -43,7 +41,6 @@ private:
 	
 	//int currentSet;
 
-	void algorithm();
 	void algorithm2();
 	void algorithm3();
 	void algorithm4();
