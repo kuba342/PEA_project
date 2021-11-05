@@ -108,6 +108,12 @@
     <ClCompile Include="Partial.cpp">
       <Filter>Pliki źródłowe\HeldKarp</Filter>
     </ClCompile>
+    <ClCompile Include="BRTree.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Pliki źródłowe\Structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -166,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="Partial.h">
       <Filter>Pliki nagłówkowe\HeldKarp</Filter>
+    </ClInclude>
+    <ClInclude Include="BRTree.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

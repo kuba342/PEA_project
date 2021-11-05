@@ -224,11 +224,11 @@ void HeldKarp::algorithm4() {
 			//Tablica, która przechowuje listy indeksów z wierzcho³kami docelowymi:
 			//Jednokrotnie przechodzê j¹ w poszukiwaniu indeksów
 			element* pointer = this->Tab[size - 1]->getHead();
-			int index = 0;
+			int INDEX = 0;
 			while (pointer != nullptr) {
 				int value = pointer->solution->getDestination();
-				this->goalIndexes[value]->addAtTheEnd(index);
-				index++;
+				this->goalIndexes[value]->addAtTheEnd(INDEX);
+				INDEX++;
 				pointer = pointer->next;
 			}
 			//ZASADNICZA CZÊŒÆ ALGORYTMU:

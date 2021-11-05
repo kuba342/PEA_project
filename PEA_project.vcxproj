@@ -145,6 +145,7 @@
     <ClInclude Include="Array.h" />
     <ClInclude Include="BnBSolution.h" />
     <ClInclude Include="BranchAndBound.h" />
+    <ClInclude Include="BRTree.h" />
     <ClInclude Include="Combinations.h" />
     <ClInclude Include="ListOfPartials.h" />
     <ClInclude Include="BiList.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="HeldKarp.h" />
     <ClInclude Include="MatrixGraph.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Partial.h" />
     <ClInclude Include="PartialSolution.h" />
     <ClInclude Include="Permutation.h" />
@@ -166,6 +168,7 @@
     <ClCompile Include="Array.cpp" />
     <ClCompile Include="BnBSolution.cpp" />
     <ClCompile Include="BranchAndBound.cpp" />
+    <ClCompile Include="BRTree.cpp" />
     <ClCompile Include="Combinations.cpp" />
     <ClCompile Include="ListOfPartials.cpp" />
     <ClCompile Include="ATSPFileReader.cpp" />
@@ -177,6 +180,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatrixGraph.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Partial.cpp" />
     <ClCompile Include="PartialSolution.cpp" />
     <ClCompile Include="Permutation.cpp" />
