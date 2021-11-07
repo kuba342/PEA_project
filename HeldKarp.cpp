@@ -33,7 +33,6 @@ HeldKarp::~HeldKarp()
 		delete this->Tab[i];
 	}
 	delete this->Tab;
-	delete this->matrix;
 	delete this->lib;
 	for (int i = 0; i <= matrix->getV(); i++) {
 		delete this->goalIndexes[i];
