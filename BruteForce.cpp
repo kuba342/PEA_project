@@ -40,13 +40,15 @@ void BruteForce::Cycle() {
 void BruteForce::calculate() {
 	int weight = 0;
 	do {
+		//obliczenie wagi dla aktualnego cyklu
 		weight = calculateWeight();
+		//JEœli waga mniejsza, to zapamiêtujê wagê i przepisujê cykl
 		if (weight < this->weightOfShortest) {
 			this->weightOfShortest = weight;
 			Cycle();
 		}
+		//Dopóki istnieje nastêpna permutacja
 	} while (this->perm->nextPermutation(0,this->perm->getPermutationList()->getSize()-1));
-	//(nextPermutation(0,this->permutationList->getSize()-1))
 }
 
 int BruteForce::calculateWeight() {

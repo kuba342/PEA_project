@@ -12,6 +12,10 @@ BranchAndBound::BranchAndBound(AdjMatrix* matrix)
 
 BranchAndBound::~BranchAndBound()
 {
+	delete this->minWeights;
+	delete this->path;
+	delete this->unusedNodes;
+	delete this->solution;
 }
 
 
@@ -56,22 +60,29 @@ int BranchAndBound::heuristic(int previous, int nextNode)
 
 void BranchAndBound::solveByRecursion(int heur)
 {
+	//Jeœli nie ma ju¿ nieu¿ywanych wierzcho³ków
 	if (this->unusedNodes->getCount() == 0) {
+		//Oblicz koszt
 		int totalCost = heuristic(heur, 0);
-		//Aktualizacja rozwi¹zania
+		//I aktualizacja rozwi¹zania
 		if (totalCost < this->solution->getCost()) {
 			updateSolution(totalCost);
 		}
 	}
+	//Iteruj przez nieu¿yte wierzcho³ki
 	for (int i = 0; i < this->unusedNodes->getCount(); i++) {
+		//WeŸ nowy wierzcho³ek
 		int currentNode = this->unusedNodes->getHead()->key;
 		this->unusedNodes->removeAtTheBeginning();
+		//Wyznacz now¹ heurystykê
 		int newHeuristic = heuristic(heur, currentNode);
+		//Jeœli mniejsza ni¿ aktualny koszt rozwi¹zania:
 		if (newHeuristic < this->solution->getCost()) {
 			this->path->addAtTheEnd(currentNode);
 			solveByRecursion(newHeuristic);
 			this->path->removeAtTheEnd();
 		}
+		//Usuñ z listy nieu¿ytych wierzcho³ków aktualnie przeanalizowany
 		this->unusedNodes->addAtTheEnd(currentNode);
 	}
 }

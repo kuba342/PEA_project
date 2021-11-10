@@ -8,6 +8,7 @@ BnBSolution::BnBSolution()
 
 BnBSolution::~BnBSolution()
 {
+	delete this->cycle;
 }
 
 void BnBSolution::setCost(int cost)

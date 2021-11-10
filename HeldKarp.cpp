@@ -335,7 +335,6 @@ void HeldKarp::algorithm5()
 								newPartial->setPrevious(pointer->solution);
 								newPartial->setOneBeforeLast(pointer->solution->getDestination());
 							}
-
 							pointer = pointer->next;
 						}
 					}
