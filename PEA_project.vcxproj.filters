@@ -46,6 +46,12 @@
     <Filter Include="Pliki źródłowe\BranchAndBound">
       <UniqueIdentifier>{e79a7ff8-6e53-4faa-95a3-074fff2a318c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\SimulatedAnnealing">
+      <UniqueIdentifier>{ea56b04f-0b55-4b34-90e4-71333bc87801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\SimulatedAnnealing">
+      <UniqueIdentifier>{e859a43a-ad7c-4969-ab38-e874f2868881}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -114,6 +120,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Pliki źródłowe\Structures</Filter>
     </ClCompile>
+    <ClCompile Include="TSPSimulatedAnnealing.cpp">
+      <Filter>Pliki źródłowe\SimulatedAnnealing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -178,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="TSPSimulatedAnnealing.h">
+      <Filter>Pliki nagłówkowe\SimulatedAnnealing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

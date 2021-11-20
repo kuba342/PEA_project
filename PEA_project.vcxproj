@@ -160,6 +160,7 @@
     <ClInclude Include="Partial.h" />
     <ClInclude Include="PartialSolution.h" />
     <ClInclude Include="Permutation.h" />
+    <ClInclude Include="TSPSimulatedAnnealing.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Additional.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Partial.cpp" />
     <ClCompile Include="PartialSolution.cpp" />
     <ClCompile Include="Permutation.cpp" />
+    <ClCompile Include="TSPSimulatedAnnealing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\br17.atsp" />
