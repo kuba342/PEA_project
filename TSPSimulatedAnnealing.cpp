@@ -1,15 +1,19 @@
 #include "TSPSimulatedAnnealing.h"
 
-TSPSimulatedAnnealing::TSPSimulatedAnnealing()
-{
-}
 
 TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 {
 	this->matrix = matrix;
-	this->currentIteration = 0;
 	this->actualPath = new Array();
+	this->actualPathWeight = INT_MAX;
 	this->bestPath = new Array();
+	this->bestWeight = INT_MAX;
+
+	this->firstTemp = 1000.0;
+	this->minimalTemp = 50.0;
+	this->currentTemp = this->firstTemp;
+	this->iterations = 10000;
+	this->currentIteration = 0;
 }
 
 TSPSimulatedAnnealing::~TSPSimulatedAnnealing()
@@ -21,6 +25,32 @@ TSPSimulatedAnnealing::~TSPSimulatedAnnealing()
 void TSPSimulatedAnnealing::prepare()
 {
 
+}
+
+void TSPSimulatedAnnealing::determineFirstSolution()
+{
+
+}
+
+void TSPSimulatedAnnealing::calculateActualPathWeight()
+{
+	actualPathWeight = 0;
+	actualPathWeight += this->matrix->distance(0, actualPath->getTable()[0]);
+	for (int i = 0; i < actualPath->getSize() - 1; i++) {
+		actualPathWeight += this->matrix->distance(actualPath->getTable()[i], actualPath->getTable()[i+1]);
+	}
+	actualPathWeight += this->matrix->distance(actualPath->getTable()[actualPath->getSize()-1], 0);
+}
+
+double TSPSimulatedAnnealing::calculateHeuristic()
+{
+	double param = (actualPathWeight - bestWeight) / currentTemp;
+	return exp(param);
+}
+
+void TSPSimulatedAnnealing::cooling()
+{
+	this->currentTemp = currentTemp * coolingFactor;
 }
 
 
@@ -51,6 +81,11 @@ void TSPSimulatedAnnealing::setIterations(int iterations)
 Array* TSPSimulatedAnnealing::getActualPath()
 {
 	return this->actualPath;
+}
+
+int TSPSimulatedAnnealing::getActualPathWeight()
+{
+	return this->actualPathWeight;
 }
 
 Array* TSPSimulatedAnnealing::getBestPath()

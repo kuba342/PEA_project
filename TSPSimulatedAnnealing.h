@@ -3,6 +3,7 @@
 #define TSPSimulatedAnnealing_h
 
 #include <iostream>
+#include <math.h>
 #include "AdjMatrix.h"
 #include "Array.h"
 
@@ -12,23 +13,29 @@
 class TSPSimulatedAnnealing
 {
 public:
-	TSPSimulatedAnnealing();
 	TSPSimulatedAnnealing(AdjMatrix* matrix);
 	~TSPSimulatedAnnealing();
-	void prepare();
 
 private:
 	AdjMatrix* matrix;
 	Array* actualPath;
+	int actualPathWeight;
 	Array* bestPath;
 	int bestWeight;
+
 	double firstTemp;
 	double minimalTemp;
 	double currentTemp;
 	int iterations;
 	int currentIteration;
-	double const coolingFactor;
+	double const coolingFactor = 0.99;
 
+	//Algorytm
+	void prepare();
+	void determineFirstSolution();
+	void calculateActualPathWeight();
+	double calculateHeuristic();
+	void cooling();
 
 
 	//Settery i gettery
@@ -37,6 +44,7 @@ private:
 	void setIterations(int iterations);
 	
 	Array* getActualPath();
+	int getActualPathWeight();
 	Array* getBestPath();
 	int getBestWeight();
 	double getFirstTemp();
