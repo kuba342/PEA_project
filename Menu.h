@@ -15,6 +15,7 @@
 #include "Additional.h"
 #include <string>
 #include "clock.h"
+#include "TSPSimulatedAnnealing.h"
 
 class Menu
 {
@@ -28,6 +29,7 @@ private:
 	BruteForce* brut;
 	HeldKarp* held;
 	BranchAndBound* branch;
+	TSPSimulatedAnnealing* sa;
 	Additional* lib;
 	Clock* clock;
 
@@ -40,6 +42,7 @@ private:
 	void reading();
 	void generator();
 	void BnB();
+	void simulatedAnnealing();
 };
 
 #endif // !Menu_h

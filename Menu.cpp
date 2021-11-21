@@ -10,11 +10,13 @@ Menu::Menu()
 	this->branch = nullptr;
 	this->lib = new Additional();
 	this->clock = new Clock();
+	this->sa = nullptr;
 }
 
 Menu::~Menu()
 {
-
+	delete this->clock;
+	delete this->lib;
 }
 
 void Menu::tests() {
@@ -327,6 +329,28 @@ void Menu::BnB()
 	}
 }
 
+void Menu::simulatedAnnealing()
+{
+	if (this->graph != nullptr) {
+		this->sa = new TSPSimulatedAnnealing(this->graph);
+		
+		this->sa->calculate();
+
+		std::cout << "Najkrotsza sciezka:\n";
+		this->sa->getBestPath()->showArray();
+		std::cout << "\nCost: " << this->sa->getBestWeight() << "\n";
+		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();
+	}
+	else {
+		system("cls");
+		std::cout << "Nie wczytano grafu!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
 void Menu::showMenu() 
 {
 	char option;
@@ -339,6 +363,7 @@ void Menu::showMenu()
 			  << "4. Metoda Brute force\n"
 			  << "5. Programowanie dynamiczne (algorytm Helda-Karpa)\n"
 			  << "6. Metoda podzialu i ograniczen\n"
+			  << "7. Symulowane wy¿arzanie\n"
 			  << "X lub x. Koniec programu\n\n"
 			  << "Wpisz znak operacji: ";
 	std::cin >> option;
@@ -384,6 +409,11 @@ void Menu::showMenu()
 	case '6':
 		system("cls");
 		BnB();
+		system("cls");
+		break;
+	case '7':
+		system("cls");
+		simulatedAnnealing();
 		system("cls");
 		break;
 
