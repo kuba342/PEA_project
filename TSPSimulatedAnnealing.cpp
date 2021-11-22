@@ -3,6 +3,7 @@
 
 TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 {
+	this->numberOfCycles = 5;
 	this->matrix = matrix;
 	this->actualPath = new Array();
 	this->actualPathWeight = INT_MAX;
@@ -29,35 +30,51 @@ TSPSimulatedAnnealing::~TSPSimulatedAnnealing()
 
 void TSPSimulatedAnnealing::calculate()
 {
-	//W tym miejscu bêdzie g³ówny algorytm:
-	//Wszystkie zmienne zainicjalizowane w konstruktorze
-	//Pierwsze losowe rozwi¹zanie
-	determineFirstSolution();
-	//Jego koszt
-	calculateActualPathWeight();
-	//Pierwsze jako aktualnie najlepsze
-	updateBestSolution();
-	//Pêtla algorytmu
-	while (/*currentIteration < iterations && */currentTemp >= minimalTemp) {
-		int actualCost = this->bestWeight;
-		int inneriterator = 0;
-		do {
-			//L prób poszukiwania
-			for (int i = 0; i < matrix->getV(); i++) {
-				//Nowe rozwi¹zanie:
-				nextSolution();
-				//Jego koszt
-				calculateNewPathWeight();
-				//Sprawdzenie warunków i aktualizacja rozwi¹zañ
-				checkConditions();
-			}
-			inneriterator++;
-		} while (actualCost - bestWeight < 0 && inneriterator < iterations);
-		//Sch³adzanie
-		cooling();
-		//Inkrementacja iteracji
-		//currentIteration++;
+	for (int x = 0; x < numberOfCycles; x++) {
+		renewParameters();
+		std::cout << "x = " << x << "\n";
+		//W tym miejscu bêdzie g³ówny algorytm:
+		//Pierwsze losowe rozwi¹zanie
+		if (x > 0) {
+			delete this->actualPath;
+			actualPath = new Array();
+		}
+		determineFirstSolution();
+		//Jego koszt
+		calculateActualPathWeight();
+		//Pierwsze jako aktualnie najlepsze
+		if (x == 0) {
+			updateBestSolution();
+		}
+		//Pêtla algorytmu
+		while (/*currentIteration < iterations && */currentTemp >= minimalTemp) {
+			int actualCost = this->bestWeight;
+			int inneriterator = 0;
+			do {
+				//L prób poszukiwania
+				for (int i = 0; i < matrix->getV(); i++) {
+					//Nowe rozwi¹zanie:
+					nextSolution();
+					//Jego koszt
+					calculateNewPathWeight();
+					//Sprawdzenie warunków i aktualizacja rozwi¹zañ
+					checkConditions();
+				}
+				inneriterator++;
+			} while (actualCost - bestWeight < 0 && inneriterator < iterations);
+			//Sch³adzanie
+			cooling();
+			//Inkrementacja iteracji
+			//currentIteration++;
+		}
+		this->bestPath->showArray();
+		std::cout << "Aktualny koszt: " << this->bestWeight << "\n";
 	}
+}
+
+void TSPSimulatedAnnealing::renewParameters()
+{
+	this->currentTemp = this->firstTemp;
 }
 
 void TSPSimulatedAnnealing::determineFirstSolution()
@@ -73,7 +90,7 @@ void TSPSimulatedAnnealing::determineFirstSolution()
 		int index = (std::rand() % set->getSize());
 		//Dodajê na koniec wybrany element
 		this->actualPath->addAtTheEnd(set->getTable()[index]);
-		this->bestPath->addAtTheEnd(set->getTable()[index]);
+		//this->bestPath->addAtTheEnd(set->getTable()[index]);
 		//Usuwam ze zbioru wybrany element
 		set->removeOnPosition(index);
 	}

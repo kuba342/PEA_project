@@ -38,6 +38,7 @@ public:
 
 
 private:
+	int numberOfCycles;
 	AdjMatrix* matrix;
 	Array* actualPath;
 	int actualPathWeight;
@@ -54,6 +55,7 @@ private:
 	double const coolingFactor = 0.999;
 
 	//Algorytm
+	void renewParameters();
 	void determineFirstSolution();
 	void nextSolution();
 	void checkConditions();
