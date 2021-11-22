@@ -16,7 +16,6 @@ TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 	this->minimalTemp = 20.0;
 	this->currentTemp = this->firstTemp;
 	this->iterations = 100;
-	this->currentIteration = 0;
 
 	//Start randomizing
 	srand(time(NULL));
@@ -244,11 +243,6 @@ double TSPSimulatedAnnealing::getcurrentTemp()
 int TSPSimulatedAnnealing::getIterations()
 {
 	return this->iterations;
-}
-
-int TSPSimulatedAnnealing::getCurrentIteration()
-{
-	return this->currentIteration;
 }
 
 double TSPSimulatedAnnealing::getCoolingDactor()

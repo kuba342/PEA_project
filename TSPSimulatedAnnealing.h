@@ -33,7 +33,6 @@ public:
 	double getMinimalTemp();
 	double getcurrentTemp();
 	int getIterations();
-	int getCurrentIteration();
 	double getCoolingDactor();
 
 
@@ -51,7 +50,6 @@ private:
 	double minimalTemp;
 	double currentTemp;
 	int iterations;
-	int currentIteration;
 	double const coolingFactor = 0.999;
 
 	//Algorytm
