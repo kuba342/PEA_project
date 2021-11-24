@@ -50,17 +50,18 @@ private:
 	double minimalTemp;
 	double currentTemp;
 	int iterations;
-	double const coolingFactor = 0.999;
+	double const coolingFactor = 0.9999;
 
 	//Algorytm
 	void renewParameters();
 	void determineFirstSolution();
 	void nextSolution();
-	void checkConditions();
+	void checkConditions(int index);
 	void updateBestSolution();
-	void updateActualPath();
+	void updateActualPath(int index);
+	void updateNewPath();
 	void calculateActualPathWeight();
-	void calculateNewPathWeight();
+	void calculateNewPathWeight(int index);
 	double calculateHeuristic();
 	void cooling();
 	double drawFromTheRange01();

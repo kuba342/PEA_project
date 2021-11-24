@@ -3,7 +3,7 @@
 
 TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 {
-	this->numberOfCycles = 5;
+	this->numberOfCycles = 10;
 	this->matrix = matrix;
 	this->actualPath = new Array();
 	this->actualPathWeight = INT_MAX;
@@ -12,10 +12,10 @@ TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 	this->bestPath = new Array();
 	this->bestWeight = INT_MAX;
 
-	this->firstTemp = 50000.0;
-	this->minimalTemp = 20.0;
+	this->firstTemp = 5000.0;
+	this->minimalTemp = 20;
 	this->currentTemp = this->firstTemp;
-	this->iterations = 100;
+	this->iterations = 5;
 
 	//Start randomizing
 	srand(time(NULL));
@@ -51,20 +51,18 @@ void TSPSimulatedAnnealing::calculate()
 			int inneriterator = 0;
 			do {
 				//L prób poszukiwania
-				for (int i = 0; i < matrix->getV(); i++) {
+			//Do br17.atsp
+			int max = (matrix->getV() * matrix->getV()) / 2;
+			//Powy¿ej br17.atsp
+			//int max = 2*matrix->getV();
+				for (int i = 0; i < max; i++) {
 					//Nowe rozwi¹zanie:
 					nextSolution();
-					//Jego koszt
-					calculateNewPathWeight();
-					//Sprawdzenie warunków i aktualizacja rozwi¹zañ
-					checkConditions();
 				}
 				inneriterator++;
 			} while (actualCost - bestWeight < 0 && inneriterator < iterations);
 			//Sch³adzanie
 			cooling();
-			//Inkrementacja iteracji
-			//currentIteration++;
 		}
 		this->bestPath->showArray();
 		std::cout << "Aktualny koszt: " << this->bestWeight << "\n";
@@ -89,6 +87,7 @@ void TSPSimulatedAnnealing::determineFirstSolution()
 		int index = (std::rand() % set->getSize());
 		//Dodajê na koniec wybrany element
 		this->actualPath->addAtTheEnd(set->getTable()[index]);
+		this->newPath->addAtTheEnd(set->getTable()[index]);
 		//this->bestPath->addAtTheEnd(set->getTable()[index]);
 		//Usuwam ze zbioru wybrany element
 		set->removeOnPosition(index);
@@ -97,33 +96,25 @@ void TSPSimulatedAnnealing::determineFirstSolution()
 
 void TSPSimulatedAnnealing::nextSolution()
 {
-	//Wyznaczam indeks do zamiany w tablicy actualPath
+	//Wyznaczam indeks do zamiany w tablicy newPath
 	int swapIndex = rand() % (matrix->getV() - 2);
 	//Przepisujê actualPath do newPath
-	this->newPathWeight = actualPathWeight;
-	delete this->newPath;
-	this->newPath = new Array();
-	for (int i = 0; i < actualPath->getSize(); i++) {
-		newPath->addAtTheEnd(actualPath->getTable()[i]);
-	}
-	//Zamieniam zawsze 2 s¹siednie ze sob¹
-	newPath->swap(swapIndex, swapIndex + 1);
+	updateNewPath();
+	calculateNewPathWeight(swapIndex);
+	checkConditions(swapIndex);
 }
 
-void TSPSimulatedAnnealing::checkConditions()
+void TSPSimulatedAnnealing::checkConditions(int index)
 {
-	calculateNewPathWeight();
 	if (newPathWeight - actualPathWeight < 0) {
-		//updateBestSolution();
-		updateActualPath();
+		updateActualPath(index);
 		if (actualPathWeight < bestWeight) {
 			updateBestSolution();
 		}
 	}
 	else {
 		if (drawFromTheRange01() < calculateHeuristic()) {
-			//updateBestSolution();
-			updateActualPath();
+			updateActualPath(index);
 		}
 	}
 }
@@ -138,14 +129,18 @@ void TSPSimulatedAnnealing::updateBestSolution()
 	}
 }
 
-void TSPSimulatedAnnealing::updateActualPath()
+void TSPSimulatedAnnealing::updateActualPath(int index)
 {
 	this->actualPathWeight = newPathWeight;
-	delete this->actualPath;
-	this->actualPath = new Array();
-	for (int i = 0; i < this->newPath->getSize(); i++) {
-		this->actualPath->addAtTheEnd(this->newPath->getTable()[i]);
+	actualPath->swap(index, index + 1);
+}
+
+void TSPSimulatedAnnealing::updateNewPath()
+{
+	for (int i = 0; i < actualPath->getSize(); i++) {
+		newPath->getTable()[i] = actualPath->getTable()[i];
 	}
+	newPathWeight = actualPathWeight;
 }
 
 void TSPSimulatedAnnealing::calculateActualPathWeight()
@@ -156,16 +151,44 @@ void TSPSimulatedAnnealing::calculateActualPathWeight()
 		actualPathWeight += this->matrix->distance(actualPath->getTable()[i], actualPath->getTable()[i+1]);
 	}
 	actualPathWeight += this->matrix->distance(actualPath->getTable()[actualPath->getSize()-1], 0);
+	newPathWeight = actualPathWeight;
 }
 
-void TSPSimulatedAnnealing::calculateNewPathWeight()
+void TSPSimulatedAnnealing::calculateNewPathWeight(int index)
 {
-	newPathWeight = 0;
-	newPathWeight += matrix->distance(0, newPath->getTable()[0]);
-	for (int i = 0; i < newPath->getSize() - 1; i++) {
-		newPathWeight += matrix->distance(newPath->getTable()[i], newPath->getTable()[i + 1]);
+	newPathWeight = actualPathWeight;
+	//Odejmujê 3 krawêdzie bior¹ce udzia³ w zamianie
+	if (index == 0) {
+		newPathWeight -= matrix->distance(0, newPath->getTable()[index]);
 	}
-	newPathWeight += matrix->distance(newPath->getTable()[newPath->getSize()-1], 0);
+	else {
+		newPathWeight -= matrix->distance(newPath->getTable()[index - 1], newPath->getTable()[index]);
+	}
+	newPathWeight -= matrix->distance(newPath->getTable()[index], newPath->getTable()[index + 1]);
+	if (index + 1 == actualPath->getSize()-1) {
+		newPathWeight -= matrix->distance(newPath->getTable()[index + 1], 0);
+	}
+	else {
+		newPathWeight -= matrix->distance(newPath->getTable()[index + 1], newPath->getTable()[index + 2]);
+	}
+	//Zamiana
+	newPath->swap(index, index + 1);
+	//Dodajê do kosztu te 3 nowe krawêdzie
+	if (index == 0) {
+		newPathWeight += matrix->distance(0, newPath->getTable()[index]);
+	}
+	else {
+		newPathWeight += matrix->distance(newPath->getTable()[index - 1], newPath->getTable()[index]);
+	}
+	//newPathWeight += matrix->distance(newPath->getTable()[index - 1], newPath->getTable()[index]);
+	newPathWeight += matrix->distance(newPath->getTable()[index], newPath->getTable()[index + 1]);
+	//newPathWeight += matrix->distance(newPath->getTable()[index + 1], newPath->getTable()[index + 2]);
+	if (index + 1 == actualPath->getSize() - 1) {
+		newPathWeight += matrix->distance(newPath->getTable()[index + 1], 0);
+	}
+	else {
+		newPathWeight += matrix->distance(newPath->getTable()[index + 1], newPath->getTable()[index + 2]);
+	}
 }
 
 double TSPSimulatedAnnealing::calculateHeuristic()
