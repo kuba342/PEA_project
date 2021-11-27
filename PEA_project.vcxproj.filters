@@ -52,6 +52,12 @@
     <Filter Include="Pliki źródłowe\SimulatedAnnealing">
       <UniqueIdentifier>{e859a43a-ad7c-4969-ab38-e874f2868881}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\TabuSearch">
+      <UniqueIdentifier>{5793229f-64da-4a40-8fcf-8c65e5a2b439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\TabuSearch">
+      <UniqueIdentifier>{7584e146-1c84-4003-8031-9965e3c2d794}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -123,6 +129,9 @@
     <ClCompile Include="TSPSimulatedAnnealing.cpp">
       <Filter>Pliki źródłowe\SimulatedAnnealing</Filter>
     </ClCompile>
+    <ClCompile Include="TabuSearch.cpp">
+      <Filter>Pliki źródłowe\TabuSearch</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -190,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="TSPSimulatedAnnealing.h">
       <Filter>Pliki nagłówkowe\SimulatedAnnealing</Filter>
+    </ClInclude>
+    <ClInclude Include="TabuSearch.h">
+      <Filter>Pliki nagłówkowe\TabuSearch</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

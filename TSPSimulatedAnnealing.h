@@ -50,7 +50,8 @@ private:
 	double minimalTemp;
 	double currentTemp;
 	int iterations;
-	double const coolingFactor = 0.9999;
+	double const coolingFactor = 0.99999;
+	int swapIndex;
 
 	//Algorytm
 	void renewParameters();

@@ -16,6 +16,7 @@
 #include <string>
 #include "clock.h"
 #include "TSPSimulatedAnnealing.h"
+#include "TabuSearch.h"
 
 class Menu
 {
@@ -30,6 +31,7 @@ private:
 	HeldKarp* held;
 	BranchAndBound* branch;
 	TSPSimulatedAnnealing* sa;
+	TabuSearch* tabu;
 	Additional* lib;
 	Clock* clock;
 
@@ -43,6 +45,7 @@ private:
 	void generator();
 	void BnB();
 	void simulatedAnnealing();
+	void tabuSearch();
 };
 
 #endif // !Menu_h
