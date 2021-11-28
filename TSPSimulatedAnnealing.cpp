@@ -16,6 +16,7 @@ TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 	this->minimalTemp = 20;
 	this->currentTemp = this->firstTemp;
 	this->iterations = 5;
+	this->swapIndex = 0;
 
 	//Start randomizing
 	srand(time(NULL));

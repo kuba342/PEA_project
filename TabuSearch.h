@@ -31,6 +31,9 @@ private:
 	AdjMatrix* graph;
 	Array* actualPath;
 	int actualPathWeight;
+	Array* bestPath;
+	int bestPathWeight;
+	Array** tabuMatrix;
 
 	int tries;
 	int maxTries;
@@ -40,6 +43,8 @@ private:
 	//Metody 
 	void firstSolution();
 	void calculateFirstSolutionWeight();	
+	void updateBestSolution();
+	int calculatePotentialWeight(int index1, int index2);
 };
 
 #endif // !TabuSearch_h

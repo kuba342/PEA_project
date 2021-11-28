@@ -4,11 +4,26 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 {
 	this->graph = graph;
 	this->actualPath = new Array();
+	for (int i = 1; i < this->graph->getV(); i++) {
+		actualPath->addAtTheEnd(i);
+	}
 	this->actualPathWeight = INT_MAX;
+	this->bestPath = new Array();
+	this->bestPathWeight = INT_MAX;
 	this->tries = 0;
 	this->maxTries = 5;
 	this->count = 0;
 	this->Iter = 5;
+	this->tabuMatrix = new Array * [graph->getV() - 2];
+	for (int i = 0; i < graph->getV() - 2; i++) {
+		tabuMatrix[i] = new Array();
+		for (int j = 0; j < graph->getV()-2-i; j++) {
+			tabuMatrix[i]->addAtTheEnd(0);
+		}
+		tabuMatrix[i]->showArray();
+	}
+	//Start randomizing
+	srand(time(NULL));
 }
 
 TabuSearch::~TabuSearch()
@@ -23,12 +38,21 @@ void TabuSearch::calculate()
 		firstSolution();
 		//Oblicz jej koszt
 		calculateFirstSolutionWeight();
+		//Jeœli pierwsza iteracja, to stwórz najlepsze rozwi¹zanie:
+		if (tries == 1) {
+			for (int i = 0; i < this->actualPath->getSize(); i++) {
+				bestPath->addAtTheEnd(this->actualPath->getTable()[i]);
+			}
+			bestPathWeight = actualPathWeight;
+		}
 		//Iteracja wewnêtrzna
 		for (count = 1; count <= Iter; count++) {
 
 		}
 		//Aktualizacja najlepszej trasy w zale¿noœci od warunku
-
+		if (actualPathWeight < bestPathWeight) {
+			updateBestSolution();
+		}
 	}
 }
 
@@ -44,11 +68,12 @@ void TabuSearch::firstSolution()
 		//Losowy indeks modulo rozmiar
 		int index = (std::rand() % set->getSize());
 		//Dodajê na koniec wybrany element
-		this->actualPath->addAtTheEnd(set->getTable()[index]);
-		//this->newPath->addAtTheEnd(set->getTable()[index]);
+		//this->actualPath->addAtTheEnd(set->getTable()[index]);
+		actualPath->getTable()[i - 1] = set->getTable()[index];
 		//Usuwam ze zbioru wybrany element
 		set->removeOnPosition(index);
 	}
+	actualPath->showArray();
 	delete set;
 }
 
@@ -60,6 +85,71 @@ void TabuSearch::calculateFirstSolutionWeight()
 		actualPathWeight += this->graph->distance(actualPath->getTable()[i], actualPath->getTable()[i + 1]);
 	}
 	actualPathWeight += this->graph->distance(actualPath->getTable()[actualPath->getSize() - 1], 0);
+}
+
+void TabuSearch::updateBestSolution()
+{
+	bestPathWeight = actualPathWeight;
+	for (int i = 0; i < actualPath->getSize(); i++) {
+		bestPath->getTable()[i] = actualPath->getTable()[i];
+	}
+}
+
+int TabuSearch::calculatePotentialWeight(int index1, int index2)
+{
+	int potentialWeight = actualPathWeight;
+	if (index1 > index2) {
+		int bufor = index1;
+		index1 = index2;
+		index2 = bufor;
+	}
+	//Odejmujê 4 krawêdzie bior¹ce udzia³ w zamianie
+	//KrawêdŸ 1
+	if (index1 == 0) {
+		potentialWeight -= graph->distance(0, actualPath->getTable()[index1]);
+	}
+	else {
+		potentialWeight -= graph->distance(actualPath->getTable()[index1 - 1], actualPath->getTable()[index1]);
+	}
+	//KrawêdŸ 2 - niezmienna
+	potentialWeight -= graph->distance(actualPath->getTable()[index1], actualPath->getTable()[index1 + 1]);
+	//KrawêdŸ 3 - niezmienna
+	potentialWeight -= graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	//KrawêdŸ 4
+	if (index2 == actualPath->getSize()-1) {
+		potentialWeight -= graph->distance(actualPath->getTable()[index2], 0);
+	}
+	else {
+		potentialWeight -= graph->distance(actualPath->getTable()[index2], actualPath->getTable()[index2+1]);
+	}
+
+	//Zamiana
+	actualPath->swap(index1, index2);
+	
+	//Dodajê do kosztu 4 nowe krawêdzie
+	//KrawêdŸ 1
+	if (index1 == 0) {
+		potentialWeight += graph->distance(0, actualPath->getTable()[index1]);
+	}
+	else {
+		potentialWeight += graph->distance(actualPath->getTable()[index1 - 1], actualPath->getTable()[index1]);
+	}
+	//KrawêdŸ 2 - niezmienna
+	potentialWeight += graph->distance(actualPath->getTable()[index1], actualPath->getTable()[index1 + 1]);
+	//KrawêdŸ 3 - niezmienna
+	potentialWeight += graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	//KrawêdŸ 4
+	if (index2 == actualPath->getSize() - 1) {
+		potentialWeight += graph->distance(actualPath->getTable()[index2], 0);
+	}
+	else {
+		potentialWeight += graph->distance(actualPath->getTable()[index2], actualPath->getTable()[index2 + 1]);
+	}
+	
+	//Przywracam actualPath
+	actualPath->swap(index1, index2);
+
+	return potentialWeight;
 }
 
 Array* TabuSearch::getActualPath()
