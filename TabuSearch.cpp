@@ -22,12 +22,23 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 		}
 		tabuMatrix[i]->showArray();
 	}
+	this->tabuLength = 5;
+	this->potentialCost = INT_MAX;
+	this->foundIndex1 = INT_MAX;
+	this->foundIndex2 = INT_MAX;
+	this->set = new Array();
 	//Start randomizing
 	srand(time(NULL));
 }
 
 TabuSearch::~TabuSearch()
 {
+	delete actualPath;
+	delete bestPath;
+	for (int i = 0; i < graph->getV() - 2; i++) {
+		delete tabuMatrix[i];
+	}
+	delete[] tabuMatrix;
 }
 
 void TabuSearch::calculate()
@@ -45,21 +56,53 @@ void TabuSearch::calculate()
 			}
 			bestPathWeight = actualPathWeight;
 		}
-		//Iteracja wewnêtrzna
+		//Iteracja wewnêtrzna - przeszukiwanie lokalne
 		for (count = 1; count <= Iter; count++) {
+			//Potencjalny koszt na maksimum
+			potentialCost = INT_MAX;
+			foundIndex1 = INT_MAX;
+			foundIndex2 = INT_MAX;
+			//Przeszukujê potencjalne zamiany
+			for (int i = 0; i < graph->getV() - 2; i++) {
+				for (int j = 0; j < tabuMatrix[i]->getSize(); j++) {
+					//Jeœli zamiana nie jest Tabu
+					if (notTabu(i, j)) {
+						//Liczê koszt potencjalnej zamiany
+						//std::cout << "i=" << i << " j=" << i+j+1 << "\n";
+						int cost = calculatePotentialWeight(i, i+j+1);
+						//std::cout << cost << "\n";
+						//Jeœli mniejszy, to zapamiêtujê
+						if (cost < potentialCost) {
+							potentialCost = cost;
+							foundIndex1 = i;
+							foundIndex2 = i+j+1;
+						}
+					}
+				}
+			}
 
+			//Aktualizujê listê tabu: wszystko -1 (oprócz 0)
+			//Aktualna zamiana = tabuLength (jeœli jest ró¿na od INT_MAX)
+			updateParameters();
 		}
 		//Aktualizacja najlepszej trasy w zale¿noœci od warunku
 		if (actualPathWeight < bestPathWeight) {
 			updateBestSolution();
 		}
 	}
+	std::cout << "Sciezka: ";
+	bestPath->showArray();
+	std::cout << "Koszt = " << bestPathWeight;
 }
 
 void TabuSearch::firstSolution()
 {
 	//Wype³niam zbiór wierzcho³ków
-	Array* set = new Array();
+	if (set != nullptr) {
+		delete set;
+	}
+	this->set = new Array();
+	//BiList* set = new BiList();
 	for (int i = 1; i < this->graph->getV(); i++) {
 		set->addAtTheEnd(i);
 	}
@@ -72,9 +115,11 @@ void TabuSearch::firstSolution()
 		actualPath->getTable()[i - 1] = set->getTable()[index];
 		//Usuwam ze zbioru wybrany element
 		set->removeOnPosition(index);
+		//listElement* pointer = set->getHead();
+		//for (int j = 0; j < index; j++, pointer = pointer->next) {}
+		//set->removeOnPosition(pointer);
 	}
 	actualPath->showArray();
-	delete set;
 }
 
 void TabuSearch::calculateFirstSolutionWeight()
@@ -95,10 +140,12 @@ void TabuSearch::updateBestSolution()
 	}
 }
 
-int TabuSearch::calculatePotentialWeight(int index1, int index2)
+int TabuSearch::calculatePotentialWeight(int ind1, int ind2)
 {
+	int index1 = ind1;
+	int index2 = ind2;
 	int potentialWeight = actualPathWeight;
-	if (index1 > index2) {
+	if (ind1 > ind2) {
 		int bufor = index1;
 		index1 = index2;
 		index2 = bufor;
@@ -114,7 +161,9 @@ int TabuSearch::calculatePotentialWeight(int index1, int index2)
 	//KrawêdŸ 2 - niezmienna
 	potentialWeight -= graph->distance(actualPath->getTable()[index1], actualPath->getTable()[index1 + 1]);
 	//KrawêdŸ 3 - niezmienna
-	potentialWeight -= graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	if (index2 - index1 != 1) {
+		potentialWeight -= graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	}
 	//KrawêdŸ 4
 	if (index2 == actualPath->getSize()-1) {
 		potentialWeight -= graph->distance(actualPath->getTable()[index2], 0);
@@ -137,9 +186,11 @@ int TabuSearch::calculatePotentialWeight(int index1, int index2)
 	//KrawêdŸ 2 - niezmienna
 	potentialWeight += graph->distance(actualPath->getTable()[index1], actualPath->getTable()[index1 + 1]);
 	//KrawêdŸ 3 - niezmienna
-	potentialWeight += graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	if (index2 - index1 != 1) {
+		potentialWeight += graph->distance(actualPath->getTable()[index2 - 1], actualPath->getTable()[index2]);
+	}
 	//KrawêdŸ 4
-	if (index2 == actualPath->getSize() - 1) {
+	if (index2 == actualPath->getSize()-1) {
 		potentialWeight += graph->distance(actualPath->getTable()[index2], 0);
 	}
 	else {
@@ -150,6 +201,37 @@ int TabuSearch::calculatePotentialWeight(int index1, int index2)
 	actualPath->swap(index1, index2);
 
 	return potentialWeight;
+}
+
+void TabuSearch::updateParameters()
+{
+	//Pomniejszam elementy z tabu o 1
+	for (int i = 0; i < graph->getV() - 2; i++) {
+		for (int j = 0; j < tabuMatrix[i]->getSize(); j++) {
+			if (tabuMatrix[i]->getTable()[j] > 0) {
+				tabuMatrix[i]->getTable()[j] = tabuMatrix[i]->getTable()[j] - 1;
+			}
+		}
+	}
+	//Wpisujê do znalezionych indeksów tabuLength
+	if (potentialCost != INT_MAX && foundIndex1 != INT_MAX && foundIndex2 != INT_MAX) {
+		tabuMatrix[foundIndex1]->getTable()[foundIndex2] = tabuLength;
+		//Jeœli potentialCost < actualPathWeight, to aktualizacja actualPath
+		if (potentialCost < actualPathWeight) {
+			actualPath->swap(foundIndex1, foundIndex2);
+			actualPathWeight = potentialCost;
+		}
+	}
+}
+
+bool TabuSearch::notTabu(int index1, int index2)
+{
+	if (tabuMatrix[index1]->getTable()[index2] == 0) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 Array* TabuSearch::getActualPath()

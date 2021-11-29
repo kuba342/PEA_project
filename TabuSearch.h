@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "BiList.h"
 
 class TabuSearch
 {
@@ -34,6 +35,11 @@ private:
 	Array* bestPath;
 	int bestPathWeight;
 	Array** tabuMatrix;
+	int tabuLength;
+	int potentialCost;
+	int foundIndex1;
+	int foundIndex2;
+	Array* set;
 
 	int tries;
 	int maxTries;
@@ -45,6 +51,8 @@ private:
 	void calculateFirstSolutionWeight();	
 	void updateBestSolution();
 	int calculatePotentialWeight(int index1, int index2);
+	void updateParameters();
+	bool notTabu(int index1, int index2);
 };
 
 #endif // !TabuSearch_h
