@@ -9,7 +9,7 @@
 
 //szablon klasy implementuj¹cej tablicê dynamiczn¹
 template <typename T>
-class Array2 : public OrderedCollection<T>
+class Array2
 {
 public:
     Array2<T>();

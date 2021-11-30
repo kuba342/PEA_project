@@ -13,7 +13,7 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 	this->tries = 0;
 	this->maxTries = 5;
 	this->count = 0;
-	this->Iter = 5;
+	this->Iter = 1000;
 	this->tabuMatrix = new Array * [graph->getV() - 2];
 	for (int i = 0; i < graph->getV() - 2; i++) {
 		tabuMatrix[i] = new Array();
@@ -74,7 +74,7 @@ void TabuSearch::calculate()
 						if (cost < potentialCost) {
 							potentialCost = cost;
 							foundIndex1 = i;
-							foundIndex2 = i+j+1;
+							foundIndex2 = j;
 						}
 					}
 				}
@@ -109,7 +109,7 @@ void TabuSearch::firstSolution()
 		//Usuwam ze zbioru wybrany element
 		set.removeAt(index);
 	}
-	//actualPath->showArray();
+	actualPath->showArray();
 }
 
 void TabuSearch::calculateFirstSolutionWeight()
@@ -199,7 +199,7 @@ void TabuSearch::updateParameters()
 	for (int i = 0; i < graph->getV() - 2; i++) {
 		for (int j = 0; j < tabuMatrix[i]->getSize(); j++) {
 			if (tabuMatrix[i]->getTable()[j] > 0) {
-				tabuMatrix[i]->getTable()[j] = tabuMatrix[i]->getTable()[j] - 1;
+				tabuMatrix[i]->getTable()[j]--;
 			}
 		}
 	}
@@ -208,7 +208,7 @@ void TabuSearch::updateParameters()
 		tabuMatrix[foundIndex1]->getTable()[foundIndex2] = tabuLength;
 		//Jeœli potentialCost < actualPathWeight, to aktualizacja actualPath
 		if (potentialCost < actualPathWeight) {
-			actualPath->swap(foundIndex1, foundIndex2);
+			actualPath->swap(foundIndex1, foundIndex2 + foundIndex1 + 1);
 			actualPathWeight = potentialCost;
 		}
 	}
