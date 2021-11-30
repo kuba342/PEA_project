@@ -39,6 +39,7 @@ TabuSearch::~TabuSearch()
 		delete tabuMatrix[i];
 	}
 	delete[] tabuMatrix;
+	delete set;
 }
 
 void TabuSearch::calculate()
@@ -99,27 +100,23 @@ void TabuSearch::firstSolution()
 {
 	//Wype³niam zbiór wierzcho³ków
 	if (set != nullptr) {
-		delete set;
+		delete this->set;
+		this->set = nullptr;
 	}
 	this->set = new Array();
-	//BiList* set = new BiList();
 	for (int i = 1; i < this->graph->getV(); i++) {
-		set->addAtTheEnd(i);
+		set->addOnPosition(i, i-1);
 	}
 	//Dla ka¿dego z nieu¿ytych wierzcho³ków:
 	for (int i = 1; i < this->graph->getV(); i++) {
 		//Losowy indeks modulo rozmiar
 		int index = (std::rand() % set->getSize());
 		//Dodajê na koniec wybrany element
-		//this->actualPath->addAtTheEnd(set->getTable()[index]);
-		actualPath->getTable()[i - 1] = set->getTable()[index];
+		this->actualPath->getTable()[i - 1] = set->getTable()[index];
 		//Usuwam ze zbioru wybrany element
 		set->removeOnPosition(index);
-		//listElement* pointer = set->getHead();
-		//for (int j = 0; j < index; j++, pointer = pointer->next) {}
-		//set->removeOnPosition(pointer);
 	}
-	actualPath->showArray();
+	//actualPath->showArray();
 }
 
 void TabuSearch::calculateFirstSolutionWeight()

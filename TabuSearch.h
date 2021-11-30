@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "BiList.h"
+#include "BRTree.h"
 
 class TabuSearch
 {
