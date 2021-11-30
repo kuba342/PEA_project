@@ -26,7 +26,6 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 	this->potentialCost = INT_MAX;
 	this->foundIndex1 = INT_MAX;
 	this->foundIndex2 = INT_MAX;
-	this->set = new Array();
 	//Start randomizing
 	srand(time(NULL));
 }
@@ -39,7 +38,6 @@ TabuSearch::~TabuSearch()
 		delete tabuMatrix[i];
 	}
 	delete[] tabuMatrix;
-	delete set;
 }
 
 void TabuSearch::calculate()
@@ -99,22 +97,17 @@ void TabuSearch::calculate()
 void TabuSearch::firstSolution()
 {
 	//Wype³niam zbiór wierzcho³ków
-	if (set != nullptr) {
-		delete this->set;
-		this->set = nullptr;
-	}
-	this->set = new Array();
 	for (int i = 1; i < this->graph->getV(); i++) {
-		set->addOnPosition(i, i-1);
+		set.pushFront(i);
 	}
 	//Dla ka¿dego z nieu¿ytych wierzcho³ków:
 	for (int i = 1; i < this->graph->getV(); i++) {
 		//Losowy indeks modulo rozmiar
-		int index = (std::rand() % set->getSize());
+		int index = (std::rand() % set.getLength());
 		//Dodajê na koniec wybrany element
-		this->actualPath->getTable()[i - 1] = set->getTable()[index];
+		this->actualPath->getTable()[i - 1] = set.get(index);
 		//Usuwam ze zbioru wybrany element
-		set->removeOnPosition(index);
+		set.removeAt(index);
 	}
 	//actualPath->showArray();
 }

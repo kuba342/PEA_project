@@ -9,6 +9,7 @@
 #include <ctime>
 #include "BiList.h"
 #include "BRTree.h"
+#include "Array2.h"
 
 class TabuSearch
 {
@@ -40,7 +41,7 @@ private:
 	int potentialCost;
 	int foundIndex1;
 	int foundIndex2;
-	Array* set;
+	Array2<int> set;
 
 	int tries;
 	int maxTries;

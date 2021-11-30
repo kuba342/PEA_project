@@ -203,6 +203,9 @@
     <ClInclude Include="TabuSearch.h">
       <Filter>Pliki nagłówkowe\TabuSearch</Filter>
     </ClInclude>
+    <ClInclude Include="Array2.h">
+      <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\br17.atsp">
