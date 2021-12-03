@@ -19,6 +19,7 @@ public:
 	~TSPSimulatedAnnealing();
 
 	void calculate();
+	void showBestCycle();
 
 	//Settery i gettery
 	void setFirstTemp(double temp);

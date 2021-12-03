@@ -17,6 +17,7 @@ public:
 	TabuSearch(AdjMatrix* graph);
 	~TabuSearch();
 	void calculate();
+	void showBestCycle();
 
 	//Settery i gettery
 	Array* getActualPath();

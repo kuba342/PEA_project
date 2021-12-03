@@ -337,9 +337,7 @@ void Menu::simulatedAnnealing()
 		
 		this->sa->calculate();
 
-		std::cout << "Najkrotsza sciezka:\n";
-		this->sa->getBestPath()->showArray();
-		std::cout << "\nCost: " << this->sa->getBestWeight() << "\n";
+		this->sa->showBestCycle();
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
@@ -359,9 +357,7 @@ void Menu::tabuSearch()
 
 		this->tabu->calculate();
 
-		std::cout << "Najkrotsza sciezka:\n";
-		//this->sa->getBestPath()->showArray();
-		//std::cout << "\nCost: " << this->sa->getBestWeight() << "\n";
+		this->tabu->showBestCycle();
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();

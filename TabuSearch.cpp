@@ -11,18 +11,17 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 	this->bestPath = new Array();
 	this->bestPathWeight = INT_MAX;
 	this->tries = 0;
-	this->maxTries = 5;
+	this->maxTries = 10;
 	this->count = 0;
-	this->Iter = 1000;
+	this->Iter = 10000;
 	this->tabuMatrix = new Array * [graph->getV() - 2];
 	for (int i = 0; i < graph->getV() - 2; i++) {
 		tabuMatrix[i] = new Array();
 		for (int j = 0; j < graph->getV()-2-i; j++) {
 			tabuMatrix[i]->addAtTheEnd(0);
 		}
-		tabuMatrix[i]->showArray();
 	}
-	this->tabuLength = 5;
+	this->tabuLength = 2*graph->getV();
 	this->potentialCost = INT_MAX;
 	this->foundIndex1 = INT_MAX;
 	this->foundIndex2 = INT_MAX;
@@ -67,9 +66,7 @@ void TabuSearch::calculate()
 					//Jeœli zamiana nie jest Tabu
 					if (notTabu(i, j)) {
 						//Liczê koszt potencjalnej zamiany
-						//std::cout << "i=" << i << " j=" << i+j+1 << "\n";
 						int cost = calculatePotentialWeight(i, i+j+1);
-						//std::cout << cost << "\n";
 						//Jeœli mniejszy, to zapamiêtujê
 						if (cost < potentialCost) {
 							potentialCost = cost;
@@ -89,9 +86,17 @@ void TabuSearch::calculate()
 			updateBestSolution();
 		}
 	}
-	std::cout << "Sciezka: ";
-	bestPath->showArray();
-	std::cout << "Koszt = " << bestPathWeight;
+}
+
+void TabuSearch::showBestCycle()
+{
+	std::cout << "Najkrotsza sciezka:\n";
+	std::cout << "[ 0 ";
+	for (int i = 0; i < bestPath->getSize(); i++) {
+		std::cout << bestPath->getTable()[i] << " ";
+	}
+	std::cout << "0 ]\n";
+	std::cout << "Cost: " << bestPathWeight << "\n";
 }
 
 void TabuSearch::firstSolution()
@@ -109,7 +114,7 @@ void TabuSearch::firstSolution()
 		//Usuwam ze zbioru wybrany element
 		set.removeAt(index);
 	}
-	actualPath->showArray();
+	//actualPath->showArray();
 }
 
 void TabuSearch::calculateFirstSolutionWeight()
