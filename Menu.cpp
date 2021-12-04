@@ -55,6 +55,8 @@ void Menu::tests() {
 				  << "1. Brute Force\n"
 				  << "2. Programowanie dynamiczne\n"
 				  << "3. Metoda podzialu i ograniczen\n"
+				  << "4. Symulowane wyzarzanie\n"
+				  << "5. Tabu Search\n"
 				  << "Wprowadz numer algorytmu: ";
 		std::cin >> decision1;
 		fflush(stdin);
@@ -66,6 +68,12 @@ void Menu::tests() {
 			generateResults(decision1, v);
 			break;
 		case '3':
+			generateResults(decision1, v);
+			break;
+		case '4':
+			generateResults(decision1, v);
+			break;
+		case '5':
 			generateResults(decision1, v);
 			break;
 		default:
@@ -121,6 +129,22 @@ void Menu::generateResults(char decision, int v) {
 				this->clock->endTime();
 				results[i] = this->clock->executionTime();
 				delete this->branch;
+				break;
+			case '4':
+				this->sa = new TSPSimulatedAnnealing(this->graph);
+				clock->startTime();
+				sa->calculate();
+				clock->endTime();
+				results[i] = clock->executionTime();
+				delete this->sa;
+				break;
+			case '5':
+				this->tabu = new TabuSearch(this->graph);
+				clock->startTime();
+				tabu->calculate();
+				clock->endTime();
+				results[i] = clock->executionTime();
+				delete this->tabu;
 				break;
 			}
 		} while (results[i] == 0);

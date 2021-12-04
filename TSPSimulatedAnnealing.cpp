@@ -3,7 +3,7 @@
 
 TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 {
-	this->numberOfCycles = 5;
+	this->numberOfCycles = 2;
 	this->matrix = matrix;
 	this->actualPath = new Array();
 	this->actualPathWeight = INT_MAX;

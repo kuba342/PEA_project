@@ -11,7 +11,7 @@ TabuSearch::TabuSearch(AdjMatrix* graph)
 	this->bestPath = new Array();
 	this->bestPathWeight = INT_MAX;
 	this->tries = 0;
-	this->maxTries = 10;
+	this->maxTries = 200;
 	this->count = 0;
 	this->Iter = 10000;
 	this->tabuMatrix = new Array * [graph->getV() - 2];
