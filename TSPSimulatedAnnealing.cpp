@@ -3,7 +3,7 @@
 
 TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 {
-	this->numberOfCycles = 2;
+	this->numberOfCycles = 5;
 	this->matrix = matrix;
 	this->actualPath = new Array();
 	this->actualPathWeight = INT_MAX;
@@ -17,7 +17,7 @@ TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 		newPath->addAtTheEnd(i);
 		bestPath->addAtTheEnd(i);
 	}
-
+	this->coolingFactor = 0.99999;
 	this->firstTemp = 50.0;
 	this->minimalTemp = 5.0;
 	this->currentTemp = this->firstTemp;
@@ -55,10 +55,10 @@ void TSPSimulatedAnnealing::calculate()
 			int inneriterator = 0;
 			do {
 				//L prób poszukiwania
-			//Do br17.atsp
-			int max = (matrix->getV() * matrix->getV()) / 2;
-			//Powy¿ej br17.atsp
-			//int max = 2*matrix->getV();
+				//Do br17.atsp
+				int max = (matrix->getV() * matrix->getV()) / 2;
+				//Powy¿ej br17.atsp
+				//int max = 2*matrix->getV();
 				for (int i = 0; i < max; i++) {
 					//Nowe rozwi¹zanie:
 					nextSolution();
@@ -68,8 +68,6 @@ void TSPSimulatedAnnealing::calculate()
 			//Sch³adzanie
 			cooling();
 		}
-		//this->bestPath->showArray();
-		//std::cout << "Aktualny koszt: " << this->bestWeight << "\n";
 	}
 }
 
@@ -226,10 +224,6 @@ void TSPSimulatedAnnealing::setFirstTemp(double temp)
 	this->firstTemp = temp;
 }
 
-void TSPSimulatedAnnealing::setminimalTemp(double temp)
-{
-	this->minimalTemp = temp;
-}
 
 void TSPSimulatedAnnealing::setIterations(int iterations)
 {
@@ -266,6 +260,11 @@ double TSPSimulatedAnnealing::getMinimalTemp()
 	return this->minimalTemp;
 }
 
+void TSPSimulatedAnnealing::setMinimalTemp(double minimalTemp)
+{
+	this->minimalTemp = minimalTemp;
+}
+
 double TSPSimulatedAnnealing::getcurrentTemp()
 {
 	return this->currentTemp;
@@ -279,4 +278,14 @@ int TSPSimulatedAnnealing::getIterations()
 double TSPSimulatedAnnealing::getCoolingDactor()
 {
 	return this->coolingFactor;
+}
+
+void TSPSimulatedAnnealing::setCoolingFactor(double coolingFactor)
+{
+	this->coolingFactor = coolingFactor;
+}
+
+void TSPSimulatedAnnealing::setNumberOfCycles(int cycles)
+{
+	this->numberOfCycles = cycles;
 }

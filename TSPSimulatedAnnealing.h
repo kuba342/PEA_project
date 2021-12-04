@@ -23,7 +23,6 @@ public:
 
 	//Settery i gettery
 	void setFirstTemp(double temp);
-	void setminimalTemp(double temp);
 	void setIterations(int iterations);
 	
 	Array* getActualPath();
@@ -32,9 +31,12 @@ public:
 	int getBestWeight();
 	double getFirstTemp();
 	double getMinimalTemp();
+	void setMinimalTemp(double minimalTemp);
 	double getcurrentTemp();
 	int getIterations();
 	double getCoolingDactor();
+	void setCoolingFactor(double coolingFactor);
+	void setNumberOfCycles(int cycles);
 
 
 private:
@@ -51,7 +53,7 @@ private:
 	double minimalTemp;
 	double currentTemp;
 	int iterations;
-	double const coolingFactor = 0.99999;
+	double coolingFactor;
 	int swapIndex;
 
 	//Algorytm

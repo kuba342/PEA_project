@@ -355,12 +355,8 @@ void Menu::simulatedAnnealing()
 	if (this->graph != nullptr) {
 		this->sa = new TSPSimulatedAnnealing(this->graph);
 		
-		this->sa->calculate();
+		saParameters();
 
-		this->sa->showBestCycle();
-		std::cout << "Wcisnij Enter, aby kontynuowac!";
-		std::cin.get();
-		std::cin.get();
 	}
 	else {
 		system("cls");
@@ -372,7 +368,82 @@ void Menu::simulatedAnnealing()
 
 void Menu::saParameters()
 {
+	double coolingFactor, firstTemp, minimalTemp;
+	int numberOfCycles;
+	std::string bufor = " ";
+	std::cout << "Podaj liczbe iteracji (eksploracja):\n"
+			  << "Iterations = ";
+	std::cin >> bufor;
+	fflush(stdin);
+	if (lib->isNum(bufor)) {
+		numberOfCycles = std::stoi(bufor);
 
+		system("cls");
+		std::cout << "Podaj wspolczynnik chlodzenia\n"
+			<< "coolingFactor = ";
+		std::cin >> bufor;
+		fflush(stdin);
+
+		if (lib->isDouble(bufor)) {
+			coolingFactor = std::stod(bufor);
+
+			system("cls");
+			std::cout << "Podaj poczatkowa temperature\n"
+				<< "firstTemp = ";
+			std::cin >> bufor;
+			fflush(stdin);
+
+			if (lib->isDouble(bufor)) {
+				firstTemp = std::stod(bufor);
+
+				system("cls");
+				std::cout << "Podaj minimalna temperature\n"
+					<< "minimalTemp = ";
+				std::cin >> bufor;
+				fflush(stdin);
+
+				if (lib->isDouble(bufor)) {
+					minimalTemp = std::stod(bufor);
+
+					this->sa->setNumberOfCycles(numberOfCycles);
+					this->sa->setCoolingFactor(coolingFactor);
+					this->sa->setFirstTemp(firstTemp);
+					this->sa->setMinimalTemp(minimalTemp);
+					system("cls");
+					this->sa->calculate();
+
+					this->sa->showBestCycle();
+					std::cout << "Wcisnij Enter, aby kontynuowac!";
+					std::cin.get();
+					std::cin.get();
+				}
+				else {
+					system("cls");
+					std::cout << "Niepoprawne znaki!\n"
+						<< "Operacja anulowana!";
+					Sleep(3000);
+				}
+			}
+			else {
+				system("cls");
+				std::cout << "Niepoprawne znaki!\n"
+					<< "Operacja anulowana!";
+				Sleep(3000);
+			}
+		}
+		else {
+			system("cls");
+			std::cout << "Niepoprawne znaki!\n"
+				<< "Operacja anulowana!";
+			Sleep(3000);
+		}
+	}
+	else {
+		system("cls");
+		std::cout << "Niepoprawne znaki!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
 }
 
 void Menu::tabuSearch()
@@ -382,12 +453,6 @@ void Menu::tabuSearch()
 
 		tabuParameters();
 
-		this->tabu->calculate();
-
-		this->tabu->showBestCycle();
-		std::cout << "Wcisnij Enter, aby kontynuowac!";
-		std::cin.get();
-		std::cin.get();
 	}
 	else {
 		system("cls");
@@ -429,6 +494,12 @@ void Menu::tabuParameters()
 				this->tabu->setIter(Iter);
 				this->tabu->setTabuLength(tabuLength);
 				system("cls");
+				this->tabu->calculate();
+
+				this->tabu->showBestCycle();
+				std::cout << "Wcisnij Enter, aby kontynuowac!";
+				std::cin.get();
+				std::cin.get();
 			}
 			else {
 				system("cls");
