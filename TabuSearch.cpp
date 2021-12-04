@@ -76,7 +76,6 @@ void TabuSearch::calculate()
 					}
 				}
 			}
-
 			//Aktualizujê listê tabu: wszystko -1 (oprócz 0)
 			//Aktualna zamiana = tabuLength (jeœli jest ró¿na od INT_MAX)
 			updateParameters();

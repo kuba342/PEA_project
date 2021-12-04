@@ -39,7 +39,6 @@ void TSPSimulatedAnnealing::calculate()
 {
 	for (int x = 0; x < numberOfCycles; x++) {
 		renewParameters();
-		//std::cout << "x = " << x << "\n";
 		//W tym miejscu bêdzie g³ówny algorytm:
 		//Pierwsze losowe rozwi¹zanie
 		determineFirstSolution();
@@ -52,19 +51,12 @@ void TSPSimulatedAnnealing::calculate()
 		//Pêtla algorytmu
 		while (currentTemp >= minimalTemp) {
 			int actualCost = this->bestWeight;
-			int inneriterator = 0;
-			do {
-				//L prób poszukiwania
-				//Do br17.atsp
-				int max = (matrix->getV() * matrix->getV()) / 2;
-				//Powy¿ej br17.atsp
-				//int max = 2*matrix->getV();
-				for (int i = 0; i < max; i++) {
-					//Nowe rozwi¹zanie:
-					nextSolution();
-				}
-				inneriterator++;
-			} while (actualCost - bestWeight < 0 && inneriterator < iterations);
+			//max prób poszukiwania
+			int max = (matrix->getV() * matrix->getV()) / 2;
+			for (int i = 0; i < max; i++) {
+				//Nowe rozwi¹zanie:
+				nextSolution();
+			}
 			//Sch³adzanie
 			cooling();
 		}
