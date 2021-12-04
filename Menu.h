@@ -45,7 +45,9 @@ private:
 	void generator();
 	void BnB();
 	void simulatedAnnealing();
+	void saParameters();
 	void tabuSearch();
+	void tabuParameters();
 };
 
 #endif // !Menu_h

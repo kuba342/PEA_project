@@ -244,10 +244,6 @@ void Menu::showGraph() {
 }
 
 void Menu::heldKarp() {
-	/*Combinations* comb = new Combinations(6, 4);
-	comb->print();
-	std::cin.get();
-	std::cin.get();*/
 	if (this->graph != nullptr) {
 		system("cls");
 
@@ -374,10 +370,17 @@ void Menu::simulatedAnnealing()
 	}
 }
 
+void Menu::saParameters()
+{
+
+}
+
 void Menu::tabuSearch()
 {
 	if (this->graph != nullptr) {
 		this->tabu = new TabuSearch(this->graph);
+
+		tabuParameters();
 
 		this->tabu->calculate();
 
@@ -393,6 +396,63 @@ void Menu::tabuSearch()
 		Sleep(3000);
 	}
 }
+
+void Menu::tabuParameters()
+{
+	int maxTries, Iter, tabuLength;
+	std::string bufor = " ";
+	std::cout << "Podaj liczbe iteracji (eksploracja):\n"
+			  << "Iterations = ";
+	std::cin >> bufor;
+	fflush(stdin);
+	if (lib->isNum(bufor)) {
+		maxTries = std::stoi(bufor);
+
+		system("cls");
+		std::cout << "Podaj liczbe iteracji (eksploatacja):\n"
+				  << "Iterations = ";
+		std::cin >> bufor;
+		fflush(stdin);
+
+		if (lib->isNum(bufor)) {
+			Iter = std::stoi(bufor);
+
+			system("cls");
+			std::cout << "Podaj dlugosc tabu:\n"
+					  << "tabuLength = ";
+			std:cin >> bufor;
+			fflush(stdin);
+
+			if (lib->isNum(bufor)) {
+				tabuLength = std::stoi(bufor);
+				this->tabu->setMaxTries(maxTries);
+				this->tabu->setIter(Iter);
+				this->tabu->setTabuLength(tabuLength);
+				system("cls");
+			}
+			else {
+				system("cls");
+				std::cout << "Niepoprawne znaki!\n"
+					<< "Operacja anulowana!";
+				Sleep(3000);
+			}
+		}
+		else {
+			system("cls");
+			std::cout << "Niepoprawne znaki!\n"
+				<< "Operacja anulowana!";
+			Sleep(3000);
+		}
+	}
+	else {
+		system("cls");
+		std::cout << "Niepoprawne znaki!\n"
+				  << "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
+
 
 void Menu::showMenu() 
 {

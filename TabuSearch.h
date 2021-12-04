@@ -30,6 +30,8 @@ public:
 	int getCount();
 	int getIter();
 	void setIter(int Iter);
+	int getTabuLength();
+	void setTabuLength(int tabuLength);
 
 private:
 	AdjMatrix* graph;

@@ -268,3 +268,13 @@ void TabuSearch::setIter(int Iter)
 {
 	this->Iter = Iter;
 }
+
+int TabuSearch::getTabuLength()
+{
+	return this->tabuLength;
+}
+
+void TabuSearch::setTabuLength(int tabuLength)
+{
+	this->tabuLength = tabuLength;
+}
