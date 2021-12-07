@@ -54,6 +54,8 @@ void TabuSearch::calculate()
 			}
 			bestPathWeight = actualPathWeight;
 		}
+		//Odnawiam tablicê tabu
+		renewTabuMatrix();
 		//Iteracja wewnêtrzna - przeszukiwanie lokalne
 		for (count = 1; count <= Iter; count++) {
 			//Potencjalny koszt na maksimum
@@ -225,6 +227,15 @@ bool TabuSearch::notTabu(int index1, int index2)
 	}
 	else {
 		return false;
+	}
+}
+
+void TabuSearch::renewTabuMatrix()
+{
+	for (int i = 0; i < graph->getV() - 2; i++) {
+		for (int j = 0; j < tabuMatrix[i]->getSize(); j++) {
+			tabuMatrix[i]->getTable()[j] = 0;
+		}
 	}
 }
 

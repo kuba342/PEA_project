@@ -58,6 +58,7 @@ private:
 	int calculatePotentialWeight(int index1, int index2);
 	void updateParameters();
 	bool notTabu(int index1, int index2);
+	void renewTabuMatrix();
 };
 
 #endif // !TabuSearch_h
