@@ -17,11 +17,11 @@ TSPSimulatedAnnealing::TSPSimulatedAnnealing(AdjMatrix* matrix)
 		newPath->addAtTheEnd(i);
 		bestPath->addAtTheEnd(i);
 	}
-	this->coolingFactor = 0.99999;
-	this->firstTemp = 50.0;
-	this->minimalTemp = 5.0;
+	this->coolingFactor = 0.999;
+	this->firstTemp = 100.0;
+	this->minimalTemp = 10.0;
 	this->currentTemp = this->firstTemp;
-	this->iterations = 5;
+	this->iterations = 1;
 	this->swapIndex = 0;
 
 	//Start randomizing

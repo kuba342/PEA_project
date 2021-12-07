@@ -369,7 +369,7 @@ void Menu::simulatedAnnealing()
 void Menu::saParameters()
 {
 	double coolingFactor, firstTemp, minimalTemp;
-	int numberOfCycles;
+	int numberOfCycles, iterations;
 	std::string bufor = " ";
 	std::cout << "Podaj liczbe iteracji (eksploracja):\n"
 			  << "Iterations = ";
@@ -405,17 +405,34 @@ void Menu::saParameters()
 				if (lib->isDouble(bufor)) {
 					minimalTemp = std::stod(bufor);
 
-					this->sa->setNumberOfCycles(numberOfCycles);
-					this->sa->setCoolingFactor(coolingFactor);
-					this->sa->setFirstTemp(firstTemp);
-					this->sa->setMinimalTemp(minimalTemp);
 					system("cls");
-					this->sa->calculate();
+					std::cout << "Podaj wewnetrzna liczbe iteracji temperature\n"
+						<< "iterations = ";
+					std::cin >> bufor;
+					fflush(stdin);
 
-					this->sa->showBestCycle();
-					std::cout << "Wcisnij Enter, aby kontynuowac!";
-					std::cin.get();
-					std::cin.get();
+					if (lib->isNum(bufor)) {
+						iterations = std::stoi(bufor);
+
+						this->sa->setNumberOfCycles(numberOfCycles);
+						this->sa->setCoolingFactor(coolingFactor);
+						this->sa->setFirstTemp(firstTemp);
+						this->sa->setMinimalTemp(minimalTemp);
+						this->sa->setIterations(iterations);
+						system("cls");
+						this->sa->calculate();
+
+						this->sa->showBestCycle();
+						std::cout << "Wcisnij Enter, aby kontynuowac!";
+						std::cin.get();
+						std::cin.get();
+					}
+					else {
+						system("cls");
+						std::cout << "Niepoprawne znaki!\n"
+							<< "Operacja anulowana!";
+						Sleep(3000);
+					}
 				}
 				else {
 					system("cls");
