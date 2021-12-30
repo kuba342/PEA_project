@@ -3,18 +3,22 @@
 GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 {
 	this->population = nullptr;
+	this->parents = nullptr;
+	this->children = nullptr;
 	this->graph = matrix;
-	this->populationSize = 20;
-	this->parentalPopulationSize = populationSize / 2;
+	this->populationSize = 10;		//Ten parametr bêdzie tak¿e liczb¹ rodziców
+	this->tournamentParticipants = populationSize / 4;		//¯eby nie braæ wszystkich
 	this->crossingFactor = 0.9;
 	this->mutationFactor = 0.9;
-	this->iterations = 100;
+	this->iterations = 1;
 	this->bestPath = new BiList();
 	//Wype³niam najlepsz¹ œcie¿kê zerami
 	for (int i = 0; i < graph->getV() - 1; i++) {
 		bestPath->addAtTheEnd(0);
 	}
 	this->bestWeight = INT_MAX;
+	//Start randomizing
+	srand(time(NULL));
 }
 
 GeneticAlgorithm::~GeneticAlgorithm()
@@ -24,7 +28,14 @@ GeneticAlgorithm::~GeneticAlgorithm()
 
 void GeneticAlgorithm::calculate()
 {
+	//Wybór populacji pocz¹tkowej (rodziców)
+	//Ocena przystosowania chromosomów
 	generatePopulation();
+	//Pêtla - sprawdzenie warunku zatrzymania
+	for (int x = 0; x < iterations; x++) {
+		//a. selekcja chromosomów do populacji macierzystej:
+		chooseParents();
+	}
 }
 
 void GeneticAlgorithm::showBestCycle()
@@ -83,18 +94,56 @@ int GeneticAlgorithm::getBestWeight()
 	return this->bestWeight;
 }
 
+void GeneticAlgorithm::chooseParents()
+{
+	if (parents != nullptr) {
+		delete parents;
+	}
+	parents = new ListOfIndividuals();
+	//Wybieram populationSize rodziców
+	for (int i = 0; i < populationSize; i++) {
+		//Zbiór indeksów osobników do wylosowania w turnieju
+		BiList* set = new BiList();
+		//Wype³niam ten zbiór
+		for (int j = 0; j < population->getSize(); j++) {
+			set->addAtTheEnd(j);
+		}
+		//Wybieram tournamentParticipants indeksów i zapamiêtujê ten najlepszy
+		int bestIndex = 0;
+		int bestCost = INT_MAX;
+		for (int j = 0; j < tournamentParticipants; j++) {
+			//Losujê pozycjê ze zbioru
+			int setIndex = (std::rand() % set->getCount());
+			//Wybór - indeks w populacji
+			int index = set->getElement(setIndex)->key;
+			//usuwam ze zbioru indeksów
+			set->removeOnPosition(set->getElement(setIndex));
+			//Sprawdzam czy aktualnie najlepszy:
+			if (population->getElement(index)->individual->getCost() < bestCost) {
+				bestIndex = index;
+				bestCost = population->getElement(index)->individual->getCost();
+			}
+		}
+		//W tym momencie mam zwyciêzcê turnieju, zatem dodajê go do populacji rodziców
+		Individual* ind = population->getElement(bestIndex)->individual;
+		//ind->getPath()->showList();
+		//std::cout << "\nCost = " << ind->getCost();
+		parents->addAtTheEnd(ind);
+		//I usuwam z populacji
+		population->removeOnPosition(bestIndex);
+	}
+}
+
 void GeneticAlgorithm::generatePopulation()
 {
-	//this->population = new Individual * [populationSize];
 	this->population = new ListOfIndividuals();
 	//Nowa pusta populacja
-	for (int i = 0; i < populationSize; i++) {
-		//population[i] = new Individual(this->graph->getV()-1);
+	for (int i = 0; i < populationSize*2; i++) {
 		Individual* ind = new Individual(this->graph->getV() - 1);
 		population->addAtTheEnd(ind);
 	}
 	//Losowanie wartoœci dla populacji:
-	for (int i = 0; i < populationSize; i++) {
+	for (int i = 0; i < populationSize*2; i++) {
 		//Wype³niam zbiór wierzcho³ków
 		Array* set = new Array();
 		for (int j = 1; j < graph->getV(); j++) {
@@ -105,7 +154,6 @@ void GeneticAlgorithm::generatePopulation()
 			//losowy indeks modulo rozmiar
 			int index = (std::rand() % set->getSize());
 			//Dodajê na koniec wybrany element
-			//population[i]->getPath()->getElement(j-1)->key = set->getTable()[index];
 			population->getElement(i)->individual->getPath()->getElement(j - 1)->key = set->getTable()[index];
 			//Usuwam ze zbioru wybrany element
 			set->removeOnPosition(index);
@@ -116,8 +164,8 @@ void GeneticAlgorithm::generatePopulation()
 		if (population->getElement(i)->individual->getCost() < bestWeight) {
 			updateBestPath(population->getElement(i)->individual);
 		}
-		population->getElement(i)->individual->getPath()->showList();
-		std::cout << " " << population->getElement(i)->individual->getCost() << " \n";
+		//population->getElement(i)->individual->getPath()->showList();
+		//std::cout << " " << population->getElement(i)->individual->getCost() << " \n";
 	}
 	showBestCycle();
 }

@@ -35,10 +35,13 @@ public:
 private:
 	//Populacja
 	ListOfIndividuals* population;
-	//Individual** population;
+	//Wyselekcjonowani rodzice
+	ListOfIndividuals* parents;
+	//Dzieci po skrzy¿owaniu - jeœli do tego dosz³o
+	ListOfIndividuals* children;	//Liczba dzieci bêdzie zale¿eæ od wspó³czynnika krzy¿owania
 	//Wspó³czynniki:
 	int populationSize;
-	int parentalPopulationSize;
+	int tournamentParticipants;
 	double crossingFactor;
 	double mutationFactor;
 	int iterations;
@@ -51,6 +54,7 @@ private:
 	int bestWeight;
 
 	//metody
+	void chooseParents();
 	void generatePopulation();
 	void calculateCost(Individual* individual);
 	double drawFromTheRange01();
