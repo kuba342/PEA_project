@@ -32,6 +32,8 @@ public:
 	int getBestWeight();
 
 private:
+	//Populacja
+	Individual** population;
 	//Wspó³czynniki:
 	int populationSize;
 	double crossingFactor;
@@ -47,6 +49,7 @@ private:
 
 	//metody
 	void generatePopulation();
+	void calculateCost(Individual* individual);
 	double drawFromTheRange01();
 	void updateBestPath(Individual* individual);
 };

@@ -2,6 +2,7 @@
 
 GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 {
+	this->population = nullptr;
 	this->graph = matrix;
 	this->populationSize = 10;
 	this->crossingFactor = 0.9;
@@ -22,7 +23,7 @@ GeneticAlgorithm::~GeneticAlgorithm()
 
 void GeneticAlgorithm::calculate()
 {
-	//TO DO
+	generatePopulation();
 }
 
 void GeneticAlgorithm::showBestCycle()
@@ -83,7 +84,48 @@ int GeneticAlgorithm::getBestWeight()
 
 void GeneticAlgorithm::generatePopulation()
 {
+	this->population = new Individual * [populationSize];
+	//Nowa pusta populacja
+	for (int i = 0; i < populationSize; i++) {
+		population[i] = new Individual(this->graph->getV()-1);
+	}
+	//Losowanie wartoœci dla populacji:
+	for (int i = 0; i < populationSize; i++) {
+		//Wype³niam zbiór wierzcho³ków
+		Array* set = new Array();
+		for (int j = 1; j < graph->getV(); j++) {
+			set->addAtTheEnd(j);
+		}
+		//Dla ka¿dego z nieu¿ytych wierzcho³ków:
+		for (int j = 1; j < graph->getV(); j++) {
+			//losowy indeks modulo rozmiar
+			int index = (std::rand() % set->getSize());
+			//Dodajê na koniec wybrany element
+			population[i]->getPath()->getElement(j-1)->key = set->getTable()[index];
+			//Usuwam ze zbioru wybrany element
+			set->removeOnPosition(index);
+		}
+		delete set;
+		calculateCost(population[i]);
+		//Aktualnie najlepsze rozwi¹zanie
+		if (population[i]->getCost() < bestWeight) {
+			updateBestPath(population[i]);
+		}
+		population[i]->getPath()->showList();
+		std::cout << " " << population[i]->getCost() << " \n";
+	}
+}
 
+void GeneticAlgorithm::calculateCost(Individual* individual)
+{
+	int cost = 0;
+	cost += graph->distance(0, individual->getPath()->getElement(0)->key);
+	for (int i = 0; i < individual->getSize() - 1; i++) {
+		cost += graph->distance(individual->getPath()->getElement(i)->key, individual->getPath()->getElement(i+1)->key);
+	}
+	cost += graph->distance(individual->getSize()-1, 0);
+	//Ustawiam koszt w obiekcie
+	individual->setCost(cost);
 }
 
 double GeneticAlgorithm::drawFromTheRange01()

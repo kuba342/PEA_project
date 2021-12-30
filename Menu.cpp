@@ -544,9 +544,15 @@ void Menu::tabuParameters()
 void Menu::geneticAlgorithm()
 {
 	if (this->graph != nullptr) {
-
+		system("cls");
 		this->genetic = new GeneticAlgorithm(this->graph);
 
+		this->genetic->calculate();
+
+		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cin.get();
+		std::cin.get();
+		delete this->genetic;
 	}
 	else {
 		system("cls");
