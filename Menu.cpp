@@ -12,6 +12,7 @@ Menu::Menu()
 	this->clock = new Clock();
 	this->sa = nullptr;
 	this->tabu = nullptr;
+	this->genetic = nullptr;
 }
 
 Menu::~Menu()
@@ -502,7 +503,7 @@ void Menu::tabuParameters()
 			system("cls");
 			std::cout << "Podaj dlugosc tabu:\n"
 					  << "tabuLength = ";
-			std:cin >> bufor;
+			std::cin >> bufor;
 			fflush(stdin);
 
 			if (lib->isNum(bufor)) {
@@ -544,7 +545,7 @@ void Menu::geneticAlgorithm()
 {
 	if (this->graph != nullptr) {
 
-
+		this->genetic = new GeneticAlgorithm(this->graph);
 
 	}
 	else {

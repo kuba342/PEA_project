@@ -17,6 +17,7 @@
 #include "clock.h"
 #include "TSPSimulatedAnnealing.h"
 #include "TabuSearch.h"
+#include "GeneticAlgorithm.h"
 
 class Menu
 {
@@ -32,6 +33,7 @@ private:
 	BranchAndBound* branch;
 	TSPSimulatedAnnealing* sa;
 	TabuSearch* tabu;
+	GeneticAlgorithm* genetic;
 	Additional* lib;
 	Clock* clock;
 

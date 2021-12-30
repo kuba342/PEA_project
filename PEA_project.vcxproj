@@ -148,6 +148,7 @@
     <ClInclude Include="BranchAndBound.h" />
     <ClInclude Include="BRTree.h" />
     <ClInclude Include="Combinations.h" />
+    <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Individual.h" />
     <ClInclude Include="ListOfPartials.h" />
     <ClInclude Include="BiList.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="BranchAndBound.cpp" />
     <ClCompile Include="BRTree.cpp" />
     <ClCompile Include="Combinations.cpp" />
+    <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="Individual.cpp" />
     <ClCompile Include="ListOfPartials.cpp" />
     <ClCompile Include="ATSPFileReader.cpp" />

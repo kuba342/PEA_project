@@ -141,6 +141,9 @@
     <ClCompile Include="Individual.cpp">
       <Filter>Pliki źródłowe\GeneticAlgorithm</Filter>
     </ClCompile>
+    <ClCompile Include="GeneticAlgorithm.cpp">
+      <Filter>Pliki źródłowe\GeneticAlgorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -216,6 +219,9 @@
       <Filter>Pliki nagłówkowe\Structures</Filter>
     </ClInclude>
     <ClInclude Include="Individual.h">
+      <Filter>Pliki nagłówkowe\GeneticAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneticAlgorithm.h">
       <Filter>Pliki nagłówkowe\GeneticAlgorithm</Filter>
     </ClInclude>
   </ItemGroup>
