@@ -406,7 +406,7 @@ void Menu::saParameters()
 					minimalTemp = std::stod(bufor);
 
 					system("cls");
-					std::cout << "Podaj wewnetrzna liczbe iteracji temperature\n"
+					std::cout << "Podaj wewnetrzna liczbe iteracji\n"
 						<< "iterations = ";
 					std::cin >> bufor;
 					fflush(stdin);
