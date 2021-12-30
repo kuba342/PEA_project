@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Individual.h"
+#include "ListOfIndividuals.h"
 
 class GeneticAlgorithm
 {
@@ -33,9 +34,11 @@ public:
 
 private:
 	//Populacja
-	Individual** population;
+	ListOfIndividuals* population;
+	//Individual** population;
 	//Wspó³czynniki:
 	int populationSize;
+	int parentalPopulationSize;
 	double crossingFactor;
 	double mutationFactor;
 	int iterations;

@@ -4,7 +4,8 @@ GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 {
 	this->population = nullptr;
 	this->graph = matrix;
-	this->populationSize = 10;
+	this->populationSize = 20;
+	this->parentalPopulationSize = populationSize / 2;
 	this->crossingFactor = 0.9;
 	this->mutationFactor = 0.9;
 	this->iterations = 100;
@@ -84,10 +85,13 @@ int GeneticAlgorithm::getBestWeight()
 
 void GeneticAlgorithm::generatePopulation()
 {
-	this->population = new Individual * [populationSize];
+	//this->population = new Individual * [populationSize];
+	this->population = new ListOfIndividuals();
 	//Nowa pusta populacja
 	for (int i = 0; i < populationSize; i++) {
-		population[i] = new Individual(this->graph->getV()-1);
+		//population[i] = new Individual(this->graph->getV()-1);
+		Individual* ind = new Individual(this->graph->getV() - 1);
+		population->addAtTheEnd(ind);
 	}
 	//Losowanie wartoœci dla populacji:
 	for (int i = 0; i < populationSize; i++) {
@@ -101,19 +105,21 @@ void GeneticAlgorithm::generatePopulation()
 			//losowy indeks modulo rozmiar
 			int index = (std::rand() % set->getSize());
 			//Dodajê na koniec wybrany element
-			population[i]->getPath()->getElement(j-1)->key = set->getTable()[index];
+			//population[i]->getPath()->getElement(j-1)->key = set->getTable()[index];
+			population->getElement(i)->individual->getPath()->getElement(j - 1)->key = set->getTable()[index];
 			//Usuwam ze zbioru wybrany element
 			set->removeOnPosition(index);
 		}
 		delete set;
-		calculateCost(population[i]);
+		calculateCost(population->getElement(i)->individual);
 		//Aktualnie najlepsze rozwi¹zanie
-		if (population[i]->getCost() < bestWeight) {
-			updateBestPath(population[i]);
+		if (population->getElement(i)->individual->getCost() < bestWeight) {
+			updateBestPath(population->getElement(i)->individual);
 		}
-		population[i]->getPath()->showList();
-		std::cout << " " << population[i]->getCost() << " \n";
+		population->getElement(i)->individual->getPath()->showList();
+		std::cout << " " << population->getElement(i)->individual->getCost() << " \n";
 	}
+	showBestCycle();
 }
 
 void GeneticAlgorithm::calculateCost(Individual* individual)
