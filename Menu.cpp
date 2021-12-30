@@ -540,6 +540,21 @@ void Menu::tabuParameters()
 	}
 }
 
+void Menu::geneticAlgorithm()
+{
+	if (this->graph != nullptr) {
+
+
+
+	}
+	else {
+		system("cls");
+		std::cout << "Nie wczytano grafu!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
 
 
 void Menu::showMenu() 
@@ -556,6 +571,7 @@ void Menu::showMenu()
 			  << "6. Metoda podzialu i ograniczen\n"
 			  << "7. Symulowane wyzarzanie\n"
 			  << "8. Metoda TabuSearch\n"
+			  << "9. Algorytm genetyczny\n"
 			  << "X lub x. Koniec programu\n\n"
 			  << "Wpisz znak operacji: ";
 	std::cin >> option;
@@ -611,6 +627,11 @@ void Menu::showMenu()
 	case '8':
 		system("cls");
 		tabuSearch();
+		system("cls");
+		break;
+	case '9':
+		system("cls");
+		geneticAlgorithm();
 		system("cls");
 		break;
 

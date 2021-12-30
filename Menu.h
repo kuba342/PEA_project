@@ -48,6 +48,7 @@ private:
 	void saParameters();
 	void tabuSearch();
 	void tabuParameters();
+	void geneticAlgorithm();
 };
 
 #endif // !Menu_h

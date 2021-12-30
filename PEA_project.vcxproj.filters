@@ -58,6 +58,12 @@
     <Filter Include="Pliki źródłowe\TabuSearch">
       <UniqueIdentifier>{7584e146-1c84-4003-8031-9965e3c2d794}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\GeneticAlgorithm">
+      <UniqueIdentifier>{20a73ea8-b92f-4bdc-a32f-76ded7377deb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\GeneticAlgorithm">
+      <UniqueIdentifier>{cd05951e-1d43-4e35-87e1-3bd3d3ba1325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,6 +138,9 @@
     <ClCompile Include="TabuSearch.cpp">
       <Filter>Pliki źródłowe\TabuSearch</Filter>
     </ClCompile>
+    <ClCompile Include="Individual.cpp">
+      <Filter>Pliki źródłowe\GeneticAlgorithm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -205,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Array2.h">
       <Filter>Pliki nagłówkowe\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Individual.h">
+      <Filter>Pliki nagłówkowe\GeneticAlgorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
