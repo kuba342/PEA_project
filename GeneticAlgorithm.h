@@ -54,10 +54,13 @@ private:
 	int bestWeight;
 
 	//metody
+	void nextGeneration();
 	void chooseParents();
 	void showPopulation();
 	void showParents();
+	void showChildren();
 	void crossing();
+	void mutation();
 	void PMXCrossover(Individual* parent1, Individual* parent2);
 	bool isInPath(int value, int beg, int end, Individual* ind);
 	void inversionMutation(Individual* individual);
