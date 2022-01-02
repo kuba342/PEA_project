@@ -149,6 +149,32 @@ int BiList::searchKey(int key) {
     return -1;
 }
 
+void BiList::swap(int beg, int end)
+{
+    if (beg >= this->count || end >= this->count) {
+        return;
+    }
+    else {
+        int bufor = getElement(beg)->key;
+        getElement(beg)->key = getElement(end)->key;
+        getElement(end)->key = bufor;
+    }
+}
+
+void BiList::reverse(int beg, int end)
+{
+    while (beg != end) {
+        swap(beg, end);
+        beg++;
+        if (beg == end) {
+            return;
+        }
+        else {
+            end--;
+        }
+    }
+}
+
 /*********SETTERY I GETTERY*******************/
 listElement* BiList::getElement(int n) {
     listElement* pointer = this->head;

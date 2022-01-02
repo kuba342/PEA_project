@@ -30,6 +30,8 @@ public:
     void removeOnPosition(listElement* element);
     void showList();
     int searchKey(int key);
+    void swap(int beg, int end);
+    void reverse(int beg, int end);
 
     //SETTERY I GETTERY
     listElement* getElement(int n);
