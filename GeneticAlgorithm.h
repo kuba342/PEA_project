@@ -55,6 +55,13 @@ private:
 
 	//metody
 	void chooseParents();
+	void showPopulation();
+	void showParents();
+	void crossing();
+	void PMXCrossover(Individual* parent1, Individual* parent2);
+	bool isInPath(int value, int beg, int end, Individual* ind);
+	void inversionMutation(Individual* individual);
+	void exchangeMutation(Individual* individual);
 	void generatePopulation();
 	void calculateCost(Individual* individual);
 	double drawFromTheRange01();

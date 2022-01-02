@@ -35,7 +35,14 @@ void GeneticAlgorithm::calculate()
 	for (int x = 0; x < iterations; x++) {
 		//a. selekcja chromosomów do populacji macierzystej:
 		chooseParents();
+		//b. + d. krzy¿owanie chromosomów z populacji rodzicielskiej i ocena dzieci
+		crossing();
+		//c. + d. mutacja i ocena jeœli mutacja zasz³a
+
+		//e. utworzenie nowej populacji: parents + children
+
 	}
+	showBestCycle();
 }
 
 void GeneticAlgorithm::showBestCycle()
@@ -125,13 +132,223 @@ void GeneticAlgorithm::chooseParents()
 			}
 		}
 		//W tym momencie mam zwyciêzcê turnieju, zatem dodajê go do populacji rodziców
-		Individual* ind = population->getElement(bestIndex)->individual;
+		//Individual* ind = population->getElement(bestIndex)->individual;
 		//ind->getPath()->showList();
-		//std::cout << "\nCost = " << ind->getCost();
+		//std::cout << "Cost = " << ind->getCost() << "\n";
+		//parents->addAtTheEnd(population->getElement(bestIndex)->individual);
+		//parents->getTail()->individual->getPath()->showList();
+		//std::cout << "Cost = " << parents->getTail()->individual->getCost() << "\n";
+		
+		Individual* ind = new Individual(graph->getV()-1);
+		ind->setCost(population->getElement(bestIndex)->individual->getCost());
+		for (int j = 0; j < ind->getSize(); j++) {
+			ind->getPath()->getElement(j)->key = population->getElement(bestIndex)->individual->getPath()->getElement(j)->key;
+		}
 		parents->addAtTheEnd(ind);
+
 		//I usuwam z populacji
 		population->removeOnPosition(bestIndex);
 	}
+	showParents();
+}
+
+void GeneticAlgorithm::showPopulation()
+{
+	std::cout << "POPULATION:\n";
+	for (int i = 0; i < population->getSize(); i++) {
+		std::cout << "Size = " << population->getElement(i)->individual->getSize() << "\n";
+		population->getElement(i)->individual->getPath()->showList();
+		std::cout << "Cost = " << population->getElement(i)->individual->getCost() << "\n";
+	}
+}
+
+void GeneticAlgorithm::showParents()
+{
+	std::cout << "PARENTS:\n";
+	std::cout << parents->getSize() << " elements\n";
+	for (int i = 0; i < parents->getSize(); i++) {
+		std::cout << "Size = " << parents->getElement(i)->individual->getSize() << "\n";
+		parents->getElement(i)->individual->getPath()->showList();
+		std::cout << "Cost = " << parents->getElement(i)->individual->getCost() << "\n";
+	}
+}
+
+void GeneticAlgorithm::crossing()
+{
+	if (children != nullptr) {
+		delete children;
+	}
+	children = new ListOfIndividuals();
+	//W tym miejscu uwzglêdniam tak¿e wspó³czynnik krzy¿owania
+	//Krzy¿ujê s¹siednie osobniki
+	for (int i = 0; i+1<=parents->getSize()-1; i+=2) {
+		//Losujê parametr
+		double parameter = drawFromTheRange01();
+		//Jeœli mniejszy lub równy wspó³czynnikowi:
+		if (parameter <= crossingFactor) {
+			PMXCrossover(parents->getElement(i)->individual, parents->getElement(i+1)->individual);
+		}
+	}
+	//Wyœwietl listê dzieci
+	std::cout << "\nChildren:\n";
+	for (int i = 0; i < children->getSize(); i++) {
+		children->getElement(i)->individual->getPath()->showList();
+		std::cout << "Cost = " << children->getElement(i)->individual->getCost() << "\n";
+	}
+}
+
+void GeneticAlgorithm::PMXCrossover(Individual* parent1, Individual* parent2)
+{
+	int size = this->graph->getV() - 1;
+	//Dzieci ze œcie¿kami wype³nionymi zerami
+	Individual* child1 = new Individual(size);
+	Individual* child2 = new Individual(size);
+
+	//Listy mapuj¹ce
+	BiList* map1 = new BiList();
+	BiList* map2 = new BiList();
+	for (int i = 0; i < graph->getV(); i++) {
+		map1->addAtTheEnd(0);
+		map2->addAtTheEnd(0);
+	}
+
+	int index1, index2;
+	//Losujê indeksy:
+	index1 = std::rand() % size;
+	do {
+		index2 = std::rand() % size;
+	} while (index2 == index1);
+	//Zamiana kolejnoœci¹ ¿eby pierwszy by³ zawsze mniejszy
+	if (index2 < index1) {
+		int bufor = index1;
+		index1 = index2;
+		index2 = bufor;
+	}
+
+	//Przepisujê wylosowane fragmenty do dzieci
+	//I tworzê ci¹gi odwzorowañ
+	for (int i = index1; i <= index2; i++) {
+		child1->getPath()->getElement(i)->key = parent1->getPath()->getElement(i)->key;
+		child2->getPath()->getElement(i)->key = parent2->getPath()->getElement(i)->key;
+		map1->getElement(  parent1->getPath()->getElement(i)->key  )->key = parent2->getPath()->getElement(i)->key;
+		map2->getElement(  parent2->getPath()->getElement(i)->key  )->key = parent1->getPath()->getElement(i)->key;
+	}
+
+	//Moment tworzenia dzieci
+	//dziecko 1
+	for (int i = 0; i < size; i++) {
+		if (child1->getPath()->getElement(i)->key == 0) {
+			/*int ind = parent1->getPath()->getElement(i)->key;
+			//Elementy niezmapowane - przepisujê
+			if (map1->getElement(ind)->key == 0 && map2->getElement(ind)->key == 0) {
+				child1->getPath()->getElement(i)->key = parent1->getPath()->getElement(i)->key;
+			}
+			else {
+				//Elementy zmapowane - odpowiednik z map2
+				child1->getPath()->getElement(i)->key = map2->getElement(ind)->key;
+			}*/
+			
+			if (!isInPath(parent2->getPath()->getElement(i)->key, index1, index2, child1)) {
+				child1->getPath()->getElement(i)->key = parent2->getPath()->getElement(i)->key;
+			}
+			else {
+				int temp = parent2->getPath()->getElement(i)->key;
+
+				do {
+					temp = map1->getElement(temp)->key;
+				} while (isInPath(temp, index1, index2, child1));
+
+				child1->getPath()->getElement(i)->key = temp;
+			}
+		}
+	}
+
+	//dziecko 2
+	for (int i = 0; i < size; i++) {
+		if (child2->getPath()->getElement(i)->key == 0) {
+			/*int ind = parent2->getPath()->getElement(i)->key;
+			//Elementy niezmapowane - przepisujê
+			if (map1->getElement(ind)->key == 0 && map2->getElement(ind)->key == 0) {
+				child2->getPath()->getElement(i)->key = parent2->getPath()->getElement(i)->key;
+			}
+			else {
+				//Elementy zmapowane - odpowiednik z map1
+				child2->getPath()->getElement(i)->key = map1->getElement(ind)->key;
+			}*/
+
+			if (!isInPath(parent1->getPath()->getElement(i)->key, index1, index2, child2)) {
+				child2->getPath()->getElement(i)->key = parent1->getPath()->getElement(i)->key;
+			}
+			else {
+				int temp = parent1->getPath()->getElement(i)->key;
+
+				do {
+					temp = map2->getElement(temp)->key;
+				} while (isInPath(temp, index1, index2, child2));
+
+				child2->getPath()->getElement(i)->key = temp;
+			}
+		}
+	}
+	//Obliczam koszt dzieci
+	calculateCost(child1);
+	calculateCost(child2);
+
+	//Sprawdzam czy rozwi¹zanie nie jest najlepsze
+	if (child1->getCost() < bestWeight) {
+		updateBestPath(child1);
+	}
+	else if (child2->getCost() < bestWeight) {
+		updateBestPath(child2);
+	}
+
+	//Dodajê narodzone dzieci do listy
+	children->addAtTheEnd(child1);
+	children->addAtTheEnd(child2);
+}
+
+bool GeneticAlgorithm::isInPath(int value, int beg, int end, Individual* ind)
+{
+	for (int i = beg; i <= end; i++) {
+		if (value == ind->getPath()->getElement(i)->key) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void GeneticAlgorithm::inversionMutation(Individual* individual)
+{
+	int size = individual->getSize();
+	int index1, index2;
+	//Losowanie pierwszego indeksu
+	index1 = std::rand() % size;
+	//Losowanie drugiego indeksu
+	do {
+		index2 = std::rand() % size;
+	} while (index2 == index1);
+	//Zamiana kolejnoœci¹ ¿eby pierwszy by³ zawsze mniejszy
+	if (index2 > index1) {
+		int bufor = index1;
+		index1 = index2;
+		index2 = bufor;
+	}
+	//Operacja inwersji:
+	individual->getPath()->reverse(index1, index2);
+}
+
+void GeneticAlgorithm::exchangeMutation(Individual* individual)
+{
+	int size = individual->getSize();
+	int index1, index2;
+	//Losowanie pierwszego indeksu
+	index1 = std::rand() % size;
+	//Losowanie drugiego indeksu
+	do {
+		index2 = std::rand() % size;
+	} while (index2 == index1);
+	//Operacja zamiany:
+	individual->getPath()->swap(index1, index2);
 }
 
 void GeneticAlgorithm::generatePopulation()
@@ -167,6 +384,7 @@ void GeneticAlgorithm::generatePopulation()
 		//population->getElement(i)->individual->getPath()->showList();
 		//std::cout << " " << population->getElement(i)->individual->getCost() << " \n";
 	}
+	showPopulation();
 	showBestCycle();
 }
 
