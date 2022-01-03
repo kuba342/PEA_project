@@ -6,11 +6,11 @@ GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 	this->parents = nullptr;
 	this->children = nullptr;
 	this->graph = matrix;
-	this->populationSize = 50;		//Ten parametr bêdzie tak¿e liczb¹ rodziców
+	this->populationSize = 100;		//Ten parametr bêdzie tak¿e liczb¹ rodziców
 	this->tournamentParticipants = populationSize / 4;		//¯eby nie braæ wszystkich
-	this->crossingFactor = 0.9;
+	this->crossingFactor = 0.8;
 	this->mutationFactor = 0.1;
-	this->iterations = 50;
+	this->iterations = 1000;
 	this->bestPath = new BiList();
 	//Wype³niam najlepsz¹ œcie¿kê zerami
 	for (int i = 0; i < graph->getV() - 1; i++) {
@@ -23,7 +23,10 @@ GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 
 GeneticAlgorithm::~GeneticAlgorithm()
 {
-	delete this->bestPath;
+	delete bestPath;
+	delete population;
+	delete parents;
+	delete children;
 }
 
 void GeneticAlgorithm::calculate()
@@ -104,6 +107,7 @@ int GeneticAlgorithm::getBestWeight()
 void GeneticAlgorithm::nextGeneration()
 {
 	delete population;
+	population = nullptr;
 	population = new ListOfIndividuals();
 	for (int i = 0; i < parents->getSize(); i++) {
 		Individual* ind = new Individual(graph->getV()-1);
@@ -127,6 +131,7 @@ void GeneticAlgorithm::chooseParents()
 {
 	if (parents != nullptr) {
 		delete parents;
+		parents = nullptr;
 	}
 	parents = new ListOfIndividuals();
 	//Wybieram populationSize rodziców
@@ -170,6 +175,8 @@ void GeneticAlgorithm::chooseParents()
 
 		//I usuwam z populacji
 		population->removeOnPosition(bestIndex);
+
+		delete set;
 	}
 	//showParents();
 }
@@ -209,6 +216,7 @@ void GeneticAlgorithm::crossing()
 {
 	if (children != nullptr) {
 		delete children;
+		children = nullptr;
 	}
 	children = new ListOfIndividuals();
 	//W tym miejscu uwzglêdniam tak¿e wspó³czynnik krzy¿owania
@@ -365,6 +373,9 @@ void GeneticAlgorithm::PMXCrossover(Individual* parent1, Individual* parent2)
 	//Dodajê narodzone dzieci do listy
 	children->addAtTheEnd(child1);
 	children->addAtTheEnd(child2);
+
+	delete map1;
+	delete map2;
 }
 
 bool GeneticAlgorithm::isInPath(int value, int beg, int end, Individual* ind)
