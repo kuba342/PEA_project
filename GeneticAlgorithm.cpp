@@ -11,7 +11,7 @@ GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 	this->tournamentParticipants = populationSize / 4;		//¯eby nie braæ wszystkich
 	this->crossingFactor = 0.8;
 	this->mutationFactor = 0.1;
-	this->iterations = 10000;
+	this->iterations = 100;
 	this->bestPath = new BiList();
 	//Wype³niam najlepsz¹ œcie¿kê zerami
 	for (int i = 0; i < graph->getV() - 1; i++) {
@@ -46,7 +46,6 @@ void GeneticAlgorithm::calculate()
 		//e. utworzenie nowej populacji: parents + children
 		nextGeneration();
 	}
-	//showBestCycle();
 }
 
 void GeneticAlgorithm::showBestCycle()

@@ -58,6 +58,7 @@ void Menu::tests() {
 				  << "3. Metoda podzialu i ograniczen\n"
 				  << "4. Symulowane wyzarzanie\n"
 				  << "5. Tabu Search\n"
+				  << "6. Algorytm genetyczny\n"
 				  << "Wprowadz numer algorytmu: ";
 		std::cin >> decision1;
 		fflush(stdin);
@@ -75,6 +76,9 @@ void Menu::tests() {
 			generateResults(decision1, v);
 			break;
 		case '5':
+			generateResults(decision1, v);
+			break;
+		case '6':
 			generateResults(decision1, v);
 			break;
 		default:
@@ -146,6 +150,14 @@ void Menu::generateResults(char decision, int v) {
 				clock->endTime();
 				results[i] = clock->executionTime();
 				delete this->tabu;
+				break;
+			case '6':
+				this->genetic = new GeneticAlgorithm(this->graph);
+				clock->startTime();
+				genetic->calculate();
+				clock->endTime();
+				results[i] = clock->executionTime();
+				delete this->genetic;
 				break;
 			}
 		} while (results[i] == 0);
@@ -549,10 +561,14 @@ void Menu::geneticAlgorithm()
 
 		geneticParameters();
 
+		clock->startTime();
 		genetic->calculate();
+		clock->endTime();
 
 		genetic->showBestCycle();
-		std::cout << "Wcisnij Enter, aby kontynuowac!";
+		std::cout << "Czas: ";
+		std::cout << clock->executionTime();
+		std::cout << "\nWcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
 		delete this->genetic;
