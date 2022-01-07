@@ -6,11 +6,12 @@ GeneticAlgorithm::GeneticAlgorithm(AdjMatrix* matrix)
 	this->parents = nullptr;
 	this->children = nullptr;
 	this->graph = matrix;
-	this->populationSize = 100;		//Ten parametr bêdzie tak¿e liczb¹ rodziców
+	this->version = true;
+	this->populationSize = 20;		//Ten parametr bêdzie tak¿e liczb¹ rodziców
 	this->tournamentParticipants = populationSize / 4;		//¯eby nie braæ wszystkich
 	this->crossingFactor = 0.8;
 	this->mutationFactor = 0.1;
-	this->iterations = 1000;
+	this->iterations = 10000;
 	this->bestPath = new BiList();
 	//Wype³niam najlepsz¹ œcie¿kê zerami
 	for (int i = 0; i < graph->getV() - 1; i++) {
@@ -45,7 +46,7 @@ void GeneticAlgorithm::calculate()
 		//e. utworzenie nowej populacji: parents + children
 		nextGeneration();
 	}
-	showBestCycle();
+	//showBestCycle();
 }
 
 void GeneticAlgorithm::showBestCycle()
@@ -92,6 +93,11 @@ double GeneticAlgorithm::getMutationFactor()
 void GeneticAlgorithm::setIterations(int iterations)
 {
 	this->iterations = iterations;
+}
+
+void GeneticAlgorithm::setVersion(bool version)
+{
+	this->version = version;
 }
 
 BiList* GeneticAlgorithm::getBestPath()
@@ -146,26 +152,21 @@ void GeneticAlgorithm::chooseParents()
 		int bestIndex = 0;
 		int bestCost = INT_MAX;
 		for (int j = 0; j < tournamentParticipants; j++) {
-			//Losujê pozycjê ze zbioru
-			int setIndex = (std::rand() % set->getCount());
-			//Wybór - indeks w populacji
-			int index = set->getElement(setIndex)->key;
-			//usuwam ze zbioru indeksów
-			set->removeOnPosition(set->getElement(setIndex));
-			//Sprawdzam czy aktualnie najlepszy:
-			if (population->getElement(index)->individual->getCost() < bestCost) {
-				bestIndex = index;
-				bestCost = population->getElement(index)->individual->getCost();
+			if (set->getCount() > 0) {
+				//Losujê pozycjê ze zbioru
+				int setIndex = (std::rand() % set->getCount());
+				//Wybór - indeks w populacji
+				int index = set->getElement(setIndex)->key;
+				//usuwam ze zbioru indeksów
+				set->removeOnPosition(set->getElement(setIndex));
+				//Sprawdzam czy aktualnie najlepszy:
+				if (population->getElement(index)->individual->getCost() < bestCost) {
+					bestIndex = index;
+					bestCost = population->getElement(index)->individual->getCost();
+				}
 			}
 		}
-		//W tym momencie mam zwyciêzcê turnieju, zatem dodajê go do populacji rodziców
-		//Individual* ind = population->getElement(bestIndex)->individual;
-		//ind->getPath()->showList();
-		//std::cout << "Cost = " << ind->getCost() << "\n";
-		//parents->addAtTheEnd(population->getElement(bestIndex)->individual);
-		//parents->getTail()->individual->getPath()->showList();
-		//std::cout << "Cost = " << parents->getTail()->individual->getCost() << "\n";
-		
+		//W tym momencie mam zwyciêzcê turnieju, zatem dodajê go do populacji rodziców		
 		Individual* ind = new Individual(graph->getV()-1);
 		ind->setCost(population->getElement(bestIndex)->individual->getCost());
 		for (int j = 0; j < ind->getSize(); j++) {
@@ -240,8 +241,12 @@ void GeneticAlgorithm::mutation()
 		double parameter = drawFromTheRange01();
 		//Mutacja
 		if (parameter <= mutationFactor) {
-			inversionMutation(parents->getElement(i)->individual);
-			//exchangeMutation(parents->getElement(i)->individual);
+			if (version) {
+				inversionMutation(parents->getElement(i)->individual);
+			}
+			else {
+				exchangeMutation(parents->getElement(i)->individual);
+			}
 			calculateCost(parents->getElement(i)->individual);
 			if (parents->getElement(i)->individual->getCost() < bestWeight) {
 				updateBestPath(parents->getElement(i)->individual);
@@ -254,8 +259,12 @@ void GeneticAlgorithm::mutation()
 		double parameter = drawFromTheRange01();
 		//Mutacja
 		if (parameter <= mutationFactor) {
-			inversionMutation(children->getElement(i)->individual);
-			//exchangeMutation(children->getElement(i)->individual);
+			if (version) {
+				inversionMutation(children->getElement(i)->individual);
+			}
+			else {
+				exchangeMutation(children->getElement(i)->individual);
+			}
 			calculateCost(children->getElement(i)->individual);
 			if (children->getElement(i)->individual->getCost() < bestWeight) {
 				updateBestPath(children->getElement(i)->individual);
@@ -306,16 +315,7 @@ void GeneticAlgorithm::PMXCrossover(Individual* parent1, Individual* parent2)
 	//dziecko 1
 	for (int i = 0; i < size; i++) {
 		if (child1->getPath()->getElement(i)->key == 0) {
-			/*int ind = parent1->getPath()->getElement(i)->key;
-			//Elementy niezmapowane - przepisujê
-			if (map1->getElement(ind)->key == 0 && map2->getElement(ind)->key == 0) {
-				child1->getPath()->getElement(i)->key = parent1->getPath()->getElement(i)->key;
-			}
-			else {
-				//Elementy zmapowane - odpowiednik z map2
-				child1->getPath()->getElement(i)->key = map2->getElement(ind)->key;
-			}*/
-			
+
 			if (!isInPath(parent2->getPath()->getElement(i)->key, index1, index2, child1)) {
 				child1->getPath()->getElement(i)->key = parent2->getPath()->getElement(i)->key;
 			}
@@ -334,15 +334,6 @@ void GeneticAlgorithm::PMXCrossover(Individual* parent1, Individual* parent2)
 	//dziecko 2
 	for (int i = 0; i < size; i++) {
 		if (child2->getPath()->getElement(i)->key == 0) {
-			/*int ind = parent2->getPath()->getElement(i)->key;
-			//Elementy niezmapowane - przepisujê
-			if (map1->getElement(ind)->key == 0 && map2->getElement(ind)->key == 0) {
-				child2->getPath()->getElement(i)->key = parent2->getPath()->getElement(i)->key;
-			}
-			else {
-				//Elementy zmapowane - odpowiednik z map1
-				child2->getPath()->getElement(i)->key = map1->getElement(ind)->key;
-			}*/
 
 			if (!isInPath(parent1->getPath()->getElement(i)->key, index1, index2, child2)) {
 				child2->getPath()->getElement(i)->key = parent1->getPath()->getElement(i)->key;
@@ -424,6 +415,10 @@ void GeneticAlgorithm::exchangeMutation(Individual* individual)
 
 void GeneticAlgorithm::generatePopulation()
 {
+	this->bestWeight = INT_MAX;
+	if (population != nullptr) {
+		delete population;
+	}
 	this->population = new ListOfIndividuals();
 	//Nowa pusta populacja
 	for (int i = 0; i < populationSize*2; i++) {

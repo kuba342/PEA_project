@@ -547,8 +547,11 @@ void Menu::geneticAlgorithm()
 		system("cls");
 		this->genetic = new GeneticAlgorithm(this->graph);
 
-		this->genetic->calculate();
+		geneticParameters();
 
+		genetic->calculate();
+
+		genetic->showBestCycle();
 		std::cout << "Wcisnij Enter, aby kontynuowac!";
 		std::cin.get();
 		std::cin.get();
@@ -557,6 +560,106 @@ void Menu::geneticAlgorithm()
 	else {
 		system("cls");
 		std::cout << "Nie wczytano grafu!\n"
+			<< "Operacja anulowana!";
+		Sleep(3000);
+	}
+}
+
+void Menu::geneticParameters()
+{
+	int population, iterations;
+	double crossing, mutation;
+	bool version;
+	std::string bufor = " ";
+
+	std::cout << "Podaj rozmiar populacji rodzicielskiej:\n"
+			  << "Population = ";
+	std::cin >> bufor;
+	fflush(stdin);
+
+	if (lib->isNum(bufor)) {
+		population = std::stoi(bufor);
+
+		system("cls");
+		std::cout << "Podaj wspolczynnik krzyzowania:\n"
+			      << "Crossing factor = ";
+		std::cin >> bufor;
+		fflush(stdin);
+
+		if (lib->isDouble(bufor)) {
+			crossing = std::stod(bufor);
+			
+			std::cout << "\nPodaj wspolczynnik mutacji:\n"
+					  << "Mutation factor = ";
+			std::cin >> bufor;
+			fflush(stdin);
+
+			if (lib->isDouble(bufor)) {
+				mutation = std::stod(bufor);
+
+				system("cls");
+				std::cout << "Podaj liczbe pokolen:\n"
+						  << "Iterations = ";
+				std::cin >> bufor;
+				fflush(stdin);
+
+				if (lib->isNum(bufor)) {
+					iterations = std::stoi(bufor);
+
+					system("cls");
+					std::cout << "Wybierz rodzaj mutacji:\n"
+							  << "1. Inversion\n"
+							  << "2. Swap\n"
+							  << "Wprowadz numer opcji: ";
+					std::cin >> bufor;
+					fflush(stdin);
+
+					if (bufor == "1") {
+						version = true;
+					}
+					else if (bufor == "2") {
+						version = false;
+					}
+					else {
+						system("cls");
+						std::cout << "Niepoprawne znaki!\n"
+								  << "Operacja anulowana!";
+						Sleep(3000);
+						return;
+					}
+
+					genetic->setVersion(version);
+					genetic->setPopulationSize(population);
+					genetic->setCrossingFactor(crossing);
+					genetic->setMutationFactor(mutation);
+					genetic->setIterations(iterations);
+
+					system("cls");
+				}
+				else {
+					system("cls");
+					std::cout << "Niepoprawne znaki!\n"
+						<< "Operacja anulowana!";
+					Sleep(3000);
+				}
+			}
+			else {
+				system("cls");
+				std::cout << "Niepoprawne znaki!\n"
+					<< "Operacja anulowana!";
+				Sleep(3000);
+			}
+		}
+		else {
+			system("cls");
+			std::cout << "Niepoprawne znaki!\n"
+				<< "Operacja anulowana!";
+			Sleep(3000);
+		}
+	}
+	else {
+		system("cls");
+		std::cout << "Niepoprawne znaki!\n"
 			<< "Operacja anulowana!";
 		Sleep(3000);
 	}

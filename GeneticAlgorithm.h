@@ -28,6 +28,7 @@ public:
 	void setMutationFactor(double factor);
 	double getMutationFactor();
 	void setIterations(int iterations);
+	void setVersion(bool version);
 
 	BiList* getBestPath();
 	int getBestWeight();
@@ -48,6 +49,9 @@ private:
 
 	//Instancja grafu
 	AdjMatrix* graph;
+
+	//Wariant mutacji
+	bool version;
 
 	//Najlepsze rozwi¹zanie
 	BiList* bestPath;
