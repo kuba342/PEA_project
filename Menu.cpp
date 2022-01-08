@@ -558,19 +558,69 @@ void Menu::geneticAlgorithm()
 	if (this->graph != nullptr) {
 		system("cls");
 		this->genetic = new GeneticAlgorithm(this->graph);
+		long long* times = new long long[10];
+		int* costs = new int[10];
+		long long time;
+		int cost;
+		char decision;
 
-		geneticParameters();
+		std::cout << "Wybierz tryb:\n"
+				  << "1. pojedynczy pomiar\n"
+				  << "2. srednia z 10 pomiarow\n"
+				  << "Wpisz liczbe: ";
+		std::cin >> decision;
+		fflush(stdin);
 
-		clock->startTime();
-		genetic->calculate();
-		clock->endTime();
+		switch (decision) {
+		case '1':
+			system("cls");
+			//Jednokrotne przypisanie parametrów
+			geneticParameters();
+			clock->startTime();
+			genetic->calculate();
+			clock->endTime();
 
-		genetic->showBestCycle();
-		std::cout << "Czas: ";
-		std::cout << clock->executionTime();
-		std::cout << "\nWcisnij Enter, aby kontynuowac!";
-		std::cin.get();
-		std::cin.get();
+			genetic->showBestCycle();
+			std::cout << "Czas: ";
+			std::cout << clock->executionTime();
+			std::cout << "\nWcisnij Enter, aby kontynuowac!";
+			std::cin.get();
+			std::cin.get();
+			break;
+
+		case '2':
+			system("cls");
+			//Jednokrotne przypisanie parametrów
+			geneticParameters();
+			for (int i = 0; i < 10; i++) {
+				clock->startTime();
+				genetic->calculate();
+				clock->endTime();
+				times[i] = clock->executionTime();
+				costs[i] = genetic->getBestWeight();
+			}
+			std::cout << "Wyniki: ";
+			for (int i = 0; i < 10; i++) {
+				std::cout << " " << costs[i] << " ";
+			}
+			time = lib->average(times, 10);
+			cost = lib->average(costs, 10);
+			std::cout << "\nSredni czas = " << time << "\n";
+			std::cout << "Sredni koszt = " << cost << "\n";
+			std::cout << "\nWcisnij Enter, aby kontynuowac!";
+			std::cin.get();
+			std::cin.get();	
+			break;
+
+		default:
+			system("cls");
+			std::cout << "Niepoprawne znaki!\n"
+				<< "Operacja anulowana!";
+			Sleep(3000);
+			return;
+		}
+		delete [] times;
+		delete [] costs;
 		delete this->genetic;
 	}
 	else {
