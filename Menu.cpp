@@ -432,9 +432,15 @@ void Menu::saParameters()
 						this->sa->setFirstTemp(firstTemp);
 						this->sa->setMinimalTemp(minimalTemp);
 						this->sa->setIterations(iterations);
+						
 						system("cls");
-						this->sa->calculate();
 
+						clock->startTime();
+						this->sa->calculate();
+						clock->endTime();
+
+						std::cout << "Czas: ";
+						std::cout << clock->executionTime() << "\n";
 						this->sa->showBestCycle();
 						std::cout << "Wcisnij Enter, aby kontynuowac!";
 						std::cin.get();
@@ -523,9 +529,15 @@ void Menu::tabuParameters()
 				this->tabu->setMaxTries(maxTries);
 				this->tabu->setIter(Iter);
 				this->tabu->setTabuLength(tabuLength);
-				system("cls");
-				this->tabu->calculate();
 
+				system("cls");
+				
+				clock->startTime();
+				this->tabu->calculate();
+				clock->endTime();
+
+				std::cout << "Czas: ";
+				std::cout << clock->executionTime() << "\n";
 				this->tabu->showBestCycle();
 				std::cout << "Wcisnij Enter, aby kontynuowac!";
 				std::cin.get();
